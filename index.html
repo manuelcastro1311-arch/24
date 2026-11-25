@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>24 días contigo</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #173c30;
+  color: #f7ecd8;
+  font-family: Georgia, serif;
+  text-align: center;
+}
+
+header {
+  padding: 45px 15px 25px;
+}
+
+h1 {
+  font-size: clamp(32px, 7vw, 58px);
+  margin: 15px 0;
+}
+
+header p {
+  font-size: 17px;
+}
+
+.calendario {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 15px;
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+.puerta {
+  aspect-ratio: 4 / 5;
+  border: 1px solid #d6b87a;
+  border-radius: 12px;
+  background: #a3413d;
+  color: #fff0d6;
+  font-family: Georgia, serif;
+  font-size: 30px;
+  cursor: pointer;
+  transition: transform .25s, box-shadow .25s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.puerta:nth-child(3n) {
+  background: #e8d9bb;
+  color: #55432e;
+}
+
+.puerta:nth-child(4n) {
+  background: #b89558;
+  color: #ffffff;
+}
+
+.puerta:nth-child(5n) {
+  background: #315b49;
+  color: #f7ecd8;
+}
+
+.puerta:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 18px #0004;
+}
+
+.decoracion {
+  font-size: 27px;
+}
+
+.estado {
+  font-size: 15px;
+}
+
+dialog {
+  border: 1px solid #b89558;
+  border-radius: 18px;
+  background: #fff5e4;
+  color: #173c30;
+  width: 90%;
+  max-width: 500px;
+  max-height: 85vh;
+  padding: 30px;
+  text-align: center;
+  animation: aparecer .35s ease;
+}
+
+dialog::backdrop {
+  background: #0009;
+}
+
+dialog img, dialog video {
+  max-width: 100%;
+  border-radius: 10px;
+}
+
+button.cerrar, .prueba {
+  background: #a3413d;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+footer {
+  padding: 30px;
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: scale(.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 600px) {
+  .calendario {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 9px;
+    padding: 12px;
+  }
+
+  .puerta {
+    font-size: 23px;
+  }
+
+  .decoracion {
+    font-size: 20px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <p>✦ DICIEMBRE 2026 ✦</p>
+  <h1>24 días contigo</h1>
+  <p>Una pequeña sorpresa para cada día.</p>
+  <p>❄ ───── ♡ ───── ❄</p>
+</header>
+
+<main class="calendario" id="calendario"></main>
+
+<dialog id="ventana">
+  <h2 id="titulo"></h2>
+  <div id="contenido"></div>
+  <br>
+  <button class="cerrar"
+    onclick="document.getElementById('ventana').close()">
+    Cerrar
+  </button>
+</dialog>
+
+<footer>
+  <p>Hecho especialmente para ti ♡</p>
+  <button class="prueba" id="botonPrueba">
+    Activar modo de prueba
+  </button>
+</footer>
+
+<script>
+
+let modoPrueba = false;
+
+const calendario = document.getElementById("calendario");
+const ventana = document.getElementById("ventana");
+
+const sorpresas = {
+  1: "Bienvenido a nuestro calendario de Adviento.",
+  2: "Hoy encontrarás una carta especial.",
+  3: "Aquí pondremos nuestros recuerdos favoritos.",
+  4: "Aquí tendremos un quiz divertido.",
+  24: "¡Feliz Navidad! Esta será la sorpresa final."
+};
+
+const simbolos = ["✦", "♡", "❄", "★", "♧", "✧"];
+
+function disponible(dia) {
+  return modoPrueba ||
+    new Date() >= new Date(2026, 11, dia);
+}
+
+function dibujarCalendario() {
+
+  calendario.innerHTML = "";
+
+  for (let dia = 1; dia <= 24; dia++) {
+
+    const puerta = document.createElement("button");
+
+    puerta.className = "puerta";
+
+    puerta.innerHTML = `
+      <span class="decoracion">
+        ${simbolos[(dia - 1) % simbolos.length]}
+      </span>
+      <span>${dia}</span>
+      <span class="estado">
+        ${disponible(dia) ? "♡" : "🔒"}
+      </span>
+    `;
+
+    puerta.onclick = () => abrirPuerta(dia);
+
+    calendario.appendChild(puerta);
+  }
+}
+
+function abrirPuerta(dia) {
+
+  document.getElementById("titulo").textContent =
+    dia + " de diciembre";
+
+  const contenido = document.getElementById("contenido");
+
+  if (!disponible(dia)) {
+
+    contenido.textContent =
+      "Esta sorpresa se desbloqueará el " +
+      dia + " de diciembre. ¡Paciencia!";
+
+  } else {
+
+    contenido.textContent =
+      sorpresas[dia] ||
+      "Aquí agregaremos una sorpresa especial.";
+
+  }
+
+  ventana.showModal();
+}
+
+document.getElementById("botonPrueba").onclick = function() {
+
+  modoPrueba = !modoPrueba;
+
+  this.textContent = modoPrueba
+    ? "Desactivar modo de prueba"
+    : "Activar modo de prueba";
+
+  dibujarCalendario();
+};
+
+dibujarCalendario();
+
+</script>
+
+</body>
+</html>
