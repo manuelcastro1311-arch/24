@@ -74,7 +74,7 @@ h1 {
     "d19 d17 d17 d6  d6  d21";
 }
 
-/* PUERTAS */
+/* DISEÑO DE LAS PUERTAS */
 
 .puerta {
   position: relative;
@@ -135,7 +135,7 @@ h1 {
   z-index: 3;
 }
 
-/* ILUSTRACIONES */
+/* ILUSTRACIONES NAVIDEÑAS */
 
 .dibujo {
   position: absolute;
@@ -198,7 +198,7 @@ h1 {
   height: 80%;
 }
 
-/* REGALO DEL DIA 24 */
+/* REGALO ESPECIAL DEL DIA 24 */
 
 .regalo {
   background: #ed203c;
@@ -253,7 +253,7 @@ h1 {
   z-index: 4;
 }
 
-/* VENTANA DE SORPRESAS */
+/* VENTANA DE LAS SORPRESAS */
 
 dialog {
   width: min(90vw, 500px);
@@ -315,10 +315,81 @@ footer {
     opacity: 0;
     transform: scale(.92);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
   }
+}
+
+/* NUEVAS ANIMACIONES */
+
+.puerta.abriendo {
+  overflow: hidden;
+  background: #940d2b;
+  transform: none;
+  box-shadow: inset 0 3px 12px #52001c88;
+}
+
+.puerta.abriendo::after {
+  opacity: 0;
+}
+
+.cara-animada {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.cara-animada::after {
+  content: "";
+  position: absolute;
+  inset: clamp(3px, .7vw, 6px);
+  border: 1.5px dashed #e58b99;
+  border-radius: 5px;
+  pointer-events: none;
+}
+
+.regalo .cara-animada::after {
+  border-color: #ff9ba8;
+}
+
+.interior-animado {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffd5dc;
+  font-size: clamp(25px, 6vw, 65px);
+  pointer-events: none;
+}
+
+.confeti-navidad {
+  position: fixed;
+  width: 8px;
+  height: 12px;
+  pointer-events: none;
+  z-index: 999;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .puerta {
+    transition: none;
+  }
+
+  dialog {
+    animation: none;
+  }
+
+  .puerta:hover {
+    transform: none;
+  }
+
 }
 
 </style>
@@ -327,44 +398,76 @@ footer {
 <body>
 
 <header>
-  <div class="fecha">✦ DICIEMBRE 2026 ✦</div>
+
+  <div class="fecha">
+    ✦ DICIEMBRE 2026 ✦
+  </div>
+
   <h1>24 días contigo</h1>
+
   <p class="subtitulo">
     Una pequeña sorpresa para cada día.
   </p>
-  <div class="decoracion">♡ ─ ✧ ─ ♡</div>
+
+  <div class="decoracion">
+    ♡ ─ ✧ ─ ♡
+  </div>
+
 </header>
 
 <div class="contenedor">
+
   <main class="calendario" id="calendario"></main>
+
 </div>
 
 <dialog id="modal">
+
   <h2 id="tituloModal"></h2>
+
   <div id="contenidoModal"></div>
 
   <button class="boton cerrar"
     onclick="document.getElementById('modal').close()">
+
     Cerrar
+
   </button>
+
 </dialog>
 
 <footer>
+
   <p>Hecho especialmente para ti ♡</p>
+
   <button class="boton" id="modoPruebaBtn">
+
     Activar modo de prueba
+
   </button>
+
 </footer>
 
 <script>
 
-let modoPrueba = false;
+/* CONFIGURACION GENERAL */
 
-const calendario = document.getElementById("calendario");
-const modal = document.getElementById("modal");
+let modoPrueba = false;
+let animandoPuerta = false;
+
+const calendario =
+  document.getElementById("calendario");
+
+const modal =
+  document.getElementById("modal");
+
+const botonPrueba =
+  document.getElementById("modoPruebaBtn");
 
 const rosas = [15, 20, 3, 12];
+
 const rosasClaros = [7, 13, 18, 16, 19, 6];
+
 const vinos = [15, 20, 22, 23, 3, 12];
 
 /* DIBUJOS NAVIDEÑOS */
@@ -373,52 +476,85 @@ const dibujos = {
 
   1: `
   <div class="dibujo dibujo-guirnalda">
+
     <svg viewBox="0 0 120 45">
+
       <path d="M0 3 Q60 35 120 3"
-        fill="none" stroke="#bc3550" stroke-width="1.5"/>
+        fill="none"
+        stroke="#bc3550"
+        stroke-width="1.5"/>
 
       <g stroke="#b72c47" stroke-width="1.5">
-        <path d="M15 10v8 M45 18v7 M75 18v7 M105 10v8"/>
+
+        <path d="M15 10v8 M45 18v7
+          M75 18v7 M105 10v8"/>
+
       </g>
 
-      <circle cx="15" cy="22" r="6" fill="#c52a46"/>
-      <circle cx="45" cy="30" r="6" fill="#eaa2b1"/>
-      <circle cx="75" cy="30" r="6" fill="#c52a46"/>
-      <circle cx="105" cy="22" r="6" fill="#eaa2b1"/>
+      <circle cx="15" cy="22" r="6"
+        fill="#c52a46"/>
+
+      <circle cx="45" cy="30" r="6"
+        fill="#eaa2b1"/>
+
+      <circle cx="75" cy="30" r="6"
+        fill="#c52a46"/>
+
+      <circle cx="105" cy="22" r="6"
+        fill="#eaa2b1"/>
+
     </svg>
+
   </div>`,
 
   9: `
   <div class="dibujo dibujo-baston">
+
     <svg viewBox="0 0 80 90">
+
       <g transform="translate(30 10) rotate(22)">
-        <path d="M0 65 V15 C0 -5 35 -5 35 15"
-          stroke="#d82a47" stroke-width="13"
-          stroke-linecap="round" fill="none"/>
 
         <path d="M0 65 V15 C0 -5 35 -5 35 15"
-          stroke="#ffd5dc" stroke-width="13"
-          stroke-dasharray="7 10" fill="none"/>
+          stroke="#d82a47"
+          stroke-width="13"
+          stroke-linecap="round"
+          fill="none"/>
+
+        <path d="M0 65 V15 C0 -5 35 -5 35 15"
+          stroke="#ffd5dc"
+          stroke-width="13"
+          stroke-dasharray="7 10"
+          fill="none"/>
+
       </g>
+
     </svg>
+
   </div>`,
 
   11: `
   <div class="dibujo dibujo-estrellas">
+
     <svg viewBox="0 0 80 70"
-      fill="none" stroke="#c52a46"
-      stroke-width="2.5" stroke-linecap="round">
+      fill="none"
+      stroke="#c52a46"
+      stroke-width="2.5"
+      stroke-linecap="round">
 
       <path d="M27 8V60 M1 34H53
         M9 16L45 52 M9 52L45 16"/>
 
       <path d="M65 3V23 M55 13H75"/>
+
       <path d="M65 43V57 M58 50H72"/>
+
     </svg>
+
   </div>`,
 
   13: `
   <div class="dibujo dibujo-pino">
+
     <svg viewBox="0 0 80 130">
 
       <path d="M40 17 L18 50 H27
@@ -426,74 +562,108 @@ const dibujos = {
         L60 78 H72 L53 50 H62 Z"
         fill="#b92643"/>
 
-      <rect x="34" y="106" width="12"
-        height="15" rx="1" fill="#b92643"/>
+      <rect x="34" y="106"
+        width="12"
+        height="15"
+        rx="1"
+        fill="#b92643"/>
 
       <path d="M40 0V14 M33 7H47"
-        stroke="#d75d74" stroke-width="3"/>
+        stroke="#d75d74"
+        stroke-width="3"/>
 
       <g fill="#ffd5dc">
+
         <circle cx="40" cy="40" r="3"/>
         <circle cx="29" cy="65" r="3"/>
         <circle cx="49" cy="77" r="3"/>
         <circle cx="20" cy="92" r="3"/>
         <circle cx="60" cy="96" r="3"/>
+
       </g>
+
     </svg>
+
   </div>`,
 
   3: `
   <div class="dibujo dibujo-esfera">
+
     <svg viewBox="0 0 80 120">
 
       <path d="M40 0V35"
-        stroke="#af1633" stroke-width="2"/>
+        stroke="#af1633"
+        stroke-width="2"/>
 
-      <rect x="32" y="32" width="16"
-        height="12" rx="3" fill="#af1633"/>
+      <rect x="32" y="32"
+        width="16"
+        height="12"
+        rx="3"
+        fill="#af1633"/>
 
-      <circle cx="40" cy="73" r="30"
+      <circle cx="40" cy="73"
+        r="30"
         fill="#bd2844"/>
 
       <path d="M12 63 Q40 86 68 63
         M12 80 Q40 103 68 80"
-        stroke="#ffd5dc" stroke-width="3" fill="none"/>
+        stroke="#ffd5dc"
+        stroke-width="3"
+        fill="none"/>
 
-      <circle cx="27" cy="54" r="3"
+      <circle cx="27" cy="54"
+        r="3"
         fill="#ffd5dc"/>
+
     </svg>
+
   </div>`,
 
   17: `
   <div class="dibujo dibujo-regalos">
+
     <svg viewBox="0 0 105 80">
 
-      <rect x="8" y="25" width="48"
-        height="48" rx="3" fill="#ba2441"/>
+      <rect x="8" y="25"
+        width="48"
+        height="48"
+        rx="3"
+        fill="#ba2441"/>
 
       <path d="M32 25V73 M8 42H56"
-        stroke="#ffd5dc" stroke-width="6"/>
+        stroke="#ffd5dc"
+        stroke-width="6"/>
 
       <path d="M32 25
         C0 20 10 -5 32 25
         C54 -5 64 20 32 25"
-        fill="none" stroke="#ba2441"
+        fill="none"
+        stroke="#ba2441"
         stroke-width="3"/>
 
-      <rect x="65" y="43" width="30"
-        height="30" rx="3" fill="#ec9eae"/>
+      <rect x="65" y="43"
+        width="30"
+        height="30"
+        rx="2"
+        fill="#ec9eae"/>
 
       <path d="M80 43V73 M65 54H95"
-        stroke="#b92643" stroke-width="4"/>
+        stroke="#b92643"
+        stroke-width="4"/>
+
     </svg>
+
   </div>`,
 
   6: `
   <div class="dibujo dibujo-mono">
+
     <svg viewBox="0 0 120 90">
 
-      <g fill="none" stroke="#c52a46"
-        stroke-width="5" stroke-linecap="round">
+      <g fill="none"
+        stroke="#c52a46"
+        stroke-width="5"
+        stroke-linecap="round">
 
         <path d="M60 37
           C0 -15 -5 72 60 37
@@ -503,56 +673,131 @@ const dibujos = {
 
       </g>
 
-      <circle cx="60" cy="37" r="6"
+      <circle cx="60" cy="37"
+        r="6"
         fill="#c52a46"/>
+
     </svg>
+
   </div>`
 
 };
 
-/* CONTENIDO PROVISIONAL */
+/* CONTENIDO PROVISIONAL DE LOS 24 DIAS */
 
 const sorpresas = {
+
   1: "Bienvenido a nuestro calendario de Adviento.",
+
   2: "Aquí irá una sorpresa especial.",
+
   3: "Aquí irá una carta.",
+
   4: "Aquí irá un recuerdo.",
+
   5: "Aquí irá una sorpresa.",
+
   6: "Aquí irá un mensaje romántico.",
+
   7: "Aquí irá una canción.",
+
   8: "Aquí irá una anécdota.",
+
   9: "Aquí tendremos un quiz.",
+
   10: "Aquí irá una promesa.",
+
   11: "Aquí irá otro recuerdo.",
+
   12: "Aquí irá una carta especial.",
+
   13: "Aquí pondremos una fotografía.",
+
   14: "Aquí irá una nota de voz.",
+
   15: "Aquí tendremos una sorpresa divertida.",
+
   16: "Aquí irá otro detalle.",
+
   17: "Aquí irá una dedicatoria.",
+
   18: "Aquí pondremos un video.",
+
   19: "Aquí irá algo romántico.",
+
   20: "Aquí irá una pregunta especial.",
+
   21: "Aquí irá un vale de regalo.",
+
   22: "Aquí irá una sorpresa secreta.",
+
   23: "Aquí irá un mensaje especial.",
+
   24: "¡Feliz Navidad! Aquí irá nuestra gran sorpresa. ♡"
+
 };
 
+/* DIRECCION DE APERTURA DE CADA PUERTA */
+
+const direcciones = {
+
+  1: "arriba",
+  2: "derecha",
+  3: "abajo",
+  4: "izquierda",
+  5: "arriba",
+  6: "derecha",
+  7: "izquierda",
+  8: "abajo",
+  9: "derecha",
+  10: "arriba",
+  11: "izquierda",
+  12: "abajo",
+  13: "arriba",
+  14: "derecha",
+  15: "arriba",
+  16: "izquierda",
+  17: "abajo",
+  18: "derecha",
+  19: "abajo",
+  20: "izquierda",
+  21: "derecha",
+  22: "arriba",
+  23: "abajo"
+
+};
+
+const desplazamientos = {
+
+  izquierda: "translateX(-105%)",
+  derecha: "translateX(105%)",
+  arriba: "translateY(-105%)",
+  abajo: "translateY(105%)"
+
+};
+
+/* DESBLOQUEO POR FECHA */
+
 function disponible(dia) {
+
   return modoPrueba ||
     new Date() >= new Date(2026, 11, dia);
+
 }
 
 function esHoy(dia) {
+
   const hoy = new Date();
 
   return hoy.getFullYear() === 2026 &&
     hoy.getMonth() === 11 &&
     hoy.getDate() === dia;
+
 }
 
-function abrirPuerta(dia) {
+/* MOSTRAR LA SORPRESA O MENSAJE */
+
+function mostrarSorpresa(dia) {
 
   document.getElementById("tituloModal").textContent =
     dia + " de diciembre";
@@ -562,7 +807,9 @@ function abrirPuerta(dia) {
 
   if (disponible(dia)) {
 
-    contenido.textContent = sorpresas[dia];
+    contenido.textContent =
+      sorpresas[dia] ||
+      "Aquí agregaremos una sorpresa especial.";
 
   } else {
 
@@ -573,7 +820,369 @@ function abrirPuerta(dia) {
   }
 
   modal.showModal();
+
 }
+
+/* ANIMACION DE TEMBLOR */
+
+function temblar(puerta) {
+
+  return puerta.animate([
+
+    { transform: "translateX(0)" },
+
+    { transform: "translateX(-6px) rotate(-4deg)" },
+
+    { transform: "translateX(6px) rotate(4deg)" },
+
+    { transform: "translateX(-5px) rotate(-3deg)" },
+
+    { transform: "translateX(5px) rotate(3deg)" },
+
+    { transform: "translateX(-3px)" },
+
+    { transform: "translateX(3px)" },
+
+    { transform: "translateX(0)" }
+
+  ], {
+
+    duration: 480,
+    easing: "ease-in-out"
+
+  }).finished;
+
+}
+
+/* CONFETI ESPECIAL DE NAVIDAD */
+
+function lanzarConfeti(puerta) {
+
+  const posicion = puerta.getBoundingClientRect();
+
+  const centroX =
+    posicion.left + posicion.width / 2;
+
+  const centroY =
+    posicion.top + posicion.height / 2;
+
+  const colores = [
+
+    "#ffffff",
+    "#ffd5dc",
+    "#ff647d",
+    "#ed203c",
+    "#ffebee"
+
+  ];
+
+  const animaciones = [];
+
+  for (let i = 0; i < 50; i++) {
+
+    const confeti =
+      document.createElement("span");
+
+    confeti.className = "confeti-navidad";
+
+    confeti.style.left = centroX + "px";
+
+    confeti.style.top = centroY + "px";
+
+    confeti.style.background =
+      colores[i % colores.length];
+
+    document.body.appendChild(confeti);
+
+    const angulo =
+      Math.random() * Math.PI * 2;
+
+    const distancia =
+      60 + Math.random() * 170;
+
+    const x =
+      Math.cos(angulo) * distancia;
+
+    const y =
+      Math.sin(angulo) * distancia;
+
+    const animacion = confeti.animate([
+
+      {
+        transform: "translate(0,0) rotate(0deg)",
+        opacity: 1
+      },
+
+      {
+        transform:
+          `translate(${x}px, ${y}px)
+          rotate(${360 + i * 20}deg)`,
+
+        opacity: 0
+      }
+
+    ], {
+
+      duration: 750 + Math.random() * 350,
+
+      easing: "ease-out",
+
+      fill: "forwards"
+
+    });
+
+    animaciones.push(
+
+      animacion.finished
+        .catch(() => {})
+        .finally(() => confeti.remove())
+
+    );
+
+  }
+
+  return Promise.all(animaciones);
+
+}
+
+/* APERTURA DE LAS PUERTAS */
+
+async function abrirPuerta(dia) {
+
+  if (animandoPuerta || modal.open) return;
+
+  const puerta =
+    calendario.querySelector(`[data-dia="${dia}"]`);
+
+  if (!puerta) return;
+
+  const reducirMovimiento = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+  if (reducirMovimiento || !puerta.animate) {
+
+    mostrarSorpresa(dia);
+
+    return;
+
+  }
+
+  animandoPuerta = true;
+
+  botonPrueba.disabled = true;
+
+  let originales = null;
+
+  function restaurarPuerta() {
+
+    if (originales) {
+
+      puerta.replaceChildren(...originales);
+
+      puerta.classList.remove("abriendo");
+
+      originales = null;
+
+    }
+
+    botonPrueba.disabled = false;
+
+  }
+
+  try {
+
+    /* SI LA PUERTA ESTA BLOQUEADA */
+
+    if (!disponible(dia)) {
+
+      await temblar(puerta);
+
+      mostrarSorpresa(dia);
+
+      return;
+
+    }
+
+    /* PREPARAR LA TAPA DEL REGALO */
+
+    const estilo = getComputedStyle(puerta);
+
+    const colorFondo = estilo.backgroundColor;
+
+    const colorTexto = estilo.color;
+
+    originales = Array.from(puerta.childNodes);
+
+    const cara = document.createElement("div");
+
+    cara.className = "cara-animada";
+
+    cara.style.backgroundColor = colorFondo;
+
+    cara.style.color = colorTexto;
+
+    originales.forEach(elemento => {
+
+      cara.appendChild(elemento);
+
+    });
+
+    const interior = document.createElement("div");
+
+    interior.className = "interior-animado";
+
+    interior.textContent = "♡";
+
+    puerta.appendChild(interior);
+
+    puerta.appendChild(cara);
+
+    puerta.classList.add("abriendo");
+
+    /* ANIMACION ESPECIAL DEL DIA 24 */
+
+    if (dia === 24) {
+
+      const caraDerecha = cara.cloneNode(true);
+
+      cara.style.clipPath =
+        "inset(0 50% 0 0)";
+
+      caraDerecha.style.clipPath =
+        "inset(0 0 0 50%)";
+
+      puerta.appendChild(caraDerecha);
+
+      await Promise.all([
+
+        cara.animate([
+
+          { transform: "translateX(0)" },
+
+          { transform: "translateX(-105%)" }
+
+        ], {
+
+          duration: 800,
+
+          easing: "cubic-bezier(.3,.7,.2,1)",
+
+          fill: "forwards"
+
+        }).finished,
+
+        caraDerecha.animate([
+
+          { transform: "translateX(0)" },
+
+          { transform: "translateX(105%)" }
+
+        ], {
+
+          duration: 800,
+
+          easing: "cubic-bezier(.3,.7,.2,1)",
+
+          fill: "forwards"
+
+        }).finished
+
+      ]);
+
+      interior.animate([
+
+        {
+          transform: "scale(.4)",
+          opacity: 0
+        },
+
+        {
+          transform: "scale(1.3)",
+          opacity: 1
+        },
+
+        {
+          transform: "scale(1)",
+          opacity: 1
+        }
+
+      ], {
+
+        duration: 650,
+
+        easing: "ease-out"
+
+      });
+
+      await lanzarConfeti(puerta);
+
+    } else {
+
+      /* ANIMACION NORMAL DE DESPLAZAMIENTO */
+
+      const direccion = direcciones[dia];
+
+      const movimiento =
+        desplazamientos[direccion];
+
+      await cara.animate([
+
+        { transform: "translate(0,0)" },
+
+        { transform: movimiento }
+
+      ], {
+
+        duration: 650,
+
+        easing: "cubic-bezier(.3,.7,.2,1)",
+
+        fill: "forwards"
+
+      }).finished;
+
+    }
+
+    /* RESTAURAR LA PUERTA AL CERRAR LA SORPRESA */
+
+    modal.addEventListener(
+
+      "close",
+
+      restaurarPuerta,
+
+      { once: true }
+
+    );
+
+    mostrarSorpresa(dia);
+
+  } catch (error) {
+
+    restaurarPuerta();
+
+    if (!modal.open) {
+
+      mostrarSorpresa(dia);
+
+    }
+
+  } finally {
+
+    animandoPuerta = false;
+
+    if (!originales) {
+
+      botonPrueba.disabled = false;
+
+    }
+
+  }
+
+}
+
+/* CREAR LAS 24 PUERTAS */
 
 function renderizarCalendario() {
 
@@ -584,23 +1193,39 @@ function renderizarCalendario() {
     const puerta = document.createElement("button");
 
     puerta.className = "puerta";
+
+    puerta.dataset.dia = dia;
+
     puerta.style.gridArea = "d" + dia;
 
-    puerta.setAttribute("aria-label",
+    puerta.setAttribute(
+
+      "aria-label",
+
       "Día " + dia +
-      (disponible(dia) ? ", disponible" : ", bloqueado")
+
+      (disponible(dia)
+        ? ", disponible"
+        : ", bloqueado")
+
     );
 
     if (rosas.includes(dia)) {
+
       puerta.classList.add("rosa");
+
     }
 
     if (rosasClaros.includes(dia)) {
+
       puerta.classList.add("rosa-claro");
+
     }
 
     if (vinos.includes(dia)) {
+
       puerta.classList.add("vino");
+
     }
 
     if (dia === 24) {
@@ -608,57 +1233,83 @@ function renderizarCalendario() {
       puerta.classList.add("regalo");
 
       puerta.innerHTML = `
+
         <div class="cinta-vertical"></div>
+
         <div class="cinta-horizontal"></div>
 
         <svg class="lazo" viewBox="0 0 120 50">
+
           <path d="M60 38
             C5 42 -3 0 28 6
             C43 7 53 22 60 38
             C67 22 77 7 92 6
             C123 0 115 42 60 38"
-            fill="none" stroke="#ffd5dc"
-            stroke-width="7" stroke-linecap="round"/>
+
+            fill="none"
+
+            stroke="#ffd5dc"
+
+            stroke-width="7"
+
+            stroke-linecap="round"/>
+
         </svg>
 
         <span class="numero">24</span>
+
       `;
 
     } else {
 
       puerta.innerHTML = `
+
         ${dibujos[dia] || ""}
+
         <span class="numero">${dia}</span>
+
       `;
 
     }
 
     if (esHoy(dia)) {
+
       puerta.innerHTML +=
         '<span class="hoy">Hoy</span>';
+
     }
 
     puerta.onclick = () => abrirPuerta(dia);
 
     calendario.appendChild(puerta);
+
   }
+
 }
 
-document.getElementById("modoPruebaBtn").onclick =
-function() {
+/* MODO DE PRUEBA */
+
+botonPrueba.onclick = function() {
+
+  if (animandoPuerta || modal.open) return;
 
   modoPrueba = !modoPrueba;
 
   this.textContent = modoPrueba
+
     ? "Desactivar modo de prueba"
+
     : "Activar modo de prueba";
 
   renderizarCalendario();
 
 };
 
+/* INICIAR EL CALENDARIO */
+
 renderizarCalendario();
 
 </script>
+
 </body>
 </html>
