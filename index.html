@@ -13,21 +13,20 @@
     body {
       margin: 0;
       font-family: Georgia, serif;
-      background: linear-gradient(180deg, #c71f37 0%, #b2122e 100%);
-      color: #fff4f4;
+      background: #cf1735;
+      color: #fff3f3;
       text-align: center;
       min-height: 100vh;
     }
 
     header {
-      padding: 32px 16px 18px;
+      padding: 28px 16px 14px;
     }
 
     .mini {
       font-size: 14px;
       letter-spacing: 1px;
       text-transform: uppercase;
-      opacity: 0.95;
       margin-bottom: 8px;
     }
 
@@ -40,7 +39,6 @@
     .sub {
       margin-top: 10px;
       font-size: 17px;
-      opacity: 0.95;
     }
 
     .adorno {
@@ -50,164 +48,147 @@
     }
 
     .contenedor {
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 18px 16px 32px;
+      width: min(92vw, 650px);
+      margin: 18px auto 0;
     }
 
     .calendario {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: #d91d3b;
+      border: 8px solid #ef2647;
+      border-radius: 22px;
+      padding: 10px;
       display: grid;
       grid-template-columns: repeat(6, 1fr);
-      grid-auto-rows: 88px;
-      gap: 10px;
-      background: rgba(255,255,255,0.08);
-      border: 8px solid #e51937;
-      border-radius: 24px;
-      padding: 14px;
-      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.1);
+      grid-template-rows: repeat(6, 1fr);
+      gap: 8px;
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.08);
     }
 
     .puerta {
       position: relative;
-      border: 2px dashed rgba(199, 31, 55, 0.35);
-      border-radius: 16px;
-      background: #f7ecec;
-      color: #a0102f;
-      cursor: pointer;
-      display: flex;
-      align-items: flex-start;
-      justify-content: flex-start;
-      padding: 10px;
+      border-radius: 14px;
+      border: 2px solid rgba(255,255,255,0.85);
+      background: #f6f6f6;
+      color: #d3203e;
       overflow: hidden;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      box-shadow: inset 0 0 0 3px rgba(255,255,255,0.5);
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
     }
 
     .puerta:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
     }
 
-    .tono-rojo {
-      background: #ea1f3b;
-      color: #fff7f7;
-      border-color: rgba(255,255,255,0.35);
+    .puerta::after {
+      content: "";
+      position: absolute;
+      inset: 6px;
+      border: 2px dashed rgba(211, 32, 62, 0.35);
+      border-radius: 10px;
+      pointer-events: none;
     }
 
-    .tono-rosa {
-      background: #f0d9dd;
-      color: #a0102f;
+    .blanco {
+      background: #f4f4f4;
+      color: #e21f42;
     }
 
-    .tono-claro {
-      background: #f6f2f2;
-      color: #c71f37;
+    .rosa {
+      background: #efd8dd;
+      color: #b51c36;
     }
 
-    .tono-vino {
-      background: #c71f37;
-      color: #fff7f7;
-      border-color: rgba(255,255,255,0.3);
+    .rojo {
+      background: #ef1f43;
+      color: #ffffff;
     }
 
     .numero {
-      font-size: clamp(20px, 3vw, 30px);
-      font-weight: bold;
       position: absolute;
       left: 10px;
-      bottom: 8px;
-    }
-
-    .numero.grande24 {
-      font-size: clamp(42px, 7vw, 72px);
-      line-height: 1;
-      left: 12px;
       bottom: 6px;
-    }
-
-    .icono {
-      font-size: clamp(20px, 3vw, 30px);
-      opacity: 0.9;
+      font-size: clamp(19px, 3vw, 28px);
+      font-weight: bold;
+      z-index: 2;
     }
 
     .estado {
       position: absolute;
+      right: 8px;
+      bottom: 7px;
+      z-index: 2;
+      font-size: 12px;
+      background: rgba(255,255,255,0.85);
+      color: #b71f38;
+      padding: 2px 7px;
+      border-radius: 999px;
+    }
+
+    .iconito {
+      position: absolute;
+      left: 10px;
+      top: 8px;
+      font-size: clamp(15px, 2vw, 21px);
+      z-index: 2;
+      opacity: 0.95;
+    }
+
+    .puerta24 .numero {
+      font-size: clamp(48px, 8vw, 74px);
+      left: 14px;
+      bottom: 10px;
+      line-height: 1;
+    }
+
+    .puerta24 .estado {
+      bottom: 10px;
       right: 10px;
-      bottom: 8px;
-      font-size: 13px;
-      background: rgba(255,255,255,0.6);
-      color: #a0102f;
-      padding: 3px 7px;
-      border-radius: 999px;
     }
 
-    .tono-rojo .estado,
-    .tono-vino .estado {
-      background: rgba(255,255,255,0.88);
-    }
-
-    .w2 { grid-column: span 2; }
-    .h2 { grid-row: span 2; }
-    .w3 { grid-column: span 3; }
-
-    .regalo .moño-v {
+    .cinta-v {
       position: absolute;
-      width: 14px;
-      height: 100%;
-      background: rgba(255,255,255,0.78);
-      left: 46%;
       top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 12px;
       transform: translateX(-50%);
+      background: rgba(255,255,255,0.82);
+      z-index: 1;
     }
 
-    .regalo .moño-h {
+    .cinta-h {
       position: absolute;
-      width: 100%;
-      height: 14px;
-      background: rgba(255,255,255,0.78);
       left: 0;
+      right: 0;
       top: 42%;
+      height: 12px;
       transform: translateY(-50%);
+      background: rgba(255,255,255,0.82);
+      z-index: 1;
     }
 
-    .regalo .lazo1,
-    .regalo .lazo2 {
+    .lazo1,
+    .lazo2 {
       position: absolute;
-      width: 56px;
-      height: 34px;
-      border: 7px solid rgba(255,255,255,0.82);
+      top: 12px;
+      width: 52px;
+      height: 30px;
+      border: 6px solid rgba(255,255,255,0.85);
       border-radius: 999px;
-      top: 16px;
+      z-index: 1;
     }
 
-    .regalo .lazo1 { left: 50%; transform: translateX(-95%); }
-    .regalo .lazo2 { left: 50%; transform: translateX(-5%); }
-
-    footer {
-      padding: 24px 16px 42px;
+    .lazo1 {
+      left: 50%;
+      transform: translateX(-92%);
     }
 
-    .botones {
-      margin-top: 14px;
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      border: none;
-      background: #f7d9dd;
-      color: #a0102f;
-      padding: 12px 18px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
-      font-family: inherit;
-    }
-
-    .btn:hover {
-      opacity: 0.92;
+    .lazo2 {
+      left: 50%;
+      transform: translateX(-8%);
     }
 
     dialog {
@@ -221,7 +202,7 @@
     }
 
     dialog::backdrop {
-      background: rgba(0,0,0,0.58);
+      background: rgba(0,0,0,0.55);
     }
 
     #tituloModal {
@@ -246,40 +227,46 @@
       font-family: inherit;
     }
 
-    @media (max-width: 700px) {
-      .calendario {
-        grid-template-columns: repeat(4, 1fr);
-        grid-auto-rows: 82px;
-      }
-
-      .w3 { grid-column: span 2; }
+    footer {
+      padding: 24px 16px 42px;
     }
 
-    @media (max-width: 480px) {
+    .btn {
+      margin-top: 12px;
+      border: none;
+      background: #f8e3e6;
+      color: #b21b35;
+      padding: 12px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      font-family: inherit;
+    }
+
+    @media (max-width: 520px) {
+      .contenedor {
+        width: min(96vw, 650px);
+      }
+
       .calendario {
-        grid-template-columns: repeat(3, 1fr);
-        grid-auto-rows: 80px;
-        gap: 8px;
-        padding: 10px;
+        gap: 6px;
+        padding: 8px;
       }
 
-      .w2, .w3 {
-        grid-column: span 1;
+      .numero {
+        left: 8px;
+        bottom: 5px;
+        font-size: 18px;
       }
 
-      .h2 {
-        grid-row: span 1;
+      .puerta24 .numero {
+        font-size: 42px;
       }
 
-      .numero.grande24 {
-        font-size: 38px;
-      }
-
-      .regalo .lazo1,
-      .regalo .lazo2,
-      .regalo .moño-v,
-      .regalo .moño-h {
-        display: none;
+      .lazo1,
+      .lazo2 {
+        width: 42px;
+        height: 24px;
       }
     }
   </style>
@@ -305,9 +292,7 @@
 
   <footer>
     <div>Hecho especialmente para ti ♡</div>
-    <div class="botones">
-      <button class="btn" id="modoPruebaBtn">Activar modo de prueba</button>
-    </div>
+    <button class="btn" id="modoPruebaBtn">Activar modo de prueba</button>
   </footer>
 
   <script>
@@ -340,64 +325,37 @@
       24: "¡Feliz Navidad!\nAquí irá la sorpresa final más importante. ♡"
     };
 
-    const diseñoPuertas = [
-      { dia: 7, clase: "tono-claro" },
-      { dia: 15, clase: "tono-rosa" },
-      { dia: 1, clase: "tono-claro w2" },
-      { dia: 22, clase: "tono-rosa" },
-      { dia: 10, clase: "tono-claro" },
+    const puertas = [
+      { dia: 7,  clase: "blanco", col: 1, row: 1, w: 1, h: 1, icono: "" },
+      { dia: 15, clase: "rosa",   col: 2, row: 1, w: 1, h: 1, icono: "" },
+      { dia: 1,  clase: "blanco", col: 3, row: 1, w: 2, h: 1, icono: "" },
+      { dia: 22, clase: "blanco", col: 5, row: 1, w: 1, h: 1, icono: "" },
+      { dia: 10, clase: "blanco", col: 6, row: 1, w: 1, h: 1, icono: "" },
 
-      { dia: 24, clase: "tono-rojo w2 h2 regalo especial24" },
-      { dia: 4, clase: "tono-claro" },
-      { dia: 9, clase: "tono-claro w2" },
+      { dia: 24, clase: "rojo puerta24", col: 1, row: 2, w: 2, h: 2, icono: "" },
+      { dia: 4,  clase: "blanco", col: 3, row: 2, w: 1, h: 1, icono: "" },
+      { dia: 9,  clase: "blanco", col: 5, row: 2, w: 2, h: 1, icono: "" },
 
-      { dia: 20, clase: "tono-rosa" },
-      { dia: 13, clase: "tono-rosa h2" },
-      { dia: 18, clase: "tono-rosa" },
-      { dia: 2, clase: "tono-claro" },
+      { dia: 20, clase: "rosa",   col: 3, row: 3, w: 1, h: 1, icono: "" },
+      { dia: 13, clase: "rosa",   col: 4, row: 2, w: 1, h: 2, icono: "" },
+      { dia: 18, clase: "rosa",   col: 5, row: 3, w: 1, h: 1, icono: "" },
+      { dia: 2,  clase: "blanco", col: 6, row: 3, w: 1, h: 1, icono: "" },
 
-      { dia: 5, clase: "tono-claro" },
-      { dia: 16, clase: "tono-rosa" },
-      { dia: 11, clase: "tono-claro w2" },
-      { dia: 23, clase: "tono-claro" },
+      { dia: 5,  clase: "blanco", col: 1, row: 4, w: 1, h: 1, icono: "" },
+      { dia: 16, clase: "rosa",   col: 2, row: 4, w: 1, h: 1, icono: "" },
+      { dia: 11, clase: "blanco", col: 3, row: 4, w: 2, h: 1, icono: "" },
+      { dia: 23, clase: "blanco", col: 6, row: 4, w: 1, h: 1, icono: "" },
 
-      { dia: 19, clase: "tono-rosa h2" },
-      { dia: 8, clase: "tono-claro" },
-      { dia: 14, clase: "tono-claro" },
-      { dia: 12, clase: "tono-rosa" },
-      { dia: 3, clase: "tono-rosa h2" },
+      { dia: 19, clase: "blanco", col: 1, row: 5, w: 1, h: 2, icono: "" },
+      { dia: 8,  clase: "blanco", col: 2, row: 5, w: 1, h: 1, icono: "" },
+      { dia: 14, clase: "blanco", col: 3, row: 5, w: 1, h: 1, icono: "" },
+      { dia: 12, clase: "rosa",   col: 4, row: 5, w: 1, h: 1, icono: "" },
+      { dia: 3,  clase: "rosa",   col: 5, row: 4, w: 1, h: 2, icono: "" },
 
-      { dia: 17, clase: "tono-claro w2" },
-      { dia: 6, clase: "tono-rosa w2" },
-      { dia: 21, clase: "tono-claro h2" }
+      { dia: 17, clase: "blanco", col: 2, row: 6, w: 2, h: 1, icono: "" },
+      { dia: 6,  clase: "rosa",   col: 4, row: 6, w: 2, h: 1, icono: "" },
+      { dia: 21, clase: "blanco", col: 6, row: 5, w: 1, h: 2, icono: "" }
     ];
-
-    const iconos = {
-      1: "♡",
-      2: "✦",
-      3: "✉",
-      4: "❄",
-      5: "♡",
-      6: "✦",
-      7: "♡",
-      8: "✧",
-      9: "✉",
-      10: "❄",
-      11: "♡",
-      12: "✦",
-      13: "✧",
-      14: "♡",
-      15: "❄",
-      16: "✦",
-      17: "✉",
-      18: "♡",
-      19: "✧",
-      20: "❄",
-      21: "✦",
-      22: "♡",
-      23: "✉",
-      24: ""
-    };
 
     function disponible(dia) {
       return modoPrueba || new Date() >= new Date(2026, 11, dia);
@@ -418,34 +376,29 @@
       document.getElementById("modal").showModal();
     }
 
-    function crearPuerta(item) {
+    function crearPuerta(p) {
       const btn = document.createElement("button");
-      btn.className = `puerta ${item.clase}`;
+      btn.className = `puerta ${p.clase}`;
+      btn.style.gridColumn = `${p.col} / span ${p.w}`;
+      btn.style.gridRow = `${p.row} / span ${p.h}`;
 
-      const es24 = item.dia === 24;
-
-      if (es24) {
+      if (p.dia === 24) {
         btn.innerHTML = `
-          <div class="moño-v"></div>
-          <div class="moño-h"></div>
+          <div class="cinta-v"></div>
+          <div class="cinta-h"></div>
           <div class="lazo1"></div>
           <div class="lazo2"></div>
-          <div class="numero grande24">24</div>
-          <div class="estado">${disponible(item.dia) ? "♡" : "🔒"}</div>
+          <div class="numero">24</div>
+          <div class="estado">${disponible(p.dia) ? "♡" : "🔒"}</div>
         `;
       } else {
         btn.innerHTML = `
-          <div class="icono">${iconos[item.dia] || "✦"}</div>
-          <div class="numero">${item.dia}</div>
-          <div class="estado">${disponible(item.dia) ? "♡" : "🔒"}</div>
+          <div class="numero">${p.dia}</div>
+          <div class="estado">${disponible(p.dia) ? "♡" : "🔒"}</div>
         `;
       }
 
-      if (es24) {
-        btn.classList.add("regalo");
-      }
-
-      btn.addEventListener("click", () => abrirPuerta(item.dia));
+      btn.addEventListener("click", () => abrirPuerta(p.dia));
       return btn;
     }
 
@@ -453,8 +406,8 @@
       const calendario = document.getElementById("calendario");
       calendario.innerHTML = "";
 
-      diseñoPuertas.forEach(item => {
-        calendario.appendChild(crearPuerta(item));
+      puertas.forEach(p => {
+        calendario.appendChild(crearPuerta(p));
       });
     }
 
