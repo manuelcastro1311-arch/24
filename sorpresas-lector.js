@@ -45,6 +45,34 @@
     validos.forEach(m=>agregar(m.src));
     if(!validos.length || b.type === 'gallery') String(b.url||'').split('\n').forEach(v=>{const u=enlace(v.trim()); if(u){const c=boton('Cargar contenido externo',()=>{c.remove();agregar(u);});a.append(c);}});
   }
+  // Publicación cifrada: la clave se recibe exclusivamente en el fragmento del enlace.
+  const clave = new URLSearchParams(location.hash.slice(1)).get('clave');
+  if (clave) {
+    cargar.hidden = true;
+    const prueba = document.getElementById('modoPruebaBtn');
+    if (prueba) prueba.hidden = true;
+    estado.textContent = 'Cargando tus regalos…';
+    const botones = Array.from(document.querySelectorAll('.puerta'));
+    botones.forEach(b => b.disabled = true);
+    (async () => {
+      try {
+        if (!/^[A-Za-z0-9_-]{43}$/.test(clave)) throw Error('Clave inválida');
+        const bytes = Uint8Array.from(atob(clave.replace(/-/g,'+').replace(/_/g,'/')+'='), c=>c.charCodeAt(0));
+        const key = await crypto.subtle.importKey('raw', bytes, 'AES-GCM', false, ['decrypt']);
+        const respuesta = await fetch('./sorpresas-cifradas.bin', {cache:'no-store'});
+        if (!respuesta.ok) throw Error('Archivo no disponible');
+        const datos = new Uint8Array(await respuesta.arrayBuffer());
+        const claro = await crypto.subtle.decrypt({name:'AES-GCM',iv:datos.slice(0,12)},key,datos.slice(12));
+        const d = JSON.parse(new TextDecoder().decode(claro));
+        if (!Array.isArray(d) || d.length !== 24 || !d.every(x=>x && typeof x.title==='string' && Array.isArray(x.blocks) && x.blocks.every(b=>b && tipos.includes(b.type)))) throw Error('Formato incorrecto');
+        borrador = d;
+        estado.hidden = true;
+        botones.forEach(b => b.disabled = false);
+      } catch (e) {
+        estado.textContent = 'No se pudieron abrir las sorpresas. Comprueba que el enlace esté completo y que el archivo cifrado esté publicado.';
+      }
+    })();
+  }
   const original = mostrarSorpresa;
   mostrarSorpresa = function(dia) {
     original(dia);
