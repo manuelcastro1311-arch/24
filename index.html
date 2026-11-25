@@ -1,425 +1,481 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>24 días contigo</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>24 días contigo</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<style>
 
-    body {
-      margin: 0;
-      font-family: Georgia, serif;
-      background: #cf1735;
-      color: #fff3f3;
-      text-align: center;
-      min-height: 100vh;
-    }
+* {
+  box-sizing: border-box;
+}
 
-    header {
-      padding: 28px 16px 14px;
-    }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #cd1937, #af0b2b);
+  color: #fff1f3;
+  font-family: Georgia, serif;
+  text-align: center;
+}
 
-    .mini {
-      font-size: 14px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
+header {
+  padding: 30px 15px 20px;
+}
 
-    h1 {
-      margin: 0;
-      font-size: clamp(34px, 7vw, 62px);
-      line-height: 1;
-    }
+.fecha {
+  font-size: 13px;
+  letter-spacing: 2px;
+}
 
-    .sub {
-      margin-top: 10px;
-      font-size: 17px;
-    }
+h1 {
+  font-size: clamp(32px, 7vw, 60px);
+  margin: 12px 0;
+}
 
-    .adorno {
-      margin-top: 10px;
-      font-size: 18px;
-      letter-spacing: 4px;
-    }
+.subtitulo {
+  font-size: 16px;
+  margin: 8px 0;
+}
 
-    .contenedor {
-      width: min(92vw, 650px);
-      margin: 18px auto 0;
-    }
+.decoracion {
+  margin-top: 14px;
+  letter-spacing: 5px;
+}
 
-    .calendario {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      background: #d91d3b;
-      border: 8px solid #ef2647;
-      border-radius: 22px;
-      padding: 10px;
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      grid-template-rows: repeat(6, 1fr);
-      gap: 8px;
-      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.08);
-    }
+/* TABLERO CUADRADO */
 
-    .puerta {
-      position: relative;
-      border-radius: 14px;
-      border: 2px solid rgba(255,255,255,0.85);
-      background: #f6f6f6;
-      color: #d3203e;
-      overflow: hidden;
-      cursor: pointer;
-      transition: transform 0.18s ease, box-shadow 0.18s ease;
-    }
+.contenedor {
+  width: min(94vw, 650px);
+  margin: 15px auto;
+  padding: clamp(7px, 1.8vw, 12px);
+  background: #ed203c;
+  border-radius: 24px;
+}
 
-    .puerta:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-    }
+.calendario {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #b90e29;
+  border-radius: 16px;
+  padding: clamp(6px, 1.5vw, 10px);
 
-    .puerta::after {
-      content: "";
-      position: absolute;
-      inset: 6px;
-      border: 2px dashed rgba(211, 32, 62, 0.35);
-      border-radius: 10px;
-      pointer-events: none;
-    }
+  display: grid;
 
-    .blanco {
-      background: #f4f4f4;
-      color: #e21f42;
-    }
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-rows: repeat(6, minmax(0, 1fr));
 
-    .rosa {
-      background: #efd8dd;
-      color: #b51c36;
-    }
+  gap: clamp(5px, 1.2vw, 10px);
 
-    .rojo {
-      background: #ef1f43;
-      color: #ffffff;
-    }
+  grid-template-areas:
+    "d7  d15 d1  d1  d22 d10"
+    "d24 d24 d4  d13 d9  d9"
+    "d24 d24 d20 d13 d18 d2"
+    "d5  d16 d11 d11 d3  d23"
+    "d19 d8  d14 d12 d3  d21"
+    "d19 d17 d17 d6  d6  d21";
+}
 
-    .numero {
-      position: absolute;
-      left: 10px;
-      bottom: 6px;
-      font-size: clamp(19px, 3vw, 28px);
-      font-weight: bold;
-      z-index: 2;
-    }
+/* DISEÑO DE LAS PUERTAS */
 
-    .estado {
-      position: absolute;
-      right: 8px;
-      bottom: 7px;
-      z-index: 2;
-      font-size: 12px;
-      background: rgba(255,255,255,0.85);
-      color: #b71f38;
-      padding: 2px 7px;
-      border-radius: 999px;
-    }
+.puerta {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: none;
+  border-radius: clamp(6px, 1.5vw, 12px);
+  background: #fffbfb;
+  color: #e71e3e;
+  cursor: pointer;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  transition: transform .2s, box-shadow .2s;
+  box-shadow: 0 3px 5px #77001944;
+}
 
-    .iconito {
-      position: absolute;
-      left: 10px;
-      top: 8px;
-      font-size: clamp(15px, 2vw, 21px);
-      z-index: 2;
-      opacity: 0.95;
-    }
+.puerta::after {
+  content: "";
+  position: absolute;
+  inset: clamp(3px, .7vw, 6px);
+  border: 1.5px dashed #e58b99;
+  border-radius: 5px;
+  pointer-events: none;
+}
 
-    .puerta24 .numero {
-      font-size: clamp(48px, 8vw, 74px);
-      left: 14px;
-      bottom: 10px;
-      line-height: 1;
-    }
+.puerta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px #76001866;
+  z-index: 5;
+}
 
-    .puerta24 .estado {
-      bottom: 10px;
-      right: 10px;
-    }
+.puerta:focus-visible {
+  outline: 3px solid #ffd9df;
+  outline-offset: 2px;
+}
 
-    .cinta-v {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 50%;
-      width: 12px;
-      transform: translateX(-50%);
-      background: rgba(255,255,255,0.82);
-      z-index: 1;
-    }
+.rosa {
+  background: #ffdade;
+  color: #a6112b;
+}
 
-    .cinta-h {
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 42%;
-      height: 12px;
-      transform: translateY(-50%);
-      background: rgba(255,255,255,0.82);
-      z-index: 1;
-    }
+.rosa-claro {
+  background: #ffeff1;
+}
 
-    .lazo1,
-    .lazo2 {
-      position: absolute;
-      top: 12px;
-      width: 52px;
-      height: 30px;
-      border: 6px solid rgba(255,255,255,0.85);
-      border-radius: 999px;
-      z-index: 1;
-    }
+.numero {
+  position: absolute;
+  bottom: 5%;
+  left: 8%;
+  font-size: clamp(17px, 4.5vw, 42px);
+  font-weight: 800;
+  line-height: 1;
+  z-index: 3;
+}
 
-    .lazo1 {
-      left: 50%;
-      transform: translateX(-92%);
-    }
+/* PUERTA ESPECIAL DEL DÍA 24 */
 
-    .lazo2 {
-      left: 50%;
-      transform: translateX(-8%);
-    }
+.regalo {
+  background: #eb203c;
+  color: #ffffff;
+}
 
-    dialog {
-      width: min(92vw, 520px);
-      border: none;
-      border-radius: 18px;
-      padding: 24px;
-      background: #fff7f7;
-      color: #8d1029;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-    }
+.regalo::after {
+  border-color: #ff9ba8;
+}
 
-    dialog::backdrop {
-      background: rgba(0,0,0,0.55);
-    }
+.regalo .numero {
+  font-size: clamp(38px, 11vw, 88px);
+  bottom: 6%;
+  left: 8%;
+}
 
-    #tituloModal {
-      margin-top: 0;
-      font-size: 30px;
-    }
+.cinta-vertical {
+  position: absolute;
+  width: 12%;
+  height: 100%;
+  top: 0;
+  left: 44%;
+  background: #ffd9df;
+}
 
-    #contenidoModal {
-      font-size: 18px;
-      line-height: 1.5;
-      white-space: pre-line;
-    }
+.cinta-horizontal {
+  position: absolute;
+  width: 100%;
+  height: 12%;
+  top: 44%;
+  left: 0;
+  background: #ffd9df;
+}
 
-    .cerrar {
-      margin-top: 18px;
-      border: none;
-      padding: 11px 18px;
-      border-radius: 10px;
-      background: #c71f37;
-      color: white;
-      cursor: pointer;
-      font-family: inherit;
-    }
+.lazo {
+  position: absolute;
+  width: 70%;
+  height: 32%;
+  top: 1%;
+  left: 15%;
+}
 
-    footer {
-      padding: 24px 16px 42px;
-    }
+.hoy {
+  position: absolute;
+  right: 5%;
+  top: 5%;
+  background: white;
+  color: #d71938;
+  padding: 3px 6px;
+  border-radius: 20px;
+  font-size: clamp(8px, 1.4vw, 12px);
+  z-index: 4;
+}
 
-    .btn {
-      margin-top: 12px;
-      border: none;
-      background: #f8e3e6;
-      color: #b21b35;
-      padding: 12px 18px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
-      font-family: inherit;
-    }
+/* VENTANA DE LAS SORPRESAS */
 
-    @media (max-width: 520px) {
-      .contenedor {
-        width: min(96vw, 650px);
-      }
+dialog {
+  width: min(90vw, 500px);
+  max-height: 85vh;
+  overflow: auto;
+  border: none;
+  border-radius: 20px;
+  padding: 28px;
+  background: #fff5f6;
+  color: #a6112b;
+  box-shadow: 0 15px 40px #0005;
+  animation: aparecer .25s ease;
+}
 
-      .calendario {
-        gap: 6px;
-        padding: 8px;
-      }
+dialog::backdrop {
+  background: #36000c99;
+}
 
-      .numero {
-        left: 8px;
-        bottom: 5px;
-        font-size: 18px;
-      }
+dialog h2 {
+  font-size: 30px;
+  margin-top: 0;
+}
 
-      .puerta24 .numero {
-        font-size: 42px;
-      }
+#contenidoModal {
+  font-size: 18px;
+  line-height: 1.6;
+  white-space: pre-line;
+}
 
-      .lazo1,
-      .lazo2 {
-        width: 42px;
-        height: 24px;
-      }
-    }
-  </style>
+dialog img,
+dialog video {
+  max-width: 100%;
+  border-radius: 12px;
+}
+
+.boton {
+  border: none;
+  border-radius: 9px;
+  padding: 12px 18px;
+  background: #ffd9df;
+  color: #a6112b;
+  font-family: inherit;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.cerrar {
+  background: #ce1938;
+  color: white;
+}
+
+footer {
+  padding: 20px 15px 40px;
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: scale(.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+</style>
 </head>
+
 <body>
 
-  <header>
-    <div class="mini">✦ DICIEMBRE 2026 ✦</div>
-    <h1>24 días contigo</h1>
-    <div class="sub">Una pequeña sorpresa para cada día.</div>
-    <div class="adorno">♡ ─ ✧ ─ ♡</div>
-  </header>
+<header>
+  <div class="fecha">✦ DICIEMBRE 2026 ✦</div>
+  <h1>24 días contigo</h1>
 
-  <div class="contenedor">
-    <main class="calendario" id="calendario"></main>
-  </div>
+  <p class="subtitulo">
+    Una pequeña sorpresa para cada día.
+  </p>
 
-  <dialog id="modal">
-    <h2 id="tituloModal"></h2>
-    <div id="contenidoModal"></div>
-    <button class="cerrar" onclick="document.getElementById('modal').close()">Cerrar</button>
-  </dialog>
+  <div class="decoracion">♡ ─ ✧ ─ ♡</div>
+</header>
 
-  <footer>
-    <div>Hecho especialmente para ti ♡</div>
-    <button class="btn" id="modoPruebaBtn">Activar modo de prueba</button>
-  </footer>
+<div class="contenedor">
+  <main class="calendario" id="calendario"></main>
+</div>
 
-  <script>
-    let modoPrueba = false;
+<dialog id="modal">
 
-    const sorpresas = {
-      1: "Bienvenido a nuestro calendario.\nAquí empezará todo lo bonito.",
-      2: "Aquí pondremos una sorpresa especial.",
-      3: "Aquí podremos poner una carta cortita.",
-      4: "Aquí irá una foto o un recuerdo.",
-      5: "Aquí irá otra sorpresa bonita.",
-      6: "Aquí puede ir un mensajito romántico.",
-      7: "Aquí puede ir una canción.",
-      8: "Aquí puede ir una anécdota.",
-      9: "Aquí puede ir un mini quiz.",
-      10: "Aquí puede ir una promesa.",
-      11: "Aquí puede ir otro recuerdo.",
-      12: "Aquí puede ir una carta.",
-      13: "Aquí puede ir una foto.",
-      14: "Aquí puede ir una nota de voz.",
-      15: "Aquí puede ir una sorpresa divertida.",
-      16: "Aquí puede ir otro detalle.",
-      17: "Aquí puede ir una dedicatoria.",
-      18: "Aquí puede ir un video.",
-      19: "Aquí puede ir una razón por la que la quieres.",
-      20: "Aquí puede ir una pregunta bonita.",
-      21: "Aquí puede ir un vale o premio.",
-      22: "Aquí puede ir una sorpresa secreta.",
-      23: "Aquí puede ir un mensaje especial.",
-      24: "¡Feliz Navidad!\nAquí irá la sorpresa final más importante. ♡"
-    };
+  <h2 id="tituloModal"></h2>
 
-    const puertas = [
-      { dia: 7,  clase: "blanco", col: 1, row: 1, w: 1, h: 1, icono: "" },
-      { dia: 15, clase: "rosa",   col: 2, row: 1, w: 1, h: 1, icono: "" },
-      { dia: 1,  clase: "blanco", col: 3, row: 1, w: 2, h: 1, icono: "" },
-      { dia: 22, clase: "blanco", col: 5, row: 1, w: 1, h: 1, icono: "" },
-      { dia: 10, clase: "blanco", col: 6, row: 1, w: 1, h: 1, icono: "" },
+  <div id="contenidoModal"></div>
 
-      { dia: 24, clase: "rojo puerta24", col: 1, row: 2, w: 2, h: 2, icono: "" },
-      { dia: 4,  clase: "blanco", col: 3, row: 2, w: 1, h: 1, icono: "" },
-      { dia: 9,  clase: "blanco", col: 5, row: 2, w: 2, h: 1, icono: "" },
+  <button class="boton cerrar"
+    onclick="document.getElementById('modal').close()">
+    Cerrar
+  </button>
 
-      { dia: 20, clase: "rosa",   col: 3, row: 3, w: 1, h: 1, icono: "" },
-      { dia: 13, clase: "rosa",   col: 4, row: 2, w: 1, h: 2, icono: "" },
-      { dia: 18, clase: "rosa",   col: 5, row: 3, w: 1, h: 1, icono: "" },
-      { dia: 2,  clase: "blanco", col: 6, row: 3, w: 1, h: 1, icono: "" },
+</dialog>
 
-      { dia: 5,  clase: "blanco", col: 1, row: 4, w: 1, h: 1, icono: "" },
-      { dia: 16, clase: "rosa",   col: 2, row: 4, w: 1, h: 1, icono: "" },
-      { dia: 11, clase: "blanco", col: 3, row: 4, w: 2, h: 1, icono: "" },
-      { dia: 23, clase: "blanco", col: 6, row: 4, w: 1, h: 1, icono: "" },
+<footer>
 
-      { dia: 19, clase: "blanco", col: 1, row: 5, w: 1, h: 2, icono: "" },
-      { dia: 8,  clase: "blanco", col: 2, row: 5, w: 1, h: 1, icono: "" },
-      { dia: 14, clase: "blanco", col: 3, row: 5, w: 1, h: 1, icono: "" },
-      { dia: 12, clase: "rosa",   col: 4, row: 5, w: 1, h: 1, icono: "" },
-      { dia: 3,  clase: "rosa",   col: 5, row: 4, w: 1, h: 2, icono: "" },
+  <p>Hecho especialmente para ti ♡</p>
 
-      { dia: 17, clase: "blanco", col: 2, row: 6, w: 2, h: 1, icono: "" },
-      { dia: 6,  clase: "rosa",   col: 4, row: 6, w: 2, h: 1, icono: "" },
-      { dia: 21, clase: "blanco", col: 6, row: 5, w: 1, h: 2, icono: "" }
-    ];
+  <button class="boton" id="modoPruebaBtn">
+    Activar modo de prueba
+  </button>
 
-    function disponible(dia) {
-      return modoPrueba || new Date() >= new Date(2026, 11, dia);
+</footer>
+
+<script>
+
+let modoPrueba = false;
+
+const calendario = document.getElementById("calendario");
+const modal = document.getElementById("modal");
+
+/* CONTENIDO PROVISIONAL */
+
+const sorpresas = {
+  1: "Bienvenido a nuestro calendario de Adviento.",
+  2: "Aquí pondremos una sorpresa especial.",
+  3: "Aquí irá una carta.",
+  4: "Aquí irá un recuerdo.",
+  5: "Aquí irá una sorpresa.",
+  6: "Aquí irá un mensaje romántico.",
+  7: "Aquí irá una canción.",
+  8: "Aquí irá una anécdota.",
+  9: "Aquí tendremos un quiz.",
+  10: "Aquí irá una promesa.",
+  11: "Aquí irá otro recuerdo.",
+  12: "Aquí irá una carta especial.",
+  13: "Aquí pondremos una fotografía.",
+  14: "Aquí irá una nota de voz.",
+  15: "Aquí tendremos una sorpresa divertida.",
+  16: "Aquí irá otro detalle.",
+  17: "Aquí irá una dedicatoria.",
+  18: "Aquí pondremos un video.",
+  19: "Aquí irá algo romántico.",
+  20: "Aquí irá una pregunta especial.",
+  21: "Aquí irá un vale de regalo.",
+  22: "Aquí irá una sorpresa secreta.",
+  23: "Aquí irá un mensaje especial.",
+  24: "¡Feliz Navidad! Aquí irá nuestra gran sorpresa. ♡"
+};
+
+/* COLORES DE LAS PUERTAS */
+
+const rosas = [15, 20, 3, 12];
+const rosasClaros = [7, 13, 18, 16, 19, 6];
+
+/* DESBLOQUEO POR FECHA */
+
+function disponible(dia) {
+
+  return modoPrueba ||
+    new Date() >= new Date(2026, 11, dia);
+
+}
+
+function esHoy(dia) {
+
+  const hoy = new Date();
+
+  return hoy.getFullYear() === 2026 &&
+    hoy.getMonth() === 11 &&
+    hoy.getDate() === dia;
+
+}
+
+/* ABRIR SORPRESAS */
+
+function abrirPuerta(dia) {
+
+  const titulo = document.getElementById("tituloModal");
+  const contenido = document.getElementById("contenidoModal");
+
+  titulo.textContent = dia + " de diciembre";
+
+  if (disponible(dia)) {
+
+    contenido.textContent =
+      sorpresas[dia] || "Aquí agregaremos una sorpresa especial.";
+
+  } else {
+
+    contenido.textContent =
+      "Esta sorpresa se desbloqueará el " +
+      dia + " de diciembre. ♡";
+
+  }
+
+  modal.showModal();
+
+}
+
+/* CREAR LAS 24 PUERTAS */
+
+function renderizarCalendario() {
+
+  calendario.innerHTML = "";
+
+  for (let dia = 1; dia <= 24; dia++) {
+
+    const puerta = document.createElement("button");
+
+    puerta.className = "puerta";
+
+    puerta.style.gridArea = "d" + dia;
+
+    puerta.setAttribute(
+      "aria-label",
+      "Día " + dia + (disponible(dia) ? ", disponible" : ", bloqueado")
+    );
+
+    if (rosas.includes(dia)) {
+      puerta.classList.add("rosa");
     }
 
-    function abrirPuerta(dia) {
-      const titulo = document.getElementById("tituloModal");
-      const contenido = document.getElementById("contenidoModal");
-
-      titulo.textContent = `Día ${dia}`;
-
-      if (!disponible(dia)) {
-        contenido.textContent = `Esta sorpresa se desbloqueará el ${dia} de diciembre.`;
-      } else {
-        contenido.textContent = sorpresas[dia] || "Aquí agregaremos una sorpresa especial.";
-      }
-
-      document.getElementById("modal").showModal();
+    if (rosasClaros.includes(dia)) {
+      puerta.classList.add("rosa-claro");
     }
 
-    function crearPuerta(p) {
-      const btn = document.createElement("button");
-      btn.className = `puerta ${p.clase}`;
-      btn.style.gridColumn = `${p.col} / span ${p.w}`;
-      btn.style.gridRow = `${p.row} / span ${p.h}`;
+    if (dia === 24) {
 
-      if (p.dia === 24) {
-        btn.innerHTML = `
-          <div class="cinta-v"></div>
-          <div class="cinta-h"></div>
-          <div class="lazo1"></div>
-          <div class="lazo2"></div>
-          <div class="numero">24</div>
-          <div class="estado">${disponible(p.dia) ? "♡" : "🔒"}</div>
-        `;
-      } else {
-        btn.innerHTML = `
-          <div class="numero">${p.dia}</div>
-          <div class="estado">${disponible(p.dia) ? "♡" : "🔒"}</div>
-        `;
-      }
+      puerta.classList.add("regalo");
 
-      btn.addEventListener("click", () => abrirPuerta(p.dia));
-      return btn;
+      puerta.innerHTML = `
+        <div class="cinta-vertical"></div>
+        <div class="cinta-horizontal"></div>
+
+        <svg class="lazo" viewBox="0 0 120 50"
+          aria-hidden="true">
+          <path
+            d="M60 38 C5 42 -3 0 28 6
+               C43 7 53 22 60 38
+               C67 22 77 7 92 6
+               C123 0 115 42 60 38"
+            fill="none"
+            stroke="#ffd9df"
+            stroke-width="7"
+            stroke-linecap="round"/>
+        </svg>
+
+        <span class="numero">24</span>
+      `;
+
+    } else {
+
+      puerta.innerHTML = `
+        <span class="numero">${dia}</span>
+      `;
+
     }
 
-    function renderizarCalendario() {
-      const calendario = document.getElementById("calendario");
-      calendario.innerHTML = "";
+    if (esHoy(dia)) {
 
-      puertas.forEach(p => {
-        calendario.appendChild(crearPuerta(p));
-      });
+      puerta.innerHTML += `<span class="hoy">Hoy</span>`;
+
     }
 
-    document.getElementById("modoPruebaBtn").addEventListener("click", function () {
-      modoPrueba = !modoPrueba;
-      this.textContent = modoPrueba
-        ? "Desactivar modo de prueba"
-        : "Activar modo de prueba";
-      renderizarCalendario();
-    });
+    puerta.onclick = () => abrirPuerta(dia);
 
-    renderizarCalendario();
-  </script>
+    calendario.appendChild(puerta);
+
+  }
+
+}
+
+/* MODO DE PRUEBA */
+
+document.getElementById("modoPruebaBtn").onclick = function() {
+
+  modoPrueba = !modoPrueba;
+
+  this.textContent = modoPrueba
+    ? "Desactivar modo de prueba"
+    : "Activar modo de prueba";
+
+  renderizarCalendario();
+
+};
+
+renderizarCalendario();
+
+</script>
+
 </body>
 </html>
