@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,9 +8,7 @@
 
 <style>
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -20,9 +19,7 @@ body {
   text-align: center;
 }
 
-header {
-  padding: 28px 16px 14px;
-}
+header { padding: 28px 16px 14px; }
 
 .fecha {
   font-size: 13px;
@@ -115,13 +112,8 @@ h1 {
   color: #a30c29;
 }
 
-.rosa-claro {
-  background: #ffebee;
-}
-
-.vino {
-  color: #a30c29;
-}
+.rosa-claro { background: #ffebee; }
+.vino { color: #a30c29; }
 
 .numero {
   position: absolute;
@@ -196,7 +188,7 @@ h1 {
   height: 80%;
 }
 
-/* REGALO 24 */
+/* REGALO DEL DIA 24 */
 
 .regalo {
   background: #ed203c;
@@ -254,8 +246,9 @@ h1 {
 /* VENTANAS DE SORPRESAS */
 
 dialog {
-  width: min(90vw, 500px);
+  width: min(92vw, 500px);
   max-height: 85vh;
+  max-height: 85dvh;
   overflow: auto;
   border: none;
   border-radius: 20px;
@@ -308,12 +301,34 @@ footer {
   padding: 20px 15px 40px;
 }
 
+/* REGALOS INDEPENDIENTES */
+
+#modal.regalo-independiente {
+  width: min(95vw, 570px);
+  padding: 16px 12px;
+}
+
+#modal.regalo-independiente #tituloModal {
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 8px 0;
+}
+
+.marco-regalo {
+  display: block;
+  width: 100%;
+  height: 65vh;
+  border: none;
+  border-radius: 12px;
+}
+
 @keyframes aparecer {
   from {
     opacity: 0;
     transform: scale(.92);
   }
-
   to {
     opacity: 1;
     transform: scale(1);
@@ -497,8 +512,6 @@ footer {
   z-index: -1;
 }
 
-/* CONFETI DE BIENVENIDA */
-
 .particula-bienvenida {
   position: fixed;
   pointer-events: none;
@@ -511,19 +524,15 @@ footer {
 }
 
 @keyframes flotarRegalo {
-
   0%, 100% {
     transform: translateY(0);
   }
-
   50% {
     transform: translateY(-7px);
   }
-
 }
 
 @media (max-height: 500px) and (orientation: landscape) {
-
   .bienvenida-centro {
     gap: 6px;
     padding: 16px;
@@ -538,27 +547,13 @@ footer {
   #bienvenida h2 {
     font-size: 28px;
   }
-
 }
 
 @media (prefers-reduced-motion: reduce) {
-
-  .puerta {
-    transition: none;
-  }
-
-  dialog {
-    animation: none;
-  }
-
-  .puerta:hover {
-    transform: none;
-  }
-
-  .regalo-gigante:not(:disabled) {
-    animation: none;
-  }
-
+  .puerta { transition: none; }
+  dialog { animation: none; }
+  .puerta:hover { transform: none; }
+  .regalo-gigante:not(:disabled) { animation: none; }
 }
 
 </style>
@@ -596,8 +591,7 @@ footer {
       Una sorpresa hecha con mucho amor.
     </p>
 
-    <button
-      class="regalo-gigante"
+    <button class="regalo-gigante"
       id="regaloGigante"
       aria-label="Abrir mi regalo"
       autofocus>
@@ -605,13 +599,9 @@ footer {
       <svg viewBox="0 0 320 310"
         aria-hidden="true">
 
-        <!-- SOMBRA -->
-
         <ellipse cx="160" cy="295"
           rx="115" ry="10"
           fill="#960b27" opacity=".35"/>
-
-        <!-- CUERPO DEL REGALO -->
 
         <rect x="44" y="121"
           width="232" height="159"
@@ -635,16 +625,13 @@ footer {
         <path d="M60 137H260V150H60Z"
           fill="#850b27" opacity=".12"/>
 
-        <!-- TAPA Y MOÑO -->
-
         <g class="tapa-gigante" id="tapaGigante">
 
-          <path
-            d="M160 93
-               C84 91 73 33 113 37
-               C136 39 153 66 160 93
-               C167 66 184 39 207 37
-               C247 33 236 91 160 93Z"
+          <path d="M160 93
+            C84 91 73 33 113 37
+            C136 39 153 66 160 93
+            C167 66 184 39 207 37
+            C247 33 236 91 160 93Z"
             fill="none"
             stroke="#ffd5dc"
             stroke-width="13"
@@ -666,22 +653,16 @@ footer {
             width="28" height="43"
             fill="#a30c29"/>
 
-          <path
-            d="M160 94
-               L132 150 L126 136
-               L111 143 L148 93
-               M160 94
-               L188 150 L194 136
-               L209 143 L172 93"
+          <path d="M160 94
+            L132 150 L126 136 L111 143 L148 93
+            M160 94
+            L188 150 L194 136 L209 143 L172 93"
             fill="#a30c29"/>
 
           <ellipse cx="160" cy="93"
-            rx="13" ry="8"
-            fill="#a30c29"/>
+            rx="13" ry="8" fill="#a30c29"/>
 
         </g>
-
-        <!-- ETIQUETA DEL REGALO -->
 
         <g transform="rotate(11 228 180)">
 
@@ -699,10 +680,9 @@ footer {
           <circle cx="214" cy="160"
             r="2.5" fill="#a30c29"/>
 
-          <path
-            d="M227 180
-               C216 169 209 184 227 195
-               C245 184 238 169 227 180Z"
+          <path d="M227 180
+            C216 169 209 184 227 195
+            C245 184 238 169 227 180Z"
             fill="#c51b39"/>
 
         </g>
@@ -714,16 +694,14 @@ footer {
     <p class="instruccion-bienvenida"
       id="mensajeBienvenida"
       aria-live="polite">
-
       Toca el regalo para abrirlo ♡
-
     </p>
 
   </div>
 
 </dialog>
 
-<!-- CALENDARIO PRINCIPAL -->
+<!-- CALENDARIO -->
 
 <header>
 
@@ -744,9 +722,7 @@ footer {
 </header>
 
 <div class="contenedor">
-
   <main class="calendario" id="calendario"></main>
-
 </div>
 
 <dialog id="modal">
@@ -757,9 +733,7 @@ footer {
 
   <button class="boton cerrar"
     onclick="document.getElementById('modal').close()">
-
     Cerrar
-
   </button>
 
 </dialog>
@@ -769,9 +743,7 @@ footer {
   <p>Hecho especialmente para ti ♡</p>
 
   <button class="boton" id="modoPruebaBtn">
-
     Activar modo de prueba
-
   </button>
 
 </footer>
@@ -783,28 +755,31 @@ footer {
 let modoPrueba = false;
 let animandoPuerta = false;
 
-const calendario =
-  document.getElementById("calendario");
+const calendario = document.getElementById("calendario");
+const modal = document.getElementById("modal");
+const botonPrueba = document.getElementById("modoPruebaBtn");
 
-const modal =
-  document.getElementById("modal");
-
-const botonPrueba =
-  document.getElementById("modoPruebaBtn");
+const tituloModal = document.getElementById("tituloModal");
+const contenidoModal = document.getElementById("contenidoModal");
 
 const rosas = [15, 20, 3, 12];
-
 const rosasClaros = [7, 13, 18, 16, 19, 6];
-
 const vinos = [15, 20, 22, 23, 3, 12];
 
-/* DIBUJOS NAVIDEÑOS */
+/* REGALOS TERMINADOS */
+
+/* Aqui agregaremos los dias que vayamos programando */
+
+const regalosProgramados = [9];
+
+let observadorRegalo = null;
+
+/* ILUSTRACIONES NAVIDEÑAS */
 
 const dibujos = {
 
   1: `
   <div class="dibujo dibujo-guirnalda">
-
     <svg viewBox="0 0 120 45">
 
       <path d="M0 3 Q60 35 120 3"
@@ -813,31 +788,19 @@ const dibujos = {
         stroke-width="1.5"/>
 
       <g stroke="#b72c47" stroke-width="1.5">
-
-        <path d="M15 10v8 M45 18v7
-          M75 18v7 M105 10v8"/>
-
+        <path d="M15 10v8 M45 18v7 M75 18v7 M105 10v8"/>
       </g>
 
-      <circle cx="15" cy="22" r="6"
-        fill="#c52a46"/>
-
-      <circle cx="45" cy="30" r="6"
-        fill="#eaa2b1"/>
-
-      <circle cx="75" cy="30" r="6"
-        fill="#c52a46"/>
-
-      <circle cx="105" cy="22" r="6"
-        fill="#eaa2b1"/>
+      <circle cx="15" cy="22" r="6" fill="#c52a46"/>
+      <circle cx="45" cy="30" r="6" fill="#eaa2b1"/>
+      <circle cx="75" cy="30" r="6" fill="#c52a46"/>
+      <circle cx="105" cy="22" r="6" fill="#eaa2b1"/>
 
     </svg>
-
   </div>`,
 
   9: `
   <div class="dibujo dibujo-baston">
-
     <svg viewBox="0 0 80 90">
 
       <g transform="translate(30 10) rotate(22)">
@@ -857,32 +820,25 @@ const dibujos = {
       </g>
 
     </svg>
-
   </div>`,
 
   11: `
   <div class="dibujo dibujo-estrellas">
-
     <svg viewBox="0 0 80 70"
       fill="none"
       stroke="#c52a46"
       stroke-width="2.5"
       stroke-linecap="round">
 
-      <path d="M27 8V60 M1 34H53
-        M9 16L45 52 M9 52L45 16"/>
-
+      <path d="M27 8V60 M1 34H53 M9 16L45 52 M9 52L45 16"/>
       <path d="M65 3V23 M55 13H75"/>
-
       <path d="M65 43V57 M58 50H72"/>
 
     </svg>
-
   </div>`,
 
   13: `
   <div class="dibujo dibujo-pino">
-
     <svg viewBox="0 0 80 130">
 
       <path d="M40 17 L18 50 H27
@@ -895,37 +851,30 @@ const dibujos = {
         rx="1" fill="#b92643"/>
 
       <path d="M40 0V14 M33 7H47"
-        stroke="#d75d74"
-        stroke-width="3"/>
+        stroke="#d75d74" stroke-width="3"/>
 
       <g fill="#ffd5dc">
-
         <circle cx="40" cy="40" r="3"/>
         <circle cx="29" cy="65" r="3"/>
         <circle cx="49" cy="77" r="3"/>
         <circle cx="20" cy="92" r="3"/>
         <circle cx="60" cy="96" r="3"/>
-
       </g>
 
     </svg>
-
   </div>`,
 
   3: `
   <div class="dibujo dibujo-esfera">
-
     <svg viewBox="0 0 80 120">
 
-      <path d="M40 0V35"
-        stroke="#af1633" stroke-width="2"/>
+      <path d="M40 0V35" stroke="#af1633" stroke-width="2"/>
 
       <rect x="32" y="32"
         width="16" height="12"
         rx="3" fill="#af1633"/>
 
-      <circle cx="40" cy="73"
-        r="30" fill="#bd2844"/>
+      <circle cx="40" cy="73" r="30" fill="#bd2844"/>
 
       <path d="M12 63 Q40 86 68 63
         M12 80 Q40 103 68 80"
@@ -933,54 +882,41 @@ const dibujos = {
         stroke-width="3"
         fill="none"/>
 
-      <circle cx="27" cy="54"
-        r="3" fill="#ffd5dc"/>
+      <circle cx="27" cy="54" r="3" fill="#ffd5dc"/>
 
     </svg>
-
   </div>`,
 
   17: `
   <div class="dibujo dibujo-regalos">
-
     <svg viewBox="0 0 105 80">
 
-      <rect x="8" y="25"
-        width="48" height="48"
+      <rect x="8" y="25" width="48" height="48"
         rx="3" fill="#ba2441"/>
 
       <path d="M32 25V73 M8 42H56"
-        stroke="#ffd5dc"
-        stroke-width="6"/>
+        stroke="#ffd5dc" stroke-width="6"/>
 
       <path d="M32 25
         C0 20 10 -5 32 25
         C54 -5 64 20 32 25"
-        fill="none"
-        stroke="#ba2441"
-        stroke-width="3"/>
+        fill="none" stroke="#ba2441" stroke-width="3"/>
 
-      <rect x="65" y="43"
-        width="30" height="30"
+      <rect x="65" y="43" width="30" height="30"
         rx="2" fill="#ec9eae"/>
 
       <path d="M80 43V73 M65 54H95"
-        stroke="#b92643"
-        stroke-width="4"/>
+        stroke="#b92643" stroke-width="4"/>
 
     </svg>
-
   </div>`,
 
   6: `
   <div class="dibujo dibujo-mono">
-
     <svg viewBox="0 0 120 90">
 
-      <g fill="none"
-        stroke="#c52a46"
-        stroke-width="5"
-        stroke-linecap="round">
+      <g fill="none" stroke="#c52a46"
+        stroke-width="5" stroke-linecap="round">
 
         <path d="M60 37
           C0 -15 -5 72 60 37
@@ -990,43 +926,10 @@ const dibujos = {
 
       </g>
 
-      <circle cx="60" cy="37"
-        r="6" fill="#c52a46"/>
+      <circle cx="60" cy="37" r="6" fill="#c52a46"/>
 
     </svg>
-
   </div>`
-
-};
-
-/* CONTENIDO PROVISIONAL */
-
-const sorpresas = {
-
-  1: "Bienvenida a nuestro calendario de Adviento.",
-  2: "Aquí irá una sorpresa especial.",
-  3: "Aquí irá una carta.",
-  4: "Aquí irá un recuerdo.",
-  5: "Aquí irá una sorpresa.",
-  6: "Aquí irá un mensaje romántico.",
-  7: "Aquí irá una canción.",
-  8: "Aquí irá una anécdota.",
-  9: "Aquí tendremos un quiz.",
-  10: "Aquí irá una promesa.",
-  11: "Aquí irá otro recuerdo.",
-  12: "Aquí irá una carta especial.",
-  13: "Aquí pondremos una fotografía.",
-  14: "Aquí irá una nota de voz.",
-  15: "Aquí tendremos una sorpresa divertida.",
-  16: "Aquí irá otro detalle.",
-  17: "Aquí irá una dedicatoria.",
-  18: "Aquí pondremos un video.",
-  19: "Aquí irá algo romántico.",
-  20: "Aquí irá una pregunta especial.",
-  21: "Aquí irá un vale de regalo.",
-  22: "Aquí irá una sorpresa secreta.",
-  23: "Aquí irá un mensaje especial.",
-  24: "¡Feliz Navidad! Aquí irá nuestra gran sorpresa. ♡"
 
 };
 
@@ -1088,54 +991,116 @@ function esHoy(dia) {
 
 }
 
-/* MOSTRAR SORPRESA */
+/* ABRIR REGALOS INDEPENDIENTES */
 
 function mostrarSorpresa(dia) {
 
-  document.getElementById("tituloModal").textContent =
-    dia + " de diciembre";
+  tituloModal.textContent = dia + " de diciembre";
 
-  const contenido =
-    document.getElementById("contenidoModal");
+  contenidoModal.replaceChildren();
 
-  if (disponible(dia)) {
+  modal.classList.remove("regalo-independiente");
 
-    contenido.textContent =
-      sorpresas[dia] ||
-      "Aquí agregaremos una sorpresa especial.";
+  if (!disponible(dia)) {
+
+    contenidoModal.textContent =
+      "Esta sorpresa se desbloqueará el " +
+      dia + " de diciembre. ♡";
+
+  } else if (regalosProgramados.includes(dia)) {
+
+    modal.classList.add("regalo-independiente");
+
+    const marco = document.createElement("iframe");
+
+    marco.className = "marco-regalo";
+
+    marco.title = "Regalo del día " + dia;
+
+    marco.addEventListener("load", () => {
+
+      try {
+
+        const regalo =
+          marco.contentDocument.getElementById("regalo");
+
+        if (!regalo) return;
+
+        function ajustarAltura() {
+
+          marco.style.height =
+            Math.ceil(regalo.getBoundingClientRect().height)
+            + 6 + "px";
+
+        }
+
+        ajustarAltura();
+
+        if (typeof ResizeObserver !== "undefined") {
+
+          observadorRegalo = new ResizeObserver(ajustarAltura);
+
+          observadorRegalo.observe(regalo);
+
+        }
+
+      } catch (error) {
+
+        marco.style.height = "65vh";
+
+      }
+
+    });
+
+    marco.src =
+      "regalos/dia" +
+      String(dia).padStart(2, "0") +
+      ".html";
+
+    contenidoModal.appendChild(marco);
 
   } else {
 
-    contenido.textContent =
-      "Esta sorpresa se desbloqueará el " +
-      dia + " de diciembre. ♡";
+    contenidoModal.textContent =
+      "Aquí agregaremos una sorpresa especial. ♡";
 
   }
 
   modal.showModal();
+  modal.scrollTop = 0;
 
 }
 
-/* ANIMACION DE TEMBLOR */
+/* LIMPIAR REGALO AL CERRAR */
+
+modal.addEventListener("close", () => {
+
+  if (observadorRegalo) {
+
+    observadorRegalo.disconnect();
+    observadorRegalo = null;
+
+  }
+
+  contenidoModal.replaceChildren();
+
+  modal.classList.remove("regalo-independiente");
+
+});
+
+/* TEMBLOR DE PUERTAS BLOQUEADAS */
 
 function temblar(puerta) {
 
   return puerta.animate([
 
     { transform: "translateX(0)" },
-
     { transform: "translateX(-6px) rotate(-4deg)" },
-
     { transform: "translateX(6px) rotate(4deg)" },
-
     { transform: "translateX(-5px) rotate(-3deg)" },
-
     { transform: "translateX(5px) rotate(3deg)" },
-
     { transform: "translateX(-3px)" },
-
     { transform: "translateX(3px)" },
-
     { transform: "translateX(0)" }
 
   ], {
@@ -1153,11 +1118,8 @@ function lanzarConfeti(puerta) {
 
   const posicion = puerta.getBoundingClientRect();
 
-  const centroX =
-    posicion.left + posicion.width / 2;
-
-  const centroY =
-    posicion.top + posicion.height / 2;
+  const centroX = posicion.left + posicion.width / 2;
+  const centroY = posicion.top + posicion.height / 2;
 
   const colores = [
     "#ffffff",
@@ -1171,11 +1133,9 @@ function lanzarConfeti(puerta) {
 
   for (let i = 0; i < 50; i++) {
 
-    const confeti =
-      document.createElement("span");
+    const confeti = document.createElement("span");
 
     confeti.className = "confeti-navidad";
-
     confeti.style.left = centroX + "px";
     confeti.style.top = centroY + "px";
 
@@ -1184,11 +1144,8 @@ function lanzarConfeti(puerta) {
 
     document.body.appendChild(confeti);
 
-    const angulo =
-      Math.random() * Math.PI * 2;
-
-    const distancia =
-      60 + Math.random() * 170;
+    const angulo = Math.random() * Math.PI * 2;
+    const distancia = 60 + Math.random() * 170;
 
     const x = Math.cos(angulo) * distancia;
     const y = Math.sin(angulo) * distancia;
@@ -1295,9 +1252,7 @@ async function abrirPuerta(dia) {
     cara.style.color = colorTexto;
 
     originales.forEach(elemento => {
-
       cara.appendChild(elemento);
-
     });
 
     const interior = document.createElement("div");
@@ -1307,81 +1262,58 @@ async function abrirPuerta(dia) {
 
     puerta.appendChild(interior);
     puerta.appendChild(cara);
-
     puerta.classList.add("abriendo");
 
     if (dia === 24) {
 
       const caraDerecha = cara.cloneNode(true);
 
-      cara.style.clipPath =
-        "inset(0 50% 0 0)";
-
-      caraDerecha.style.clipPath =
-        "inset(0 0 0 50%)";
+      cara.style.clipPath = "inset(0 50% 0 0)";
+      caraDerecha.style.clipPath = "inset(0 0 0 50%)";
 
       puerta.appendChild(caraDerecha);
 
       await Promise.all([
 
         cara.animate([
-
           { transform: "translateX(0)" },
-
           { transform: "translateX(-105%)" }
-
         ], {
-
           duration: 800,
           easing: "cubic-bezier(.3,.7,.2,1)",
           fill: "forwards"
-
         }).finished,
 
         caraDerecha.animate([
-
           { transform: "translateX(0)" },
-
           { transform: "translateX(105%)" }
-
         ], {
-
           duration: 800,
           easing: "cubic-bezier(.3,.7,.2,1)",
           fill: "forwards"
-
         }).finished
 
       ]);
 
       interior.animate([
-
         { transform: "scale(.4)", opacity: 0 },
-
         { transform: "scale(1.3)", opacity: 1 },
-
         { transform: "scale(1)", opacity: 1 }
-
       ], {
-
         duration: 650,
         easing: "ease-out"
-
       });
 
       await lanzarConfeti(puerta);
 
     } else {
 
-      const direccion = direcciones[dia];
-
       const movimiento =
-        desplazamientos[direccion];
+        desplazamientos[direcciones[dia]];
 
       await cara.animate([
 
         { transform: "translate(0,0)" },
-
         { transform: movimiento }
 
       ], {
@@ -1395,13 +1327,9 @@ async function abrirPuerta(dia) {
     }
 
     modal.addEventListener(
-
       "close",
-
       restaurarPuerta,
-
       { once: true }
-
     );
 
     mostrarSorpresa(dia);
@@ -1411,9 +1339,7 @@ async function abrirPuerta(dia) {
     restaurarPuerta();
 
     if (!modal.open) {
-
       mostrarSorpresa(dia);
-
     }
 
   } finally {
@@ -1421,16 +1347,14 @@ async function abrirPuerta(dia) {
     animandoPuerta = false;
 
     if (!originales) {
-
       botonPrueba.disabled = false;
-
     }
 
   }
 
 }
 
-/* CREAR LAS 24 PUERTAS */
+/* CREAR CALENDARIO */
 
 function renderizarCalendario() {
 
@@ -1438,41 +1362,30 @@ function renderizarCalendario() {
 
   for (let dia = 1; dia <= 24; dia++) {
 
-    const puerta =
-      document.createElement("button");
+    const puerta = document.createElement("button");
 
     puerta.className = "puerta";
     puerta.dataset.dia = dia;
     puerta.style.gridArea = "d" + dia;
 
     puerta.setAttribute(
-
       "aria-label",
-
       "Día " + dia +
-
       (disponible(dia)
         ? ", disponible"
         : ", bloqueado")
-
     );
 
     if (rosas.includes(dia)) {
-
       puerta.classList.add("rosa");
-
     }
 
     if (rosasClaros.includes(dia)) {
-
       puerta.classList.add("rosa-claro");
-
     }
 
     if (vinos.includes(dia)) {
-
       puerta.classList.add("vino");
-
     }
 
     if (dia === 24) {
@@ -1482,22 +1395,18 @@ function renderizarCalendario() {
       puerta.innerHTML = `
 
         <div class="cinta-vertical"></div>
-
         <div class="cinta-horizontal"></div>
 
         <svg class="lazo" viewBox="0 0 120 50">
-
           <path d="M60 38
             C5 42 -3 0 28 6
             C43 7 53 22 60 38
             C67 22 77 7 92 6
             C123 0 115 42 60 38"
-
             fill="none"
             stroke="#ffd5dc"
             stroke-width="7"
             stroke-linecap="round"/>
-
         </svg>
 
         <span class="numero">24</span>
@@ -1509,7 +1418,6 @@ function renderizarCalendario() {
       puerta.innerHTML = `
 
         ${dibujos[dia] || ""}
-
         <span class="numero">${dia}</span>
 
       `;
@@ -1540,9 +1448,7 @@ botonPrueba.onclick = function() {
   modoPrueba = !modoPrueba;
 
   this.textContent = modoPrueba
-
     ? "Desactivar modo de prueba"
-
     : "Activar modo de prueba";
 
   renderizarCalendario();
@@ -1551,9 +1457,7 @@ botonPrueba.onclick = function() {
 
 renderizarCalendario();
 
-/* ======================================
-   NUEVA EXPLOSION DE BIENVENIDA
-====================================== */
+/* PANTALLA DE BIENVENIDA */
 
 const bienvenida =
   document.getElementById("bienvenida");
@@ -1590,14 +1494,10 @@ function animarElemento(elemento, pasos, opciones) {
 
 function confetiBienvenida() {
 
-  const rect =
-    regaloGigante.getBoundingClientRect();
+  const rect = regaloGigante.getBoundingClientRect();
 
-  const centroX =
-    rect.left + rect.width / 2;
-
-  const centroY =
-    rect.top + rect.height * .39;
+  const centroX = rect.left + rect.width / 2;
+  const centroY = rect.top + rect.height * .39;
 
   const colores = [
 
@@ -1614,27 +1514,19 @@ function confetiBienvenida() {
   ];
 
   const animaciones = [];
-
   const cantidad = 260;
 
   for (let i = 0; i < cantidad; i++) {
 
-    const particula =
-      document.createElement("span");
+    const particula = document.createElement("span");
 
-    particula.className =
-      "particula-bienvenida";
-
-    particula.setAttribute(
-      "aria-hidden", "true"
-    );
+    particula.className = "particula-bienvenida";
+    particula.setAttribute("aria-hidden", "true");
 
     const tipo = Math.random();
 
     const esCorazon = tipo < .55;
-
-    const esEstrella =
-      tipo >= .55 && tipo < .67;
+    const esEstrella = tipo >= .55 && tipo < .67;
 
     if (esCorazon) {
 
@@ -1648,35 +1540,22 @@ function confetiBienvenida() {
     }
 
     const tamano = esCorazon
-
       ? 12 + Math.random() * 26
-
       : 6 + Math.random() * 13;
 
     const color =
       colores[Math.floor(Math.random() * colores.length)];
 
-    particula.style.left =
-      centroX + "px";
-
-    particula.style.top =
-      centroY + "px";
-
-    particula.style.fontSize =
-      tamano + "px";
-
+    particula.style.left = centroX + "px";
+    particula.style.top = centroY + "px";
+    particula.style.fontSize = tamano + "px";
     particula.style.color = color;
 
     if (!particula.textContent) {
 
-      particula.style.width =
-        tamano * .65 + "px";
-
-      particula.style.height =
-        tamano + "px";
-
-      particula.style.background =
-        color;
+      particula.style.width = tamano * .65 + "px";
+      particula.style.height = tamano + "px";
+      particula.style.background = color;
 
       particula.style.borderRadius =
         Math.random() > .5 ? "50%" : "2px";
@@ -1685,32 +1564,18 @@ function confetiBienvenida() {
 
     bienvenida.appendChild(particula);
 
-    /* DISPERSION POR TODA LA PANTALLA */
-
-    const angulo =
-      Math.random() * Math.PI * 2;
-
-    const distancia =
-      .25 + Math.random() * .85;
+    const angulo = Math.random() * Math.PI * 2;
+    const distancia = .25 + Math.random() * .85;
 
     const dx =
-      Math.cos(angulo) *
-      innerWidth * .65 *
-      distancia;
+      Math.cos(angulo) * innerWidth * .65 * distancia;
 
     const dy =
-      Math.sin(angulo) *
-      innerHeight * .75 *
-      distancia;
+      Math.sin(angulo) * innerHeight * .75 * distancia;
 
-    const giro =
-      (Math.random() - .5) * 900;
-
-    const retraso =
-      Math.random() * 380;
-
-    const duracion =
-      1400 + Math.random() * 800;
+    const giro = (Math.random() - .5) * 900;
+    const retraso = Math.random() * 380;
+    const duracion = 1400 + Math.random() * 800;
 
     animaciones.push(
 
@@ -1757,11 +1622,8 @@ function confetiBienvenida() {
       ], {
 
         duration: duracion,
-
         delay: retraso,
-
         easing: "cubic-bezier(.12,.55,.35,1)",
-
         fill: "forwards"
 
       }).finally(() => particula.remove())
@@ -1781,7 +1643,6 @@ async function abrirBienvenida() {
   if (bienvenidaAbierta) return;
 
   bienvenidaAbierta = true;
-
   regaloGigante.disabled = true;
 
   mensajeBienvenida.textContent =
@@ -1794,24 +1655,18 @@ async function abrirBienvenida() {
 
   try {
 
-    if (reducirMovimiento ||
-        !regaloGigante.animate) {
+    if (reducirMovimiento || !regaloGigante.animate) {
 
       await pausa(180);
       return;
 
     }
 
-    /* MOVIMIENTO ANTES DE ABRIR */
-
     await animarElemento(regaloGigante, [
 
       { transform: "scale(1) rotate(0deg)" },
-
       { transform: "scale(.94) rotate(-3deg)" },
-
       { transform: "scale(.98) rotate(3deg)" },
-
       { transform: "scale(1.025) rotate(0deg)" }
 
     ], {
@@ -1821,15 +1676,12 @@ async function abrirBienvenida() {
 
     });
 
-    /* TAPA Y EXPLOSION SIMULTANEAS */
-
     await Promise.all([
 
       animarElemento(tapaGigante, [
 
         {
-          transform:
-            "translate(0,0) rotate(0deg)",
+          transform: "translate(0,0) rotate(0deg)",
           opacity: 1
         },
 
@@ -1849,10 +1701,7 @@ async function abrirBienvenida() {
       ], {
 
         duration: 800,
-
-        easing:
-          "cubic-bezier(.2,.7,.2,1)",
-
+        easing: "cubic-bezier(.2,.7,.2,1)",
         fill: "forwards"
 
       }),
@@ -1861,12 +1710,9 @@ async function abrirBienvenida() {
 
     ]);
 
-    /* TRANSICION AL CALENDARIO */
-
     await animarElemento(bienvenida, [
 
       { opacity: 1 },
-
       { opacity: 0 }
 
     ], {
@@ -1878,10 +1724,7 @@ async function abrirBienvenida() {
 
   } catch (error) {
 
-    console.warn(
-      "Se omitió una animación de bienvenida.",
-      error
-    );
+    console.warn("Error de animación", error);
 
   } finally {
 
@@ -1891,9 +1734,7 @@ async function abrirBienvenida() {
     window.scrollTo(0, 0);
 
     const primeraPuerta =
-      calendario.querySelector(
-        ".puerta:not(:disabled)"
-      );
+      calendario.querySelector(".puerta:not(:disabled)");
 
     if (primeraPuerta) {
 
@@ -1912,31 +1753,19 @@ regaloGigante.addEventListener(
   abrirBienvenida
 );
 
-bienvenida.addEventListener(
+bienvenida.addEventListener("cancel", evento => {
 
-  "cancel",
+  evento.preventDefault();
 
-  evento => {
-
-    evento.preventDefault();
-
-    if (!bienvenidaAbierta) {
-
-      abrirBienvenida();
-
-    }
-
+  if (!bienvenidaAbierta) {
+    abrirBienvenida();
   }
 
-);
+});
 
 bienvenida.showModal();
 
 </script>
-
-<!-- CONEXION CON EL EDITOR Y CIFRADO -->
-
-<script src="sorpresas-lector.js"></script>
 
 </body>
 </html>
