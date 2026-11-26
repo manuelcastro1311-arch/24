@@ -1,1 +1,1076 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Otra canción que me recuerda a ti</title>
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  background: #fff5f6;
+  font-family: Arial, sans-serif;
+  color: #fff5f6;
+}
+
+#regalo {
+  width: 100%;
+  max-width: 460px;
+  margin: auto;
+  padding: 6px;
+}
+
+/* REPRODUCTOR PRINCIPAL */
+
+.reproductor {
+  background: #cf1735;
+  border-radius: 18px;
+  padding: 24px 20px;
+  position: relative;
+  overflow: hidden;
+  animation: entrada .7s ease both;
+}
+
+.titulo-superior {
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 1.8px;
+  font-weight: normal;
+  margin: 0 0 20px;
+}
+
+/* PORTADA */
+
+.portada {
+  width: 100%;
+  max-width: 350px;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto 23px;
+  border-radius: 13px;
+  background: #ffd5dc;
+  overflow: hidden;
+  position: relative;
+}
+
+#foto {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.sin-foto {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: #a30c29;
+  gap: 12px;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.sin-foto span {
+  font-size: 65px;
+}
+
+/* INFORMACION DE LA CANCION */
+
+.informacion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.datos {
+  flex: 1;
+  min-width: 0;
+}
+
+.nombre-cancion {
+  font-size: clamp(19px, 5vw, 24px);
+  font-weight: 700;
+  margin: 0 0 7px;
+  line-height: 1.2;
+}
+
+.artista {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #ffd5dc;
+  margin: 0;
+}
+
+/* CORAZON INTERACTIVO */
+
+#corazon {
+  background: transparent;
+  border: none;
+  color: #ffd5dc;
+  padding: 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform .2s;
+}
+
+#corazon svg {
+  width: 27px;
+  height: 27px;
+  display: block;
+  fill: transparent;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+#corazon.favorito svg {
+  fill: #ffd5dc;
+}
+
+#corazon:hover {
+  transform: scale(1.1);
+}
+
+#corazon.latido {
+  animation: latido .5s ease;
+}
+
+/* BARRA DE PROGRESO */
+
+#progreso {
+  appearance: none;
+  -webkit-appearance: none;
+  display: block;
+  width: 100%;
+  height: 6px;
+  background: #e65a73;
+  border-radius: 20px;
+  cursor: pointer;
+  margin: 12px 0;
+  touch-action: pan-y;
+}
+
+#progreso::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  background: #fff5f6;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px #78001833;
+}
+
+#progreso::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  background: #fff5f6;
+  border: none;
+  border-radius: 50%;
+}
+
+#progreso:disabled {
+  cursor: default;
+  opacity: .6;
+}
+
+.tiempos {
+  display: flex;
+  justify-content: space-between;
+  color: #fff5f6;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  margin-top: 13px;
+}
+
+/* CONTROLES MUSICALES */
+
+.controles {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 27px;
+  margin: 24px 0 26px;
+}
+
+.control-secundario {
+  background: transparent;
+  color: #fff5f6;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  transition: transform .2s;
+}
+
+.control-secundario svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+  display: block;
+}
+
+.control-secundario:hover {
+  transform: scale(1.15);
+}
+
+#reproducir {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: #fff5f6;
+  color: #a30c29;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px #85001c26;
+  transition: transform .2s;
+}
+
+#reproducir svg {
+  width: 32px;
+  height: 32px;
+  fill: currentColor;
+}
+
+#reproducir:hover {
+  transform: scale(1.07);
+}
+
+button:disabled {
+  opacity: .45;
+  cursor: default;
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 2px dashed #ffffff;
+  outline-offset: 5px;
+}
+
+.estado {
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
+  color: #ffd5dc;
+}
+
+/* DEDICATORIA */
+
+.dedicatoria {
+  border-top: 1px solid #ed8296;
+  padding-top: 22px;
+  margin-top: 12px;
+  text-align: center;
+}
+
+.dedicatoria p {
+  font-family: Georgia, serif;
+  font-size: 17px;
+  font-style: italic;
+  line-height: 1.65;
+  margin: 0;
+}
+
+.decoracion-final {
+  text-align: center;
+  color: #ffd5dc;
+  font-size: 20px;
+  margin: 18px 0 0;
+}
+
+/* ANIMACION DE CORAZONES */
+
+.corazon-volador {
+  position: fixed;
+  pointer-events: none;
+  z-index: 999;
+  line-height: 1;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+@keyframes entrada {
+
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+}
+
+@keyframes latido {
+
+  0%, 100% {
+    transform: scale(1);
+  }
+
+  35% {
+    transform: scale(1.4);
+  }
+
+  65% {
+    transform: scale(.9);
+  }
+
+}
+
+@media (max-width: 350px) {
+
+  .reproductor {
+    padding: 20px 14px;
+  }
+
+  .controles {
+    gap: 18px;
+  }
+
+  .dedicatoria p {
+    font-size: 16px;
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .reproductor,
+  #corazon.latido {
+    animation: none;
+  }
+
+  button {
+    transition: none;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<main id="regalo">
+
+  <article class="reproductor">
+
+    <h1 class="titulo-superior">
+
+      Otra canción que me recuerda a ti
+
+    </h1>
+
+    <!-- FOTOGRAFIA -->
+
+    <div class="portada">
+
+      <div class="sin-foto" id="sinFoto">
+
+        <span>♡</span>
+
+        NUESTRA FOTO
+
+      </div>
+
+      <img
+        id="foto"
+        alt="Nuestra fotografía"
+        hidden>
+
+    </div>
+
+    <!-- INFORMACION DE LA CANCION -->
+
+    <div class="informacion">
+
+      <div class="datos">
+
+        <h2 class="nombre-cancion">
+
+          Ojos Color Sol
+
+        </h2>
+
+        <p class="artista">
+
+          Calle 13 ft. Silvio Rodríguez
+
+        </p>
+
+      </div>
+
+      <!-- CORAZON INTERACTIVO -->
+
+      <button
+        id="corazon"
+        type="button"
+        aria-label="Marcar como favorita"
+        aria-pressed="false">
+
+        <svg viewBox="0 0 24 24">
+
+          <path d="M20.84 4.61
+            a5.5 5.5 0 0 0 -7.78 0
+            L12 5.67
+            l-1.06 -1.06
+            a5.5 5.5 0 0 0 -7.78 7.78
+            l1.06 1.06
+            L12 21.23
+            l7.78 -7.78
+            l1.06 -1.06
+            a5.5 5.5 0 0 0 0 -7.78Z"/>
+
+        </svg>
+
+      </button>
+
+    </div>
+
+    <!-- ARCHIVO DE AUDIO DEL DIA 17 -->
+
+    <audio
+      id="audio"
+      preload="metadata">
+    </audio>
+
+    <!-- BARRA DE PROGRESO -->
+
+    <input
+      type="range"
+      id="progreso"
+      min="0"
+      max="100"
+      step="0.1"
+      value="0"
+      aria-label="Avance de la canción"
+      disabled>
+
+    <div class="tiempos">
+
+      <span id="tiempoActual">
+        0:00
+      </span>
+
+      <span id="duracion">
+        --:--
+      </span>
+
+    </div>
+
+    <!-- CONTROLES -->
+
+    <div class="controles">
+
+      <button
+        class="control-secundario"
+        id="retroceder"
+        aria-label="Retroceder 10 segundos"
+        title="Retroceder 10 segundos"
+        disabled>
+
+        <svg viewBox="0 0 24 24">
+
+          <path d="M12 5L2 12L12 19Z"/>
+          <path d="M22 5L12 12L22 19Z"/>
+
+        </svg>
+
+      </button>
+
+      <!-- PLAY Y PAUSA -->
+
+      <button
+        id="reproducir"
+        aria-label="Reproducir canción"
+        disabled>
+
+        <svg
+          id="iconoPlay"
+          viewBox="0 0 24 24">
+
+          <path d="M8 4L21 12L8 20Z"/>
+
+        </svg>
+
+        <svg
+          id="iconoPausa"
+          viewBox="0 0 24 24"
+          hidden>
+
+          <rect x="5" y="4"
+            width="5" height="16" rx="1"/>
+
+          <rect x="14" y="4"
+            width="5" height="16" rx="1"/>
+
+        </svg>
+
+      </button>
+
+      <button
+        class="control-secundario"
+        id="adelantar"
+        aria-label="Adelantar 10 segundos"
+        title="Adelantar 10 segundos"
+        disabled>
+
+        <svg viewBox="0 0 24 24">
+
+          <path d="M2 5L12 12L2 19Z"/>
+          <path d="M12 5L22 12L12 19Z"/>
+
+        </svg>
+
+      </button>
+
+    </div>
+
+    <p id="estado" class="estado" aria-live="polite">
+
+      Cargando nuestra canción...
+
+    </p>
+
+    <!-- DEDICATORIA -->
+
+    <div class="dedicatoria">
+
+      <p>
+
+        De nuevo repito el reglo jaksdjk pero esta es una canción mas reciente que se que le encanta y a mi tambien me gusta mucho asi como me gusta usted.
+
+      </p>
+
+    </div>
+
+    <p class="decoracion-final">
+
+      ♡
+
+    </p>
+
+  </article>
+
+</main>
+
+<script>
+
+/* ELEMENTOS DEL REPRODUCTOR */
+
+const audio = document.getElementById("audio");
+
+const progreso = document.getElementById("progreso");
+
+const tiempoActual =
+  document.getElementById("tiempoActual");
+
+const duracion =
+  document.getElementById("duracion");
+
+const reproducir =
+  document.getElementById("reproducir");
+
+const retroceder =
+  document.getElementById("retroceder");
+
+const adelantar =
+  document.getElementById("adelantar");
+
+const iconoPlay =
+  document.getElementById("iconoPlay");
+
+const iconoPausa =
+  document.getElementById("iconoPausa");
+
+const estado =
+  document.getElementById("estado");
+
+const corazon =
+  document.getElementById("corazon");
+
+const foto =
+  document.getElementById("foto");
+
+const sinFoto =
+  document.getElementById("sinFoto");
+
+/* CARGAR FOTOGRAFIA DEL DIA 17 */
+
+const archivosFoto = [
+
+  "../foto17.jpg",
+  "../foto17.jpeg",
+  "../foto17.png",
+  "../foto17.webp",
+  "../foto17.JPG",
+  "../foto17.JPEG",
+  "../foto17.PNG",
+  "../foto17.WEBP",
+  "../foto17"
+
+];
+
+let indiceFoto = 0;
+
+foto.addEventListener("load", () => {
+
+  foto.hidden = false;
+
+  sinFoto.hidden = true;
+
+});
+
+foto.addEventListener("error", () => {
+
+  indiceFoto++;
+
+  if (indiceFoto < archivosFoto.length) {
+
+    foto.src = archivosFoto[indiceFoto];
+
+  }
+
+});
+
+foto.src = archivosFoto[0];
+
+/* FORMATO DEL TIEMPO */
+
+function formatearTiempo(segundos) {
+
+  if (!Number.isFinite(segundos)) {
+
+    return "--:--";
+
+  }
+
+  const minutos =
+    Math.floor(segundos / 60);
+
+  const restantes =
+    Math.floor(segundos % 60);
+
+  return minutos + ":" +
+    String(restantes).padStart(2, "0");
+
+}
+
+/* ACTUALIZAR BARRA DE PROGRESO */
+
+function actualizarProgreso() {
+
+  tiempoActual.textContent =
+    formatearTiempo(audio.currentTime);
+
+  if (Number.isFinite(audio.duration) &&
+      audio.duration > 0) {
+
+    progreso.max = audio.duration;
+
+    progreso.value = audio.currentTime;
+
+    duracion.textContent =
+      formatearTiempo(audio.duration);
+
+    const porcentaje =
+      audio.currentTime / audio.duration * 100;
+
+    progreso.style.background =
+
+      `linear-gradient(
+        to right,
+        #fff5f6 0%,
+        #fff5f6 ${porcentaje}%,
+        #e65a73 ${porcentaje}%,
+        #e65a73 100%
+      )`;
+
+  }
+
+}
+
+/* CUANDO LA CANCION ESTE LISTA */
+
+function prepararReproductor() {
+
+  if (!Number.isFinite(audio.duration) ||
+      audio.duration <= 0) return;
+
+  reproducir.disabled = false;
+
+  retroceder.disabled = false;
+
+  adelantar.disabled = false;
+
+  progreso.disabled = false;
+
+  estado.hidden = true;
+
+  actualizarProgreso();
+
+}
+
+audio.addEventListener(
+
+  "loadedmetadata",
+
+  prepararReproductor
+
+);
+
+audio.addEventListener(
+
+  "durationchange",
+
+  prepararReproductor
+
+);
+
+audio.addEventListener(
+
+  "timeupdate",
+
+  actualizarProgreso
+
+);
+
+/* REPRODUCIR O PAUSAR */
+
+reproducir.addEventListener("click", async () => {
+
+  if (audio.paused) {
+
+    if (audio.ended) {
+
+      audio.currentTime = 0;
+
+    }
+
+    try {
+
+      await audio.play();
+
+      estado.hidden = true;
+
+    } catch (error) {
+
+      estado.hidden = false;
+
+      estado.textContent =
+        "No se pudo reproducir. Intenta nuevamente.";
+
+    }
+
+  } else {
+
+    audio.pause();
+
+  }
+
+});
+
+/* CAMBIAR ICONOS */
+
+function actualizarBoton() {
+
+  const sonando =
+    !audio.paused && !audio.ended;
+
+  iconoPlay.hidden = sonando;
+
+  iconoPausa.hidden = !sonando;
+
+  reproducir.setAttribute(
+
+    "aria-label",
+
+    sonando ? "Pausar canción" : "Reproducir canción"
+
+  );
+
+}
+
+audio.addEventListener("play", actualizarBoton);
+
+audio.addEventListener("pause", actualizarBoton);
+
+audio.addEventListener("ended", () => {
+
+  actualizarBoton();
+
+  actualizarProgreso();
+
+});
+
+/* MOVER BARRA MANUALMENTE */
+
+progreso.addEventListener("input", () => {
+
+  if (!Number.isFinite(audio.duration)) return;
+
+  audio.currentTime = Number(progreso.value);
+
+  actualizarProgreso();
+
+});
+
+/* RETROCEDER 10 SEGUNDOS */
+
+retroceder.addEventListener("click", () => {
+
+  audio.currentTime =
+    Math.max(0, audio.currentTime - 10);
+
+  actualizarProgreso();
+
+});
+
+/* ADELANTAR 10 SEGUNDOS */
+
+adelantar.addEventListener("click", () => {
+
+  if (!Number.isFinite(audio.duration)) return;
+
+  audio.currentTime = Math.min(
+
+    audio.duration,
+
+    audio.currentTime + 10
+
+  );
+
+  actualizarProgreso();
+
+});
+
+/* ERROR DE AUDIO */
+
+audio.addEventListener("error", () => {
+
+  estado.hidden = false;
+
+  estado.textContent =
+    "No se encontró nuestra canción. " +
+    "Comprueba que cancion17.mp3 esté subida.";
+
+  reproducir.disabled = true;
+
+  progreso.disabled = true;
+
+  retroceder.disabled = true;
+
+  adelantar.disabled = true;
+
+});
+
+/* EXPLOSION DE CORAZONES */
+
+function lanzarCorazones() {
+
+  if (window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches) return;
+
+  if (!Element.prototype.animate) return;
+
+  const posicion =
+    corazon.getBoundingClientRect();
+
+  const centroX =
+    posicion.left + posicion.width / 2;
+
+  const centroY =
+    posicion.top + posicion.height / 2;
+
+  const colores = [
+
+    "#ffffff",
+    "#ffd5dc",
+    "#ffabc0",
+    "#ff8298",
+    "#fff5f6"
+
+  ];
+
+  for (let i = 0; i < 45; i++) {
+
+    const particula =
+      document.createElement("span");
+
+    particula.className = "corazon-volador";
+
+    particula.setAttribute("aria-hidden", "true");
+
+    particula.textContent =
+      Math.random() > .4 ? "♥" : "♡";
+
+    particula.style.left = centroX + "px";
+
+    particula.style.top = centroY + "px";
+
+    particula.style.color =
+      colores[i % colores.length];
+
+    particula.style.fontSize =
+      (10 + Math.random() * 20) + "px";
+
+    document.body.appendChild(particula);
+
+    const x =
+      (Math.random() - .65) * 240;
+
+    const y =
+      -50 - Math.random() * 220;
+
+    const giro =
+      (Math.random() - .5) * 140;
+
+    const animacion = particula.animate([
+
+      {
+
+        transform:
+          "translate(0,0) scale(.2)",
+
+        opacity: 0
+
+      },
+
+      {
+
+        transform:
+          `translate(${x * .25}px, ${y * .25}px)
+          scale(1.15)`,
+
+        opacity: 1,
+
+        offset: .2
+
+      },
+
+      {
+
+        transform:
+          `translate(${x}px, ${y}px)
+          rotate(${giro}deg) scale(.8)`,
+
+        opacity: 0
+
+      }
+
+    ], {
+
+      duration: 850 + Math.random() * 850,
+
+      delay: Math.random() * 150,
+
+      easing: "ease-out",
+
+      fill: "both"
+
+    });
+
+    animacion.finished
+
+      .catch(() => {})
+
+      .finally(() => particula.remove());
+
+  }
+
+}
+
+/* ACTIVAR CORAZON FAVORITO */
+
+let favorito = false;
+
+corazon.addEventListener("click", () => {
+
+  favorito = !favorito;
+
+  corazon.classList.toggle(
+
+    "favorito",
+
+    favorito
+
+  );
+
+  corazon.setAttribute(
+
+    "aria-pressed",
+
+    String(favorito)
+
+  );
+
+  corazon.setAttribute(
+
+    "aria-label",
+
+    favorito
+      ? "Quitar de favoritas"
+      : "Marcar como favorita"
+
+  );
+
+  corazon.classList.remove("latido");
+
+  void corazon.offsetWidth;
+
+  corazon.classList.add("latido");
+
+  if (favorito) {
+
+    lanzarCorazones();
+
+  }
+
+});
+
+/* DETENER MUSICA AL CERRAR EL REGALO */
+
+window.addEventListener("pagehide", () => {
+
+  audio.pause();
+
+});
+
+/* CONFIGURACION FINAL DEL DIA 17 */
+
+audio.autoplay = false;
+
+audio.loop = false;
+
+audio.src = "../cancion17.mp3";
+
+audio.load();
+
+</script>
+
+</body>
+</html>
+
