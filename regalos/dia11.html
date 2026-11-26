@@ -101,18 +101,15 @@ h1 {
   background: #a30c29;
 }
 
-/* TABLERO DE 16 PIEZAS */
+/* ROMPECABEZAS DE 16 PIEZAS */
 
 #tablero {
   width: min(100%, 390px);
   aspect-ratio: 1 / 1;
   margin: 0 auto;
-
   display: grid;
-
   grid-template-columns: repeat(4, minmax(0, 1fr));
   grid-template-rows: repeat(4, minmax(0, 1fr));
-
   gap: 3px;
   padding: 6px;
   border: 1px solid #edb0bd;
@@ -131,10 +128,8 @@ h1 {
   padding: 0;
   border: none;
   border-radius: 3px;
-
   background-repeat: no-repeat;
   background-size: 400% 400%;
-
   cursor: pointer;
   touch-action: manipulation;
   transition: transform .15s, filter .15s;
@@ -176,6 +171,14 @@ h1 {
   letter-spacing: 6px;
   font-size: 17px;
   margin: 18px 0;
+}
+
+.numero-piezas {
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #a65365;
+  margin: 14px 0 0;
 }
 
 /* RESULTADO FINAL */
@@ -255,14 +258,6 @@ h1 {
   line-height: 1.6;
 }
 
-.numero-piezas {
-  font-family: Arial, sans-serif;
-  font-size: 10px;
-  letter-spacing: 2px;
-  color: #a65365;
-  margin: 14px 0 0;
-}
-
 /* CONFETI Y CORAZONES */
 
 .particula {
@@ -332,7 +327,9 @@ h1 {
     </div>
 
     <p id="estado">
+
       Preparando tu rompecabezas...
+
     </p>
 
     <div id="tablero"
@@ -393,19 +390,24 @@ h1 {
   </section>
 
   <div class="decoracion">
+
     ♡ ─ ✧ ─ ♡
+
   </div>
 
 </main>
 
 <script>
 
-/* CONFIGURACION */
+/* CONFIGURACION DEL REGALO 11 */
 
 const LADO = 4;
 const TOTAL = LADO * LADO;
 
+/* FOTOGRAFIA DEL DIA 11 */
+
 const archivosFoto = [
+
   "../foto11.jpg",
   "../foto11.jpeg",
   "../foto11.png",
@@ -415,6 +417,7 @@ const archivosFoto = [
   "../foto11.PNG",
   "../foto11.WEBP",
   "../foto11"
+
 ];
 
 const tablero = document.getElementById("tablero");
@@ -433,7 +436,7 @@ let inicio = 0;
 let cronometro = null;
 let imagenCuadrada = "";
 
-/* CARGAR FOTOGRAFIA */
+/* CARGAR LA FOTOGRAFIA */
 
 function cargarImagen(ruta) {
 
@@ -475,14 +478,14 @@ async function prepararFoto() {
 
     estado.textContent =
       "No encontramos la fotografía. " +
-      "Comprueba que foto09.jpg, foto09.png " +
-      "o foto09.webp esté subida a GitHub.";
+      "Comprueba que foto11.jpg, foto11.png " +
+      "o foto11.webp esté subida a GitHub.";
 
     return;
 
   }
 
-  /* RECORTAR FOTO EN CUADRADO SIN DEFORMAR */
+  /* RECORTAR LA FOTO SIN DEFORMARLA */
 
   const canvas = document.createElement("canvas");
 
@@ -611,7 +614,7 @@ function iniciarCronometro() {
 
 }
 
-/* CREAR LAS 16 PIEZAS */
+/* CREAR LAS PIEZAS */
 
 function dibujarTablero() {
 
@@ -683,7 +686,7 @@ function dibujarTablero() {
 
 }
 
-/* INTERCAMBIAR PIEZAS */
+/* INTERCAMBIAR DOS PIEZAS */
 
 function seleccionarPieza(posicion) {
 
@@ -742,7 +745,7 @@ function seleccionarPieza(posicion) {
 
 }
 
-/* COMPROBAR SI TERMINO */
+/* COMPROBAR VICTORIA */
 
 function comprobarVictoria() {
 
@@ -770,28 +773,36 @@ function comprobarVictoria() {
 
     resultado.hidden = false;
 
-    try {
-
-      if (window.parent !== window) {
-
-        const ventana =
-          window.parent.document.getElementById("modal");
-
-        if (ventana) {
-
-          ventana.scrollTop = 0;
-
-        }
-
-      }
-
-    } catch (error) {}
-
-    window.scrollTo(0, 0);
+    subirVentana();
 
     lanzarConfeti();
 
   }, 650);
+
+}
+
+/* SUBIR AL PRINCIPIO DEL REGALO */
+
+function subirVentana() {
+
+  try {
+
+    if (window.parent !== window) {
+
+      const ventana =
+        window.parent.document.getElementById("modal");
+
+      if (ventana) {
+
+        ventana.scrollTop = 0;
+
+      }
+
+    }
+
+  } catch (error) {}
+
+  window.scrollTo(0, 0);
 
 }
 
@@ -804,6 +815,8 @@ function lanzarConfeti() {
     "(prefers-reduced-motion: reduce)"
 
   ).matches) return;
+
+  if (!Element.prototype.animate) return;
 
   const colores = [
 
@@ -827,15 +840,20 @@ function lanzarConfeti() {
 
   );
 
-  /* 260 PARTICULAS */
-
   for (let i = 0; i < 260; i++) {
 
-    const particula = document.createElement("span");
+    const particula =
+      document.createElement("span");
 
     particula.className = "particula";
 
-    particula.setAttribute("aria-hidden", "true");
+    particula.setAttribute(
+
+      "aria-hidden",
+
+      "true"
+
+    );
 
     const tipo = Math.random();
 
@@ -980,24 +998,7 @@ function reiniciarJuego() {
 
   iniciarCronometro();
 
-  try {
-
-    if (window.parent !== window) {
-
-      const ventana =
-        window.parent.document.getElementById("modal");
-
-      if (ventana) {
-
-        ventana.scrollTop = 0;
-
-      }
-
-    }
-
-  } catch (error) {}
-
-  window.scrollTo(0, 0);
+  subirVentana();
 
 }
 
@@ -1018,6 +1019,7 @@ prepararFoto().catch(() => {
   estado.hidden = false;
 
   estado.textContent =
+
     "No se pudo preparar la fotografía. " +
     "Intenta recargar el regalo.";
 
@@ -1027,4 +1029,3 @@ prepararFoto().catch(() => {
 
 </body>
 </html>
-
