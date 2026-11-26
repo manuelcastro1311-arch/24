@@ -1,1 +1,1032 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Arma nuestro recuerdo</title>
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  background: #fff5f6;
+  color: #a30c29;
+  font-family: Georgia, serif;
+  text-align: center;
+}
+
+#regalo {
+  width: 100%;
+  max-width: 480px;
+  margin: auto;
+  padding: 15px 8px 24px;
+}
+
+.encabezado {
+  font-family: Arial, sans-serif;
+  letter-spacing: 3px;
+  font-size: 10px;
+  margin: 8px 0 16px;
+}
+
+h1 {
+  font-size: clamp(25px, 7vw, 36px);
+  line-height: 1.1;
+  margin: 12px 0;
+}
+
+.instrucciones {
+  font-size: 14px;
+  line-height: 1.6;
+  max-width: 300px;
+  margin: 12px auto;
+  color: #a65365;
+}
+
+/* CRONOMETRO */
+
+.cronometro {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background: #ffd5dc;
+  border: 1px solid #efb3be;
+  border-radius: 30px;
+  padding: 11px 21px;
+  margin: 10px 0 18px;
+  font-family: Arial, sans-serif;
+}
+
+#tiempo {
+  font-size: 20px;
+  font-weight: bold;
+  font-variant-numeric: tabular-nums;
+}
+
+.reloj {
+  width: 19px;
+  height: 19px;
+  border: 2px solid #a30c29;
+  border-radius: 50%;
+  position: relative;
+}
+
+.reloj::before {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 6px;
+  top: 2px;
+  left: 7px;
+  background: #a30c29;
+}
+
+.reloj::after {
+  content: "";
+  position: absolute;
+  width: 5px;
+  height: 2px;
+  top: 7px;
+  left: 7px;
+  background: #a30c29;
+}
+
+/* TABLERO DE 16 PIEZAS */
+
+#tablero {
+  width: min(100%, 390px);
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: repeat(4, minmax(0, 1fr));
+
+  gap: 3px;
+  padding: 6px;
+  border: 1px solid #edb0bd;
+  border-radius: 12px;
+  background: #ffffff;
+  overflow: hidden;
+  box-shadow: 0 8px 24px #a30c2915;
+}
+
+.pieza {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: none;
+  border-radius: 3px;
+
+  background-repeat: no-repeat;
+  background-size: 400% 400%;
+
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform .15s, filter .15s;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.pieza:hover {
+  filter: brightness(1.08);
+}
+
+.pieza.seleccionada {
+  outline: 3px solid #cf1735;
+  outline-offset: -3px;
+  transform: scale(.91);
+  filter: brightness(1.12);
+  z-index: 2;
+}
+
+.pieza:focus-visible {
+  outline: 3px solid #cf1735;
+  outline-offset: -3px;
+}
+
+#tablero.completado {
+  gap: 0;
+}
+
+#tablero.completado .pieza {
+  border-radius: 0;
+  cursor: default;
+  pointer-events: none;
+  filter: none;
+  outline: none;
+}
+
+.decoracion {
+  color: #cd7489;
+  letter-spacing: 6px;
+  font-size: 17px;
+  margin: 18px 0;
+}
+
+/* RESULTADO FINAL */
+
+#resultado {
+  animation: felicitacion .65s ease both;
+}
+
+#resultado h2 {
+  font-size: clamp(25px, 7vw, 35px);
+  line-height: 1.2;
+  margin: 18px 0;
+}
+
+.foto-completa {
+  width: fit-content;
+  max-width: 100%;
+  margin: 20px auto;
+  padding: 8px 8px 22px;
+  background: #ffffff;
+  border: 1px solid #edc6ce;
+  box-shadow: 0 7px 20px #a30c2918;
+  border-radius: 4px;
+}
+
+#fotoFinal {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  max-height: 460px;
+  object-fit: contain;
+}
+
+.foto-completa p {
+  font-size: 15px;
+  margin: 13px 0 0;
+  font-style: italic;
+}
+
+.mensaje-final {
+  font-size: 17px;
+  line-height: 1.7;
+  margin: 20px auto;
+  max-width: 340px;
+}
+
+.tiempo-final {
+  display: inline-block;
+  background: #ffd5dc;
+  padding: 11px 18px;
+  border-radius: 20px;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+}
+
+#reiniciar {
+  display: block;
+  margin: 22px auto 5px;
+  padding: 13px 25px;
+  border: none;
+  border-radius: 10px;
+  background: #cf1735;
+  color: white;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#reiniciar:hover {
+  background: #a30c29;
+}
+
+#estado {
+  font-size: 14px;
+  color: #a65365;
+  line-height: 1.6;
+}
+
+.numero-piezas {
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #a65365;
+  margin: 14px 0 0;
+}
+
+/* CONFETI Y CORAZONES */
+
+.particula {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  line-height: 1;
+  font-family: Arial, sans-serif;
+  will-change: transform, opacity;
+  opacity: 0;
+}
+
+@keyframes felicitacion {
+
+  from {
+    opacity: 0;
+    transform: translateY(15px) scale(.94);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .pieza {
+    transition: none;
+  }
+
+  #resultado {
+    animation: none;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<main id="regalo">
+
+  <p class="encabezado">
+    ♡ NUESTROS RECUERDOS ♡
+  </p>
+
+  <h1>Arma nuestro recuerdo</h1>
+
+  <section id="juego">
+
+    <p class="instrucciones">
+
+      Selecciona dos piezas para intercambiar sus lugares
+      y descubrir nuestra fotografía.
+
+    </p>
+
+    <div class="cronometro">
+
+      <span class="reloj"></span>
+
+      <span id="tiempo">00:00</span>
+
+    </div>
+
+    <p id="estado">
+      Preparando tu rompecabezas...
+    </p>
+
+    <div id="tablero"
+      aria-label="Rompecabezas de dieciséis piezas"
+      hidden>
+    </div>
+
+    <p class="numero-piezas">
+
+      16 PIEZAS · 4 × 4
+
+    </p>
+
+  </section>
+
+  <!-- FELICITACION -->
+
+  <section id="resultado" hidden>
+
+    <div class="decoracion">
+      ♡ ✦ ♡
+    </div>
+
+    <h2>
+
+      ¡¡¡Felicidaes mi amorr!!!
+
+    </h2>
+
+    <div class="tiempo-final">
+
+      Tu tiempo: <strong id="tiempoFinal"></strong>
+
+    </div>
+
+    <div class="foto-completa">
+
+      <img id="fotoFinal"
+        alt="Nuestra fotografía favorita">
+
+      <p>Nuestro recuerdo favorito ♡</p>
+
+    </div>
+
+    <p class="mensaje-final">
+
+      Completaste el rompecabezas de su favorita
+      de los dos, solamente que te tardaste mucho ehhh
+
+    </p>
+
+    <button id="reiniciar">
+
+      ↻ Volver a jugar
+
+    </button>
+
+  </section>
+
+  <div class="decoracion">
+    ♡ ─ ✧ ─ ♡
+  </div>
+
+</main>
+
+<script>
+
+/* CONFIGURACION */
+
+const LADO = 4;
+const TOTAL = LADO * LADO;
+
+const archivosFoto = [
+
+  "../foto09.jpg",
+  "../foto09.jpeg",
+  "../foto09.png",
+  "../foto09.webp",
+  "../foto09.JPG",
+  "../foto09.JPEG",
+  "../foto09.PNG",
+  "../foto09.WEBP",
+  "../foto09"
+
+];
+
+const tablero = document.getElementById("tablero");
+const resultado = document.getElementById("resultado");
+const juego = document.getElementById("juego");
+const estado = document.getElementById("estado");
+const tiempo = document.getElementById("tiempo");
+const tiempoFinal = document.getElementById("tiempoFinal");
+const fotoFinal = document.getElementById("fotoFinal");
+
+let piezas = [];
+let seleccionada = null;
+let completado = false;
+
+let inicio = 0;
+let cronometro = null;
+let imagenCuadrada = "";
+
+/* CARGAR FOTOGRAFIA */
+
+function cargarImagen(ruta) {
+
+  return new Promise((resolve, reject) => {
+
+    const imagen = new Image();
+
+    imagen.onload = () => resolve(imagen);
+
+    imagen.onerror = reject;
+
+    imagen.src = ruta;
+
+  });
+
+}
+
+async function prepararFoto() {
+
+  let imagen = null;
+
+  for (const ruta of archivosFoto) {
+
+    try {
+
+      imagen = await cargarImagen(ruta);
+
+      break;
+
+    } catch (error) {
+
+      continue;
+
+    }
+
+  }
+
+  if (!imagen) {
+
+    estado.textContent =
+      "No encontramos la fotografía. " +
+      "Comprueba que foto09.jpg, foto09.png " +
+      "o foto09.webp esté subida a GitHub.";
+
+    return;
+
+  }
+
+  /* RECORTAR FOTO EN CUADRADO SIN DEFORMAR */
+
+  const canvas = document.createElement("canvas");
+
+  canvas.width = 1200;
+  canvas.height = 1200;
+
+  const ctx = canvas.getContext("2d");
+
+  const lado = Math.min(
+
+    imagen.naturalWidth,
+    imagen.naturalHeight
+
+  );
+
+  const x = (imagen.naturalWidth - lado) / 2;
+
+  const y = (imagen.naturalHeight - lado) / 2;
+
+  ctx.drawImage(
+
+    imagen,
+    x, y, lado, lado,
+    0, 0, 1200, 1200
+
+  );
+
+  imagenCuadrada =
+    canvas.toDataURL("image/jpeg", .95);
+
+  fotoFinal.src = imagen.src;
+
+  estado.hidden = true;
+
+  tablero.hidden = false;
+
+  reiniciarJuego();
+
+}
+
+/* MEZCLAR LAS 16 PIEZAS */
+
+function mezclarPiezas() {
+
+  do {
+
+    piezas = Array.from(
+
+      { length: TOTAL },
+
+      (_, i) => i
+
+    );
+
+    for (let i = piezas.length - 1; i > 0; i--) {
+
+      const j = Math.floor(
+
+        Math.random() * (i + 1)
+
+      );
+
+      [piezas[i], piezas[j]] =
+      [piezas[j], piezas[i]];
+
+    }
+
+  } while (
+
+    piezas.every(
+
+      (pieza, posicion) => pieza === posicion
+
+    )
+
+  );
+
+}
+
+/* CRONOMETRO */
+
+function formatearTiempo(segundos) {
+
+  const minutos = Math.floor(segundos / 60);
+
+  const restantes = segundos % 60;
+
+  return String(minutos).padStart(2, "0") + ":" +
+    String(restantes).padStart(2, "0");
+
+}
+
+function segundosTranscurridos() {
+
+  return Math.floor(
+
+    (performance.now() - inicio) / 1000
+
+  );
+
+}
+
+function actualizarTiempo() {
+
+  tiempo.textContent =
+
+    formatearTiempo(segundosTranscurridos());
+
+}
+
+function iniciarCronometro() {
+
+  clearInterval(cronometro);
+
+  inicio = performance.now();
+
+  tiempo.textContent = "00:00";
+
+  cronometro = setInterval(
+
+    actualizarTiempo,
+
+    200
+
+  );
+
+}
+
+/* CREAR LAS 16 PIEZAS */
+
+function dibujarTablero() {
+
+  tablero.replaceChildren();
+
+  piezas.forEach((numero, posicion) => {
+
+    const pieza = document.createElement("button");
+
+    pieza.className = "pieza";
+
+    pieza.type = "button";
+
+    pieza.setAttribute(
+
+      "aria-label",
+
+      "Pieza en posición " + (posicion + 1)
+
+    );
+
+    pieza.setAttribute(
+
+      "aria-pressed",
+
+      String(seleccionada === posicion)
+
+    );
+
+    pieza.style.backgroundImage =
+
+      `url("${imagenCuadrada}")`;
+
+    pieza.style.backgroundSize =
+
+      `${LADO * 100}% ${LADO * 100}%`;
+
+    const columna = numero % LADO;
+
+    const fila = Math.floor(numero / LADO);
+
+    const posicionX =
+
+      columna * 100 / (LADO - 1);
+
+    const posicionY =
+
+      fila * 100 / (LADO - 1);
+
+    pieza.style.backgroundPosition =
+
+      `${posicionX}% ${posicionY}%`;
+
+    if (seleccionada === posicion) {
+
+      pieza.classList.add("seleccionada");
+
+    }
+
+    pieza.addEventListener("click", () => {
+
+      seleccionarPieza(posicion);
+
+    });
+
+    tablero.appendChild(pieza);
+
+  });
+
+}
+
+/* INTERCAMBIAR PIEZAS */
+
+function seleccionarPieza(posicion) {
+
+  if (completado) return;
+
+  if (seleccionada === null) {
+
+    seleccionada = posicion;
+
+    dibujarTablero();
+
+    tablero.children[posicion].focus({
+
+      preventScroll: true
+
+    });
+
+    return;
+
+  }
+
+  if (seleccionada === posicion) {
+
+    seleccionada = null;
+
+    dibujarTablero();
+
+    tablero.children[posicion].focus({
+
+      preventScroll: true
+
+    });
+
+    return;
+
+  }
+
+  [piezas[seleccionada], piezas[posicion]] =
+  [piezas[posicion], piezas[seleccionada]];
+
+  seleccionada = null;
+
+  dibujarTablero();
+
+  comprobarVictoria();
+
+  if (!completado) {
+
+    tablero.children[posicion].focus({
+
+      preventScroll: true
+
+    });
+
+  }
+
+}
+
+/* COMPROBAR SI TERMINO */
+
+function comprobarVictoria() {
+
+  const correcto = piezas.every(
+
+    (numero, posicion) => numero === posicion
+
+  );
+
+  if (!correcto) return;
+
+  completado = true;
+
+  clearInterval(cronometro);
+
+  actualizarTiempo();
+
+  tablero.classList.add("completado");
+
+  tiempoFinal.textContent = tiempo.textContent;
+
+  setTimeout(() => {
+
+    juego.hidden = true;
+
+    resultado.hidden = false;
+
+    try {
+
+      if (window.parent !== window) {
+
+        const ventana =
+          window.parent.document.getElementById("modal");
+
+        if (ventana) {
+
+          ventana.scrollTop = 0;
+
+        }
+
+      }
+
+    } catch (error) {}
+
+    window.scrollTo(0, 0);
+
+    lanzarConfeti();
+
+  }, 650);
+
+}
+
+/* EXPLOSION DE CONFETI Y CORAZONES */
+
+function lanzarConfeti() {
+
+  if (window.matchMedia(
+
+    "(prefers-reduced-motion: reduce)"
+
+  ).matches) return;
+
+  const colores = [
+
+    "#cf1735",
+    "#a30c29",
+    "#ff8298",
+    "#ffd5dc",
+    "#ee5271",
+    "#c94e70",
+    "#f0a6b9"
+
+  ];
+
+  const centroX = window.innerWidth / 2;
+
+  const centroY = Math.min(
+
+    window.innerHeight * .4,
+
+    230
+
+  );
+
+  /* 260 PARTICULAS */
+
+  for (let i = 0; i < 260; i++) {
+
+    const particula = document.createElement("span");
+
+    particula.className = "particula";
+
+    particula.setAttribute("aria-hidden", "true");
+
+    const tipo = Math.random();
+
+    if (tipo < .4) {
+
+      particula.textContent = "♥";
+
+    } else if (tipo < .65) {
+
+      particula.textContent = "♡";
+
+    } else if (tipo < .77) {
+
+      particula.textContent = "✦";
+
+    } else {
+
+      particula.textContent = "▪";
+
+    }
+
+    particula.style.left = centroX + "px";
+
+    particula.style.top = centroY + "px";
+
+    particula.style.color =
+
+      colores[Math.floor(Math.random() * colores.length)];
+
+    particula.style.fontSize =
+
+      (10 + Math.random() * 25) + "px";
+
+    document.body.appendChild(particula);
+
+    const angulo = Math.random() * Math.PI * 2;
+
+    const distancia = .4 + Math.random() * .8;
+
+    const x = Math.cos(angulo) *
+
+      window.innerWidth * .65 * distancia;
+
+    const y = Math.sin(angulo) *
+
+      Math.min(window.innerHeight, 650) * .7 * distancia;
+
+    const giro = (Math.random() - .5) * 720;
+
+    const animacion = particula.animate([
+
+      {
+
+        transform: "translate(0,0) scale(.3)",
+
+        opacity: 0
+
+      },
+
+      {
+
+        transform:
+
+          `translate(${x * .25}px, ${y * .25 - 20}px)
+          rotate(${giro * .2}deg) scale(1.1)`,
+
+        opacity: 1,
+
+        offset: .15
+
+      },
+
+      {
+
+        transform:
+
+          `translate(${x * .8}px, ${y * .7 - 50}px)
+          rotate(${giro * .7}deg) scale(1)`,
+
+        opacity: 1,
+
+        offset: .6
+
+      },
+
+      {
+
+        transform:
+
+          `translate(${x}px, ${y + 180}px)
+          rotate(${giro}deg)`,
+
+        opacity: 0
+
+      }
+
+    ], {
+
+      duration: 1500 + Math.random() * 1000,
+
+      delay: Math.random() * 300,
+
+      easing: "ease-out",
+
+      fill: "both"
+
+    });
+
+    animacion.finished
+
+      .catch(() => {})
+
+      .finally(() => particula.remove());
+
+  }
+
+}
+
+/* VOLVER A JUGAR */
+
+function reiniciarJuego() {
+
+  completado = false;
+
+  seleccionada = null;
+
+  document.querySelectorAll(".particula").forEach(
+
+    particula => particula.remove()
+
+  );
+
+  resultado.hidden = true;
+
+  juego.hidden = false;
+
+  tablero.classList.remove("completado");
+
+  mezclarPiezas();
+
+  dibujarTablero();
+
+  iniciarCronometro();
+
+  try {
+
+    if (window.parent !== window) {
+
+      const ventana =
+        window.parent.document.getElementById("modal");
+
+      if (ventana) {
+
+        ventana.scrollTop = 0;
+
+      }
+
+    }
+
+  } catch (error) {}
+
+  window.scrollTo(0, 0);
+
+}
+
+document.getElementById("reiniciar")
+
+  .addEventListener("click", reiniciarJuego);
+
+window.addEventListener("pagehide", () => {
+
+  clearInterval(cronometro);
+
+});
+
+/* INICIAR EL ROMPECABEZAS */
+
+prepararFoto().catch(() => {
+
+  estado.hidden = false;
+
+  estado.textContent =
+    "No se pudo preparar la fotografía. " +
+    "Intenta recargar el regalo.";
+
+});
+
+</script>
+
+</body>
+</html>
+
