@@ -44,7 +44,9 @@ h1 {
   letter-spacing: 5px;
 }
 
-/* TABLERO CUADRADO */
+/* =================================
+   CALENDARIO PRINCIPAL
+================================= */
 
 .contenedor {
   width: min(94vw, 650px);
@@ -73,8 +75,6 @@ h1 {
     "d19 d8  d14 d12 d3  d21"
     "d19 d17 d17 d6  d6  d21";
 }
-
-/* DISEÑO DE LAS PUERTAS */
 
 .puerta {
   position: relative;
@@ -135,7 +135,9 @@ h1 {
   z-index: 3;
 }
 
-/* ILUSTRACIONES NAVIDEÑAS */
+/* =================================
+   ILUSTRACIONES DE LAS PUERTAS
+================================= */
 
 .dibujo {
   position: absolute;
@@ -198,7 +200,9 @@ h1 {
   height: 80%;
 }
 
-/* REGALO ESPECIAL DEL DIA 24 */
+/* =================================
+   REGALO ESPECIAL DEL DIA 24
+================================= */
 
 .regalo {
   background: #ed203c;
@@ -253,7 +257,9 @@ h1 {
   z-index: 4;
 }
 
-/* VENTANA DE LAS SORPRESAS */
+/* =================================
+   VENTANA DE LAS SORPRESAS
+================================= */
 
 dialog {
   width: min(90vw, 500px);
@@ -315,14 +321,15 @@ footer {
     opacity: 0;
     transform: scale(.92);
   }
-
   to {
     opacity: 1;
     transform: scale(1);
   }
 }
 
-/* NUEVAS ANIMACIONES */
+/* =================================
+   ANIMACIONES DE LAS 24 PUERTAS
+================================= */
 
 .puerta.abriendo {
   overflow: hidden;
@@ -376,6 +383,172 @@ footer {
   border-radius: 2px;
 }
 
+/* =================================
+   NUEVA PANTALLA DE BIENVENIDA
+================================= */
+
+#bienvenida {
+  position: fixed;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  border-radius: 0;
+  border: none;
+  background: #cf1735;
+  color: #fff5f3;
+  overflow: auto;
+  box-shadow: none;
+  animation: none;
+}
+
+#bienvenida::backdrop {
+  background: #cf1735;
+}
+
+#bienvenida:not([open]) {
+  display: none;
+}
+
+.bienvenida-centro {
+  position: relative;
+  min-height: 100%;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 18px;
+  gap: 14px;
+  isolation: isolate;
+}
+
+.bienvenida-fecha {
+  font-size: 12px;
+  letter-spacing: 3px;
+  color: #ffd5dc;
+  margin: 0;
+}
+
+#bienvenida h2 {
+  font-size: clamp(30px, 6vw, 54px);
+  line-height: 1.1;
+  margin: 0;
+  color: #fff5f3;
+}
+
+.bienvenida-sub {
+  font-size: clamp(14px, 3.3vw, 18px);
+  color: #fff0f2;
+  margin: 0;
+}
+
+.regalo-gigante {
+  appearance: none;
+  display: block;
+  width: min(74vw, 360px, 48vh);
+  min-width: 135px;
+  padding: 0;
+  margin: 8px 0 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  position: relative;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.regalo-gigante:focus-visible {
+  outline: 2px dashed #fff5f3;
+  outline-offset: 6px;
+  border-radius: 15px;
+}
+
+.regalo-gigante svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.regalo-gigante:not(:disabled) {
+  animation: flotarRegalo 3.5s ease-in-out infinite;
+}
+
+.regalo-gigante:not(:disabled):hover {
+  filter: brightness(1.045);
+}
+
+.regalo-gigante:disabled {
+  cursor: default;
+}
+
+.tapa-gigante {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+}
+
+.corazon-gigante {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+}
+
+.instruccion-bienvenida {
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  letter-spacing: .05em;
+  margin: 5px 0 0;
+  color: #fff5f3;
+}
+
+.adorno-bienvenida {
+  position: absolute;
+  color: #ffd5dc;
+  font-size: clamp(16px, 4vw, 27px);
+  opacity: .7;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.particula-bienvenida {
+  position: fixed;
+  pointer-events: none;
+  z-index: 10;
+  display: block;
+  font-family: Arial, sans-serif;
+  line-height: 1;
+}
+
+@keyframes flotarRegalo {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .bienvenida-centro {
+    gap: 6px;
+    padding: 16px;
+  }
+
+  .regalo-gigante {
+    width: min(36vh, 220px);
+    min-width: 110px;
+    margin: 0;
+  }
+
+  #bienvenida h2 {
+    font-size: 28px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
 
   .puerta {
@@ -390,12 +563,241 @@ footer {
     transform: none;
   }
 
+  .regalo-gigante:not(:disabled) {
+    animation: none;
+  }
+
 }
 
 </style>
 </head>
 
 <body>
+
+<!-- =================================
+     PANTALLA DE BIENVENIDA
+================================== -->
+
+<dialog id="bienvenida" aria-labelledby="tituloBienvenida">
+
+  <div class="bienvenida-centro">
+
+    <span class="adorno-bienvenida"
+      style="left:10%;top:20%">✧</span>
+
+    <span class="adorno-bienvenida"
+      style="right:12%;top:27%">✦</span>
+
+    <span class="adorno-bienvenida"
+      style="left:18%;bottom:20%">♡</span>
+
+    <span class="adorno-bienvenida"
+      style="right:16%;bottom:17%">✧</span>
+
+    <p class="bienvenida-fecha">
+      ✦ DICIEMBRE 2026 ✦
+    </p>
+
+    <h2 id="tituloBienvenida">
+      Tengo algo especial para ti...
+    </h2>
+
+    <p class="bienvenida-sub">
+      Una sorpresa hecha con mucho amor.
+    </p>
+
+    <button
+      class="regalo-gigante"
+      id="regaloGigante"
+      aria-label="Abrir mi regalo"
+      autofocus>
+
+      <svg viewBox="0 0 320 310"
+        aria-hidden="true">
+
+        <!-- SOMBRA DEL REGALO -->
+
+        <ellipse
+          cx="160"
+          cy="295"
+          rx="115"
+          ry="10"
+          fill="#960b27"
+          opacity=".35"/>
+
+        <!-- CUERPO DEL REGALO -->
+
+        <rect
+          x="44"
+          y="121"
+          width="232"
+          height="159"
+          rx="13"
+          fill="#ffd5dc"/>
+
+        <rect
+          x="51"
+          y="132"
+          width="218"
+          height="140"
+          rx="8"
+          fill="none"
+          stroke="#e78e9e"
+          stroke-dasharray="5 5"
+          stroke-width="1.7"/>
+
+        <rect
+          x="44"
+          y="121"
+          width="232"
+          height="19"
+          rx="5"
+          fill="#eaa0ae"/>
+
+        <rect
+          x="146"
+          y="121"
+          width="28"
+          height="159"
+          fill="#a30c29"/>
+
+        <path
+          d="M60 137H260V150H60Z"
+          fill="#850b27"
+          opacity=".12"/>
+
+        <!-- CORAZON OCULTO -->
+
+        <path
+          class="corazon-gigante"
+          id="corazonGigante"
+          d="M160 107
+             C131 79 105 105 115 128
+             C125 151 160 174 160 174
+             S195 151 205 128
+             C215 105 189 79 160 107Z"
+          fill="#fff5f3"
+          stroke="#a30c29"
+          stroke-width="2"/>
+
+        <!-- TAPA Y MOÑO -->
+
+        <g class="tapa-gigante" id="tapaGigante">
+
+          <path
+            d="M160 93
+               C84 91 73 33 113 37
+               C136 39 153 66 160 93
+               C167 66 184 39 207 37
+               C247 33 236 91 160 93Z"
+            fill="none"
+            stroke="#ffd5dc"
+            stroke-width="13"
+            stroke-linecap="round"
+            stroke-linejoin="round"/>
+
+          <rect
+            x="33"
+            y="91"
+            width="254"
+            height="43"
+            rx="8"
+            fill="#fff0f2"/>
+
+          <rect
+            x="39"
+            y="97"
+            width="242"
+            height="31"
+            rx="5"
+            stroke="#e78e9e"
+            stroke-width="1.5"
+            stroke-dasharray="5 5"
+            fill="none"/>
+
+          <rect
+            x="146"
+            y="91"
+            width="28"
+            height="43"
+            fill="#a30c29"/>
+
+          <path
+            d="M160 94
+               L132 150
+               L126 136
+               L111 143
+               L148 93
+               M160 94
+               L188 150
+               L194 136
+               L209 143
+               L172 93"
+            fill="#a30c29"/>
+
+          <ellipse
+            cx="160"
+            cy="93"
+            rx="13"
+            ry="8"
+            fill="#a30c29"/>
+
+        </g>
+
+        <!-- ETIQUETA DEL REGALO -->
+
+        <g transform="rotate(11 228 180)">
+
+          <path
+            d="M177 129Q200 137 214 156"
+            fill="none"
+            stroke="#a30c29"
+            stroke-width="1.6"/>
+
+          <rect
+            x="202"
+            y="155"
+            width="50"
+            height="59"
+            rx="3"
+            fill="#fffafa"
+            stroke="#edb4bf"
+            stroke-width="1.5"/>
+
+          <circle
+            cx="214"
+            cy="160"
+            r="2.5"
+            fill="#a30c29"/>
+
+          <path
+            d="M227 180
+               C216 169 209 184 227 195
+               C245 184 238 169 227 180Z"
+            fill="#c51b39"/>
+
+        </g>
+
+      </svg>
+
+    </button>
+
+    <p
+      class="instruccion-bienvenida"
+      id="mensajeBienvenida"
+      aria-live="polite">
+
+      Toca el regalo para abrirlo ♡
+
+    </p>
+
+  </div>
+
+</dialog>
+
+<!-- =================================
+     CALENDARIO PRINCIPAL
+================================== -->
 
 <header>
 
@@ -417,7 +819,10 @@ footer {
 
 <div class="contenedor">
 
-  <main class="calendario" id="calendario"></main>
+  <main
+    class="calendario"
+    id="calendario">
+  </main>
 
 </div>
 
@@ -427,7 +832,8 @@ footer {
 
   <div id="contenidoModal"></div>
 
-  <button class="boton cerrar"
+  <button
+    class="boton cerrar"
     onclick="document.getElementById('modal').close()">
 
     Cerrar
@@ -450,7 +856,9 @@ footer {
 
 <script>
 
-/* CONFIGURACION GENERAL */
+/* =================================
+   CONFIGURACION GENERAL
+================================= */
 
 let modoPrueba = false;
 let animandoPuerta = false;
@@ -470,13 +878,14 @@ const rosasClaros = [7, 13, 18, 16, 19, 6];
 
 const vinos = [15, 20, 22, 23, 3, 12];
 
-/* DIBUJOS NAVIDEÑOS */
+/* =================================
+   DIBUJOS NAVIDEÑOS
+================================= */
 
 const dibujos = {
 
   1: `
   <div class="dibujo dibujo-guirnalda">
-
     <svg viewBox="0 0 120 45">
 
       <path d="M0 3 Q60 35 120 3"
@@ -485,10 +894,8 @@ const dibujos = {
         stroke-width="1.5"/>
 
       <g stroke="#b72c47" stroke-width="1.5">
-
         <path d="M15 10v8 M45 18v7
           M75 18v7 M105 10v8"/>
-
       </g>
 
       <circle cx="15" cy="22" r="6"
@@ -504,12 +911,10 @@ const dibujos = {
         fill="#eaa2b1"/>
 
     </svg>
-
   </div>`,
 
   9: `
   <div class="dibujo dibujo-baston">
-
     <svg viewBox="0 0 80 90">
 
       <g transform="translate(30 10) rotate(22)">
@@ -529,12 +934,10 @@ const dibujos = {
       </g>
 
     </svg>
-
   </div>`,
 
   11: `
   <div class="dibujo dibujo-estrellas">
-
     <svg viewBox="0 0 80 70"
       fill="none"
       stroke="#c52a46"
@@ -549,12 +952,10 @@ const dibujos = {
       <path d="M65 43V57 M58 50H72"/>
 
     </svg>
-
   </div>`,
 
   13: `
   <div class="dibujo dibujo-pino">
-
     <svg viewBox="0 0 80 130">
 
       <path d="M40 17 L18 50 H27
@@ -583,12 +984,10 @@ const dibujos = {
       </g>
 
     </svg>
-
   </div>`,
 
   3: `
   <div class="dibujo dibujo-esfera">
-
     <svg viewBox="0 0 80 120">
 
       <path d="M40 0V35"
@@ -616,12 +1015,10 @@ const dibujos = {
         fill="#ffd5dc"/>
 
     </svg>
-
   </div>`,
 
   17: `
   <div class="dibujo dibujo-regalos">
-
     <svg viewBox="0 0 105 80">
 
       <rect x="8" y="25"
@@ -644,7 +1041,7 @@ const dibujos = {
       <rect x="65" y="43"
         width="30"
         height="30"
-        rx="2"
+        rx="3"
         fill="#ec9eae"/>
 
       <path d="M80 43V73 M65 54H95"
@@ -652,12 +1049,10 @@ const dibujos = {
         stroke-width="4"/>
 
     </svg>
-
   </div>`,
 
   6: `
   <div class="dibujo dibujo-mono">
-
     <svg viewBox="0 0 120 90">
 
       <g fill="none"
@@ -678,66 +1073,46 @@ const dibujos = {
         fill="#c52a46"/>
 
     </svg>
-
   </div>`
 
 };
 
-/* CONTENIDO PROVISIONAL DE LOS 24 DIAS */
+/* =================================
+   CONTENIDO PROVISIONAL
+================================= */
 
 const sorpresas = {
 
-  1: "Bienvenido a nuestro calendario de Adviento.",
-
+  1: "Bienvenida a nuestro calendario de Adviento.",
   2: "Aquí irá una sorpresa especial.",
-
   3: "Aquí irá una carta.",
-
   4: "Aquí irá un recuerdo.",
-
   5: "Aquí irá una sorpresa.",
-
   6: "Aquí irá un mensaje romántico.",
-
   7: "Aquí irá una canción.",
-
   8: "Aquí irá una anécdota.",
-
   9: "Aquí tendremos un quiz.",
-
   10: "Aquí irá una promesa.",
-
   11: "Aquí irá otro recuerdo.",
-
   12: "Aquí irá una carta especial.",
-
   13: "Aquí pondremos una fotografía.",
-
   14: "Aquí irá una nota de voz.",
-
   15: "Aquí tendremos una sorpresa divertida.",
-
   16: "Aquí irá otro detalle.",
-
   17: "Aquí irá una dedicatoria.",
-
   18: "Aquí pondremos un video.",
-
   19: "Aquí irá algo romántico.",
-
   20: "Aquí irá una pregunta especial.",
-
   21: "Aquí irá un vale de regalo.",
-
   22: "Aquí irá una sorpresa secreta.",
-
   23: "Aquí irá un mensaje especial.",
-
   24: "¡Feliz Navidad! Aquí irá nuestra gran sorpresa. ♡"
 
 };
 
-/* DIRECCION DE APERTURA DE CADA PUERTA */
+/* =================================
+   DIRECCIONES DE APERTURA
+================================= */
 
 const direcciones = {
 
@@ -776,7 +1151,9 @@ const desplazamientos = {
 
 };
 
-/* DESBLOQUEO POR FECHA */
+/* =================================
+   DESBLOQUEO POR FECHA
+================================= */
 
 function disponible(dia) {
 
@@ -795,7 +1172,9 @@ function esHoy(dia) {
 
 }
 
-/* MOSTRAR LA SORPRESA O MENSAJE */
+/* =================================
+   MOSTRAR LA SORPRESA
+================================= */
 
 function mostrarSorpresa(dia) {
 
@@ -823,7 +1202,9 @@ function mostrarSorpresa(dia) {
 
 }
 
-/* ANIMACION DE TEMBLOR */
+/* =================================
+   ANIMACION DE TEMBLOR
+================================= */
 
 function temblar(puerta) {
 
@@ -854,7 +1235,9 @@ function temblar(puerta) {
 
 }
 
-/* CONFETI ESPECIAL DE NAVIDAD */
+/* =================================
+   CONFETI DEL DIA 24
+================================= */
 
 function lanzarConfeti(puerta) {
 
@@ -867,13 +1250,11 @@ function lanzarConfeti(puerta) {
     posicion.top + posicion.height / 2;
 
   const colores = [
-
     "#ffffff",
     "#ffd5dc",
     "#ff647d",
     "#ed203c",
     "#ffebee"
-
   ];
 
   const animaciones = [];
@@ -886,7 +1267,6 @@ function lanzarConfeti(puerta) {
     confeti.className = "confeti-navidad";
 
     confeti.style.left = centroX + "px";
-
     confeti.style.top = centroY + "px";
 
     confeti.style.background =
@@ -917,16 +1297,13 @@ function lanzarConfeti(puerta) {
         transform:
           `translate(${x}px, ${y}px)
           rotate(${360 + i * 20}deg)`,
-
         opacity: 0
       }
 
     ], {
 
       duration: 750 + Math.random() * 350,
-
       easing: "ease-out",
-
       fill: "forwards"
 
     });
@@ -945,7 +1322,9 @@ function lanzarConfeti(puerta) {
 
 }
 
-/* APERTURA DE LAS PUERTAS */
+/* =================================
+   APERTURA DE LAS PUERTAS
+================================= */
 
 async function abrirPuerta(dia) {
 
@@ -954,7 +1333,7 @@ async function abrirPuerta(dia) {
   const puerta =
     calendario.querySelector(`[data-dia="${dia}"]`);
 
-  if (!puerta) return;
+  if (!puerta || puerta.disabled) return;
 
   const reducirMovimiento = window.matchMedia(
     "(prefers-reduced-motion: reduce)"
@@ -963,13 +1342,11 @@ async function abrirPuerta(dia) {
   if (reducirMovimiento || !puerta.animate) {
 
     mostrarSorpresa(dia);
-
     return;
 
   }
 
   animandoPuerta = true;
-
   botonPrueba.disabled = true;
 
   let originales = null;
@@ -979,9 +1356,7 @@ async function abrirPuerta(dia) {
     if (originales) {
 
       puerta.replaceChildren(...originales);
-
       puerta.classList.remove("abriendo");
-
       originales = null;
 
     }
@@ -992,34 +1367,26 @@ async function abrirPuerta(dia) {
 
   try {
 
-    /* SI LA PUERTA ESTA BLOQUEADA */
-
     if (!disponible(dia)) {
 
       await temblar(puerta);
-
       mostrarSorpresa(dia);
-
       return;
 
     }
 
-    /* PREPARAR LA TAPA DEL REGALO */
-
     const estilo = getComputedStyle(puerta);
 
     const colorFondo = estilo.backgroundColor;
-
     const colorTexto = estilo.color;
 
     originales = Array.from(puerta.childNodes);
 
-    const cara = document.createElement("div");
+    const cara =
+      document.createElement("div");
 
     cara.className = "cara-animada";
-
     cara.style.backgroundColor = colorFondo;
-
     cara.style.color = colorTexto;
 
     originales.forEach(elemento => {
@@ -1028,23 +1395,23 @@ async function abrirPuerta(dia) {
 
     });
 
-    const interior = document.createElement("div");
+    const interior =
+      document.createElement("div");
 
     interior.className = "interior-animado";
-
     interior.textContent = "♡";
 
     puerta.appendChild(interior);
-
     puerta.appendChild(cara);
 
     puerta.classList.add("abriendo");
 
-    /* ANIMACION ESPECIAL DEL DIA 24 */
+    /* APERTURA ESPECIAL DEL 24 */
 
     if (dia === 24) {
 
-      const caraDerecha = cara.cloneNode(true);
+      const caraDerecha =
+        cara.cloneNode(true);
 
       cara.style.clipPath =
         "inset(0 50% 0 0)";
@@ -1059,15 +1426,12 @@ async function abrirPuerta(dia) {
         cara.animate([
 
           { transform: "translateX(0)" },
-
           { transform: "translateX(-105%)" }
 
         ], {
 
           duration: 800,
-
           easing: "cubic-bezier(.3,.7,.2,1)",
-
           fill: "forwards"
 
         }).finished,
@@ -1075,15 +1439,12 @@ async function abrirPuerta(dia) {
         caraDerecha.animate([
 
           { transform: "translateX(0)" },
-
           { transform: "translateX(105%)" }
 
         ], {
 
           duration: 800,
-
           easing: "cubic-bezier(.3,.7,.2,1)",
-
           fill: "forwards"
 
         }).finished
@@ -1092,25 +1453,15 @@ async function abrirPuerta(dia) {
 
       interior.animate([
 
-        {
-          transform: "scale(.4)",
-          opacity: 0
-        },
+        { transform: "scale(.4)", opacity: 0 },
 
-        {
-          transform: "scale(1.3)",
-          opacity: 1
-        },
+        { transform: "scale(1.3)", opacity: 1 },
 
-        {
-          transform: "scale(1)",
-          opacity: 1
-        }
+        { transform: "scale(1)", opacity: 1 }
 
       ], {
 
         duration: 650,
-
         easing: "ease-out"
 
       });
@@ -1119,7 +1470,7 @@ async function abrirPuerta(dia) {
 
     } else {
 
-      /* ANIMACION NORMAL DE DESPLAZAMIENTO */
+      /* APERTURA NORMAL */
 
       const direccion = direcciones[dia];
 
@@ -1135,16 +1486,12 @@ async function abrirPuerta(dia) {
       ], {
 
         duration: 650,
-
         easing: "cubic-bezier(.3,.7,.2,1)",
-
         fill: "forwards"
 
       }).finished;
 
     }
-
-    /* RESTAURAR LA PUERTA AL CERRAR LA SORPRESA */
 
     modal.addEventListener(
 
@@ -1182,7 +1529,9 @@ async function abrirPuerta(dia) {
 
 }
 
-/* CREAR LAS 24 PUERTAS */
+/* =================================
+   CREAR LAS 24 PUERTAS
+================================= */
 
 function renderizarCalendario() {
 
@@ -1190,7 +1539,8 @@ function renderizarCalendario() {
 
   for (let dia = 1; dia <= 24; dia++) {
 
-    const puerta = document.createElement("button");
+    const puerta =
+      document.createElement("button");
 
     puerta.className = "puerta";
 
@@ -1247,11 +1597,8 @@ function renderizarCalendario() {
             C123 0 115 42 60 38"
 
             fill="none"
-
             stroke="#ffd5dc"
-
             stroke-width="7"
-
             stroke-linecap="round"/>
 
         </svg>
@@ -1287,7 +1634,9 @@ function renderizarCalendario() {
 
 }
 
-/* MODO DE PRUEBA */
+/* =================================
+   MODO DE PRUEBA
+================================= */
 
 botonPrueba.onclick = function() {
 
@@ -1309,7 +1658,381 @@ botonPrueba.onclick = function() {
 
 renderizarCalendario();
 
+/* =================================
+   ANIMACION DE LA BIENVENIDA
+================================= */
+
+const bienvenida =
+  document.getElementById("bienvenida");
+
+const regaloGigante =
+  document.getElementById("regaloGigante");
+
+const tapaGigante =
+  document.getElementById("tapaGigante");
+
+const corazonGigante =
+  document.getElementById("corazonGigante");
+
+const mensajeBienvenida =
+  document.getElementById("mensajeBienvenida");
+
+let bienvenidaAbierta = false;
+
+function pausa(ms) {
+
+  return new Promise(
+    resolver => setTimeout(resolver, ms)
+  );
+
+}
+
+function animarElemento(elemento, pasos, opciones) {
+
+  return elemento.animate(
+    pasos,
+    opciones
+  ).finished.catch(() => {});
+
+}
+
+/* EXPLOSION DE CONFETI Y CORAZONES */
+
+function confetiBienvenida() {
+
+  const rect =
+    regaloGigante.getBoundingClientRect();
+
+  const centroX =
+    rect.left + rect.width / 2;
+
+  const centroY =
+    rect.top + rect.height * .39;
+
+  const colores = [
+
+    "#fffafa",
+    "#ffd5dc",
+    "#ff94a9",
+    "#a30c29",
+    "#ffe4e9"
+
+  ];
+
+  const animaciones = [];
+
+  for (let i = 0; i < 76; i++) {
+
+    const particula =
+      document.createElement("span");
+
+    particula.className =
+      "particula-bienvenida";
+
+    particula.setAttribute(
+      "aria-hidden", "true"
+    );
+
+    if (i % 5 === 0) {
+
+      particula.textContent = "♡";
+
+    } else if (i % 5 === 1) {
+
+      particula.textContent = "♥";
+
+    } else if (i % 5 === 2) {
+
+      particula.textContent = "✦";
+
+    }
+
+    const tamano =
+      8 + Math.random() * 14;
+
+    particula.style.left =
+      centroX + "px";
+
+    particula.style.top =
+      centroY + "px";
+
+    particula.style.fontSize =
+      tamano + "px";
+
+    particula.style.color =
+      colores[i % colores.length];
+
+    if (!particula.textContent) {
+
+      particula.style.width =
+        tamano * .5 + "px";
+
+      particula.style.height =
+        tamano * .8 + "px";
+
+      particula.style.background =
+        colores[i % colores.length];
+
+      particula.style.borderRadius =
+        "2px";
+
+    }
+
+    bienvenida.appendChild(particula);
+
+    const angulo =
+      Math.random() * Math.PI * 2;
+
+    const distancia =
+      80 + Math.random() *
+      Math.min(innerWidth * .43, 320);
+
+    const dx =
+      Math.cos(angulo) * distancia;
+
+    const dy =
+      Math.sin(angulo) * distancia;
+
+    animaciones.push(
+
+      animarElemento(particula, [
+
+        {
+          transform:
+            "translate(-50%,-50%) scale(.3)",
+          opacity: 0
+        },
+
+        {
+          transform:
+            `translate(${dx * .6}px,
+            ${dy * .7 - 55}px)
+            rotate(${i * 24}deg)`,
+
+          opacity: 1,
+          offset: .32
+        },
+
+        {
+          transform:
+            `translate(${dx}px,
+            ${dy + 160}px)
+            rotate(${i * 56}deg)`,
+
+          opacity: 0
+        }
+
+      ], {
+
+        duration:
+          950 + Math.random() * 500,
+
+        easing: "ease-out",
+
+        fill: "forwards"
+
+      }).finally(() => particula.remove())
+
+    );
+
+  }
+
+  return Promise.all(animaciones);
+
+}
+
+/* ABRIR EL REGALO GIGANTE */
+
+async function abrirBienvenida() {
+
+  if (bienvenidaAbierta) return;
+
+  bienvenidaAbierta = true;
+
+  regaloGigante.disabled = true;
+
+  mensajeBienvenida.textContent =
+    "¡Bienvenida a nuestros 24 días!";
+
+  const reducirMovimiento =
+    window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+  try {
+
+    if (reducirMovimiento ||
+        !regaloGigante.animate) {
+
+      await pausa(180);
+      return;
+
+    }
+
+    /* PEQUEÑO MOVIMIENTO DEL REGALO */
+
+    await animarElemento(regaloGigante, [
+
+      { transform: "scale(1)" },
+
+      { transform: "scale(.96)" },
+
+      { transform: "scale(1.025)" }
+
+    ], {
+
+      duration: 180,
+      fill: "forwards"
+
+    });
+
+    const explosion =
+      confetiBienvenida();
+
+    /* LEVANTAR LA TAPA */
+
+    await Promise.all([
+
+      animarElemento(tapaGigante, [
+
+        {
+          transform:
+            "translate(0,0) rotate(0deg)",
+          opacity: 1
+        },
+
+        {
+          transform:
+            "translate(-10px,-78px) rotate(-10deg)",
+          opacity: 1,
+          offset: .6
+        },
+
+        {
+          transform:
+            "translate(-28px,-145px) rotate(-18deg)",
+          opacity: 0
+        }
+
+      ], {
+
+        duration: 700,
+
+        easing:
+          "cubic-bezier(.2,.7,.2,1)",
+
+        fill: "forwards"
+
+      }),
+
+      /* CORAZON QUE SALE DEL REGALO */
+
+      animarElemento(corazonGigante, [
+
+        {
+          transform:
+            "translateY(12px) scale(.2)",
+          opacity: 0
+        },
+
+        {
+          transform:
+            "translateY(-22px) scale(1.15)",
+          opacity: 1,
+          offset: .7
+        },
+
+        {
+          transform:
+            "translateY(-22px) scale(1)",
+          opacity: 1
+        }
+
+      ], {
+
+        duration: 780,
+        easing: "ease-out",
+        fill: "forwards"
+
+      }),
+
+      explosion
+
+    ]);
+
+    /* TRANSICION AL CALENDARIO */
+
+    await animarElemento(bienvenida, [
+
+      { opacity: 1 },
+
+      { opacity: 0 }
+
+    ], {
+
+      duration: 300,
+      fill: "forwards"
+
+    });
+
+  } catch (error) {
+
+    console.warn(
+      "Se omitió una animación de bienvenida.",
+      error
+    );
+
+  } finally {
+
+    bienvenida.close();
+    bienvenida.remove();
+
+    window.scrollTo(0, 0);
+
+    const primeraPuerta =
+      calendario.querySelector(
+        ".puerta:not(:disabled)"
+      );
+
+    if (primeraPuerta) {
+
+      primeraPuerta.focus({
+        preventScroll: true
+      });
+
+    }
+
+  }
+
+}
+
+regaloGigante.addEventListener(
+  "click",
+  abrirBienvenida
+);
+
+bienvenida.addEventListener(
+  "cancel",
+  evento => {
+
+    evento.preventDefault();
+
+    if (!bienvenidaAbierta) {
+
+      abrirBienvenida();
+
+    }
+
+  }
+);
+
+bienvenida.showModal();
+
 </script>
+
+<!-- CONEXION CON EL EDITOR Y EL CIFRADO -->
+
 <script src="sorpresas-lector.js"></script>
+
 </body>
 </html>
