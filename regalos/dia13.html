@@ -1,1 +1,1135 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Nuestra próxima aventura</title>
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html.integrado,
+html.integrado body {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  background: #fff5f1;
+  color: #a30c29;
+  font-family: Georgia, serif;
+  text-align: center;
+}
+
+#regalo {
+  width: 100%;
+  max-width: 560px;
+  margin: auto;
+  padding: 22px 10px 26px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ENCABEZADO */
+
+.mini {
+  font: 10px Arial, sans-serif;
+  letter-spacing: 2px;
+  margin: 8px 0 16px;
+}
+
+h1 {
+  font-size: clamp(25px, 6vw, 34px);
+  font-weight: normal;
+  margin: 0 0 12px;
+}
+
+#instrucciones {
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 44px;
+  margin: 0 0 18px;
+  color: #a45561;
+}
+
+/* CONTENEDOR DE LOS BOLETOS */
+
+.ticket {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  margin: 18px auto;
+  isolation: isolate;
+  filter: drop-shadow(0 6px 5px #782c2d25);
+}
+
+#imagen,
+#rascar {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+#imagen {
+  object-fit: contain;
+  visibility: hidden;
+  user-select: none;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+.ticket.listo #imagen {
+  visibility: visible;
+}
+
+/* SUPERFICIE PARA RASCAR */
+
+#rascar {
+  z-index: 2;
+  touch-action: none;
+  cursor: crosshair;
+  transition: opacity .7s ease;
+}
+
+#rascar.revelado {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* PROGRESO */
+
+.progreso {
+  width: 45%;
+  height: 5px;
+  background: #eed9cd;
+  border-radius: 10px;
+  margin: 20px auto 10px;
+  overflow: hidden;
+  transition: opacity .35s;
+}
+
+#barra {
+  height: 100%;
+  width: 0;
+  background: #b92741;
+  border-radius: 10px;
+  transition: width .15s;
+}
+
+#mensaje {
+  min-height: 40px;
+  margin: 8px 0;
+  font-size: 13px;
+  line-height: 1.5;
+  font-style: italic;
+  color: #a65365;
+}
+
+/* BOTON GUARDAR */
+
+.acciones {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 44px;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity .5s;
+}
+
+.acciones.visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+.boton {
+  background: #a30c29;
+  color: #fff5f1;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font: 14px Georgia, serif;
+  text-decoration: none;
+}
+
+/* CARTA QUE APARECE AL FINAL */
+
+.carta {
+  position: relative;
+  width: 100%;
+  max-width: 490px;
+  margin: 28px auto 10px;
+  padding: 24px 20px 26px;
+
+  background:
+    radial-gradient(
+      ellipse at top left,
+      #efd9c44d,
+      transparent 65%
+    ),
+    #fff8e9;
+
+  border: 1px solid #d5b09a;
+  box-shadow: 0 5px 15px #78322d15;
+
+  animation: aparecerCarta 1s ease both;
+}
+
+.carta::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid #e0c0ac;
+  pointer-events: none;
+}
+
+.carta h2 {
+  font-size: 25px;
+  font-weight: normal;
+  font-style: italic;
+  line-height: 1.3;
+  margin: 4px 0 18px;
+}
+
+.linea {
+  width: 70px;
+  height: 1px;
+  background: #c47a86;
+  margin: 0 auto 22px;
+}
+
+.carta p {
+  text-align: left;
+  font-size: 15px;
+  line-height: 1.85;
+  color: #872538;
+  margin: 0 0 18px;
+}
+
+.carta p:last-of-type {
+  margin-bottom: 10px;
+}
+
+.corazon-final {
+  font-size: 34px;
+  margin: 14px auto 0;
+  color: #a30c29;
+}
+
+.decoracion {
+  letter-spacing: 6px;
+  color: #cc7e87;
+  margin: 18px 0 0;
+}
+
+/* PARTICULAS */
+
+.particula {
+  position: absolute;
+  z-index: 20;
+  pointer-events: none;
+  line-height: 1;
+  opacity: 0;
+}
+
+/* ACCESIBILIDAD */
+
+.accesible {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.accesible:focus {
+  position: relative;
+  width: auto;
+  height: auto;
+  clip-path: none;
+  padding: 8px;
+  border: 1px solid #a30c29;
+  background: #fff5f1;
+  color: #a30c29;
+}
+
+/* ANIMACIONES */
+
+@keyframes aparecerCarta {
+
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<main id="regalo">
+
+  <p class="mini">
+    ♡ UNA NUEVA AVENTURA JUNTOS ♡
+  </p>
+
+  <h1>Nuestro próximo recuerdo</h1>
+
+  <p id="instrucciones">
+    Preparando tu sorpresa...
+  </p>
+
+  <!-- BOLETOS ORIGINALES -->
+
+  <div class="ticket" id="ticket">
+
+    <img
+      id="imagen"
+      alt="Dos boletos simbólicos de The Warning, Everything's Falling World Tour, 5 de febrero de 2027, Estadio GNP Seguros, Ciudad de México.">
+
+    <canvas
+      id="rascar"
+      aria-hidden="true">
+    </canvas>
+
+  </div>
+
+  <!-- PROGRESO -->
+
+  <div class="progreso" id="progreso">
+
+    <div id="barra"></div>
+
+  </div>
+
+  <p id="mensaje" aria-live="polite">
+    ¿Qué habrá detrás? ♡
+  </p>
+
+  <button
+    class="accesible"
+    id="accesible"
+    type="button"
+    hidden>
+
+    Descubrir sorpresa sin rascar
+
+  </button>
+
+  <!-- GUARDAR BOLETOS -->
+
+  <div class="acciones" id="acciones">
+
+    <a
+      class="boton"
+      href="../ticket13.png"
+      download="Nuestro-concierto-The-Warning.png">
+
+      Guardar nuestros boletos ♡
+
+    </a>
+
+  </div>
+
+  <!-- MENSAJE PERSONALIZADO -->
+
+  <article class="carta" id="carta" hidden>
+
+    <h2>Una aventura más con usted</h2>
+
+    <div class="linea"></div>
+
+    <p>
+      Holiii este reaglo son los tickets simbolicos de nuestro siguiente viaje se que no es un regalo como tal, solo quería que tuviera algo especial y diferente para recordar este primer concierto de su banda favorita que se que a querido ir a verlas desde hace mucho.
+    </p>
+
+    <p>
+      Y quería hacerle saber que espero con muchaaaas ansias este viaje, conocer otro lugar nuevo, vivir nuevas experiencias, estar juntos todo el diaa, reírnos, cansarnos por tanto caminar ir a comer a lugares bonitos y cocinar, ya estoy imaginando todo y todo será bonito gracias a que usted estará conmigo.
+    </p>
+
+    <p>
+      También le aviso que habrá un regalo personalizado para esa fecha jeje y que esto podría ser una pista de algún próximo regalo no lo se.
+    </p>
+
+    <div class="corazon-final">
+      ♡
+    </div>
+
+  </article>
+
+  <p class="decoracion">
+    ♡ ─ ✧ ─ ♡
+  </p>
+
+</main>
+
+<script>
+
+/* EVITAR TEMBLORES */
+
+if (window.parent !== window) {
+
+  document.documentElement.classList.add(
+    "integrado"
+  );
+
+}
+
+/* ELEMENTOS */
+
+const $ = id => document.getElementById(id);
+
+const canvas = $("rascar");
+
+const ctx = canvas.getContext("2d", {
+  willReadFrequently: true
+});
+
+const img = $("imagen");
+const ticket = $("ticket");
+const regalo = $("regalo");
+
+const reducirMovimiento = matchMedia(
+  "(prefers-reduced-motion: reduce)"
+);
+
+let W, H;
+
+let muestras = [];
+let activo = null;
+let anterior = null;
+
+let descubierto = false;
+let listo = false;
+
+let revision = 0;
+let ultimoBrillo = 0;
+
+/* CARGAR LOS BOLETOS */
+
+img.onload = () => {
+
+  W = 1000;
+
+  H = Math.round(
+    W * img.naturalHeight / img.naturalWidth
+  );
+
+  canvas.width = W;
+  canvas.height = H;
+
+  ticket.style.aspectRatio =
+    img.naturalWidth + " / " +
+    img.naturalHeight;
+
+  /* OBTENER EL CONTORNO DE LOS BOLETOS */
+
+  const mascara = document.createElement("canvas");
+
+  mascara.width = W;
+  mascara.height = H;
+
+  const m = mascara.getContext("2d", {
+    willReadFrequently: true
+  });
+
+  m.drawImage(img, 0, 0, W, H);
+
+  const alfa =
+    m.getImageData(0, 0, W, H).data;
+
+  muestras = [];
+
+  for (let y = 3; y < H; y += 6) {
+
+    for (let x = 3; x < W; x += 6) {
+
+      const i = (y * W + x) * 4 + 3;
+
+      if (alfa[i] > 200) {
+
+        muestras.push(i);
+
+      }
+
+    }
+
+  }
+
+  /* ENVOLTORIO ROJO VINO */
+
+  const rojo =
+    ctx.createLinearGradient(0, 0, W, H);
+
+  rojo.addColorStop(0, "#77142a");
+  rojo.addColorStop(.35, "#ad2540");
+  rojo.addColorStop(.65, "#c23d52");
+  rojo.addColorStop(1, "#86172d");
+
+  ctx.fillStyle = rojo;
+
+  ctx.fillRect(0, 0, W, H);
+
+  /* TEXTURA DEL PAPEL */
+
+  let semilla = 170922;
+
+  function azar() {
+
+    semilla =
+      (semilla * 1664525 + 1013904223) >>> 0;
+
+    return semilla / 4294967296;
+
+  }
+
+  for (let i = 0; i < 14000; i++) {
+
+    ctx.fillStyle =
+      i % 2 ? "#fff6e815" : "#500e2018";
+
+    ctx.fillRect(
+      azar() * W,
+      azar() * H,
+      1.5,
+      1.5
+    );
+
+  }
+
+  /* DESTELLOS DEL ENVOLTORIO */
+
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  ctx.fillStyle = "#fff1d75c";
+  ctx.font = "27px Georgia";
+
+  for (let y = 35; y < H; y += 76) {
+
+    for (let x = 40; x < W; x += 86) {
+
+      ctx.fillText(
+
+        "✧",
+
+        x + (Math.floor(y / 76) % 2) * 30,
+
+        y
+
+      );
+
+    }
+
+  }
+
+  /* CINTA VERTICAL CREMA */
+
+  const vertical = ctx.createLinearGradient(
+    W * .45, 0, W * .55, 0
+  );
+
+  vertical.addColorStop(0, "#cdb4a0");
+  vertical.addColorStop(.5, "#fff0dc");
+  vertical.addColorStop(1, "#dfc5b1");
+
+  ctx.fillStyle = vertical;
+
+  ctx.fillRect(
+
+    W * .455,
+
+    0,
+
+    W * .09,
+
+    H
+
+  );
+
+  /* CINTA HORIZONTAL CREMA */
+
+  const horizontal = ctx.createLinearGradient(
+    0, H * .42, 0, H * .58
+  );
+
+  horizontal.addColorStop(0, "#d4b9a4");
+  horizontal.addColorStop(.5, "#fff0dc");
+  horizontal.addColorStop(1, "#d9bda8");
+
+  ctx.fillStyle = horizontal;
+
+  ctx.fillRect(
+
+    0,
+
+    H * .42,
+
+    W,
+
+    H * .16
+
+  );
+
+  /* DETALLES DE LAS CINTAS */
+
+  ctx.strokeStyle = "#fff9eb99";
+  ctx.lineWidth = 1.5;
+
+  for (const x of [W * .465, W * .535]) {
+
+    ctx.beginPath();
+
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, H);
+
+    ctx.stroke();
+
+  }
+
+  for (const y of [H * .435, H * .565]) {
+
+    ctx.beginPath();
+
+    ctx.moveTo(0, y);
+    ctx.lineTo(W, y);
+
+    ctx.stroke();
+
+  }
+
+  /* ETIQUETA CENTRAL */
+
+  const lx = W * .245;
+  const ly = H * .32;
+  const lw = W * .51;
+  const lh = H * .36;
+
+  ctx.save();
+
+  ctx.shadowColor = "#500e204d";
+  ctx.shadowBlur = 10;
+  ctx.shadowOffsetY = 4;
+
+  ctx.fillStyle = "#fff0dc";
+
+  ctx.beginPath();
+
+  ctx.roundRect(lx, ly, lw, lh, 8);
+
+  ctx.fill();
+
+  ctx.restore();
+
+  /* BORDE DE LA ETIQUETA */
+
+  ctx.strokeStyle = "#a30c29";
+  ctx.lineWidth = 2;
+
+  ctx.beginPath();
+
+  ctx.roundRect(
+
+    lx + 8,
+
+    ly + 8,
+
+    lw - 16,
+
+    lh - 16,
+
+    4
+
+  );
+
+  ctx.stroke();
+
+  /* TEXTO CENTRAL */
+
+  ctx.fillStyle = "#a30c29";
+
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  ctx.font =
+    `italic ${Math.min(64, H * .16)}px Georgia`;
+
+  ctx.fillText(
+
+    "Rasca y gana",
+
+    W / 2,
+
+    H / 2,
+
+    lw - 35
+
+  );
+
+  /* RECORTAR CON LA SILUETA ORIGINAL */
+
+  ctx.globalCompositeOperation =
+    "destination-in";
+
+  ctx.drawImage(mascara, 0, 0);
+
+  ctx.globalCompositeOperation =
+    "source-over";
+
+  listo = true;
+
+  ticket.classList.add("listo");
+
+  $("instrucciones").textContent =
+    "Rasca con tu dedo para descubrir tu sorpresa.";
+
+  $("accesible").hidden = false;
+
+};
+
+/* ERROR SI FALTA LA IMAGEN */
+
+img.onerror = () => {
+
+  $("instrucciones").textContent =
+    "No se encontró ticket13.png. Revisa el nombre y la ubicación del archivo.";
+
+};
+
+/* UBICACION DE LOS BOLETOS */
+
+img.src = "../ticket13.png";
+
+/* POSICION DEL DEDO O MOUSE */
+
+function punto(e) {
+
+  const r = canvas.getBoundingClientRect();
+
+  return {
+
+    x: (e.clientX - r.left) * W / r.width,
+
+    y: (e.clientY - r.top) * H / r.height
+
+  };
+
+}
+
+/* BORRAR ENVOLTORIO */
+
+function borrar(p, e) {
+
+  ctx.globalCompositeOperation =
+    "destination-out";
+
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+
+  ctx.lineWidth = W * .135;
+
+  ctx.beginPath();
+
+  ctx.moveTo(anterior.x, anterior.y);
+  ctx.lineTo(p.x, p.y);
+
+  ctx.stroke();
+
+  ctx.beginPath();
+
+  ctx.arc(
+
+    p.x,
+
+    p.y,
+
+    W * .0675,
+
+    0,
+
+    Math.PI * 2
+
+  );
+
+  ctx.fill();
+
+  anterior = p;
+
+  const ahora = performance.now();
+
+  /* PARTICULAS AL RASCAR */
+
+  if (ahora - ultimoBrillo > 75) {
+
+    ultimoBrillo = ahora;
+
+    const r = regalo.getBoundingClientRect();
+
+    particulas(
+
+      e.clientX - r.left,
+
+      e.clientY - r.top,
+
+      4,
+
+      true
+
+    );
+
+  }
+
+  /* REVISAR PROGRESO */
+
+  if (ahora - revision > 130) {
+
+    revision = ahora;
+
+    comprobar();
+
+  }
+
+}
+
+/* COMENZAR A RASCAR */
+
+canvas.addEventListener("pointerdown", e => {
+
+  if (
+
+    !listo ||
+
+    descubierto ||
+
+    activo !== null ||
+
+    (e.pointerType === "mouse" &&
+     e.button !== 0)
+
+  ) return;
+
+  e.preventDefault();
+
+  activo = e.pointerId;
+
+  canvas.setPointerCapture(activo);
+
+  anterior = punto(e);
+
+  borrar(anterior, e);
+
+});
+
+/* CONTINUAR RASCANDO */
+
+canvas.addEventListener("pointermove", e => {
+
+  if (
+
+    descubierto ||
+
+    activo !== e.pointerId
+
+  ) return;
+
+  e.preventDefault();
+
+  borrar(punto(e), e);
+
+});
+
+/* TERMINAR DE RASCAR */
+
+function detener(e) {
+
+  if (activo !== e.pointerId) return;
+
+  activo = null;
+
+  comprobar();
+
+}
+
+[
+
+  "pointerup",
+
+  "pointercancel",
+
+  "lostpointercapture"
+
+].forEach(n => {
+
+  canvas.addEventListener(n, detener);
+
+});
+
+/* CALCULAR PORCENTAJE DESCUBIERTO */
+
+function comprobar() {
+
+  if (descubierto || !muestras.length) return;
+
+  const datos =
+    ctx.getImageData(0, 0, W, H).data;
+
+  let borrados = 0;
+
+  for (const i of muestras) {
+
+    if (datos[i] < 128) {
+
+      borrados++;
+
+    }
+
+  }
+
+  const porcentaje =
+    borrados / muestras.length;
+
+  $("barra").style.width =
+
+    Math.min(100, porcentaje / .55 * 100)
+
+    + "%";
+
+  /* REVELAR AL RASCAR EL 55% */
+
+  if (porcentaje >= .55) {
+
+    revelar();
+
+  }
+
+}
+
+/* MOSTRAR LOS BOLETOS */
+
+function revelar() {
+
+  if (!listo || descubierto) return;
+
+  descubierto = true;
+
+  activo = null;
+
+  canvas.classList.add("revelado");
+
+  $("barra").style.width = "100%";
+
+  $("progreso").style.opacity = "0";
+
+  $("accesible").hidden = true;
+
+  $("instrucciones").textContent =
+    "The Warning · Everything's Falling World Tour";
+
+  $("mensaje").textContent =
+    "5 de febrero de 2027 · Una aventura más juntos ♡";
+
+  $("acciones").classList.add("visible");
+
+  /* CELEBRACION */
+
+  const r = regalo.getBoundingClientRect();
+
+  const t = ticket.getBoundingClientRect();
+
+  particulas(
+
+    t.left - r.left + t.width / 2,
+
+    t.top - r.top + t.height / 2,
+
+    110,
+
+    false
+
+  );
+
+  /* MOSTRAR EL MENSAJE DESPUES
+     DE DESCUBRIR LOS BOLETOS */
+
+  setTimeout(() => {
+
+    $("carta").hidden = false;
+
+  }, reducirMovimiento.matches ? 0 : 850);
+
+  /* NO GUARDAMOS EL ESTADO.
+     PODRA VOLVER A RASCAR CADA VEZ. */
+
+}
+
+/* CORAZONES Y CONFETI */
+
+function particulas(x, y, n, polvo) {
+
+  if (
+
+    reducirMovimiento.matches ||
+
+    !Element.prototype.animate
+
+  ) return;
+
+  const colores = polvo
+
+    ? [
+
+        "#ad2540",
+
+        "#fff0dc",
+
+        "#db9ba9"
+
+      ]
+
+    : [
+
+        "#a30c29",
+
+        "#cf1735",
+
+        "#ff90a5",
+
+        "#c8a1b2",
+
+        "#fff0dc"
+
+      ];
+
+  for (let i = 0; i < n; i++) {
+
+    const el = document.createElement("span");
+
+    el.className = "particula";
+
+    el.setAttribute("aria-hidden", "true");
+
+    el.textContent = polvo
+
+      ? "·"
+
+      : ["♡", "♥", "✦", "▪"][i % 4];
+
+    el.style.left = x + "px";
+
+    el.style.top = y + "px";
+
+    el.style.color =
+      colores[i % colores.length];
+
+    el.style.fontSize =
+
+      (polvo
+
+        ? 8 + Math.random() * 9
+
+        : 12 + Math.random() * 20
+
+      ) + "px";
+
+    regalo.appendChild(el);
+
+    const a = Math.random() * Math.PI * 2;
+
+    const d = polvo
+
+      ? 12 + Math.random() * 35
+
+      : 45 + Math.random() * 230;
+
+    const dx = Math.cos(a) * d;
+
+    const dy =
+      Math.sin(a) * d - (polvo ? 0 : 30);
+
+    el.animate([
+
+      {
+
+        transform: "translate(0,0) scale(.5)",
+
+        opacity: .95
+
+      },
+
+      {
+
+        transform: `
+
+          translate(${dx}px, ${dy}px)
+
+          rotate(${Math.random() * 240 - 120}deg)
+
+        `,
+
+        opacity: 0
+
+      }
+
+    ], {
+
+      duration: polvo
+
+        ? 420
+
+        : 1100 + Math.random() * 1000,
+
+      easing: "ease-out",
+
+      fill: "both"
+
+    }).finished
+
+      .catch(() => {})
+
+      .finally(() => el.remove());
+
+  }
+
+}
+
+/* BOTON ACCESIBLE */
+
+$("accesible").addEventListener(
+
+  "click",
+
+  revelar
+
+);
+
+</script>
+
+</body>
+</html>
+
