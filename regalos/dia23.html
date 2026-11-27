@@ -1,534 +1,1079 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Día 23 - Nuestra casa</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La casa de nuestros sueños</title>
 
-    body {
-      margin: 0;
-      font-family: Georgia, serif;
-      background: #f8efea;
-      color: #8f2538;
-      min-height: 100vh;
-    }
+<style>
 
-    .pagina {
-      width: 100%;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 24px 14px;
-    }
+* {
+  box-sizing: border-box;
+}
 
-    .contenedor {
-      width: 100%;
-      max-width: 780px;
-    }
+[hidden] {
+  display: none !important;
+}
 
-    /* PORTADA */
-    .portada {
-      background: #f4e7dc;
-      border: 1px solid #d7b2a8;
-      border-radius: 16px;
-      box-shadow: 0 18px 45px rgba(120, 53, 58, 0.12);
-      padding: 28px 20px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
+html.integrado,
+html.integrado body {
+  overflow: hidden;
+}
 
-    .portada::before,
-    .portada::after {
-      content: "";
-      position: absolute;
-      width: 180px;
-      height: 180px;
-      border: 1px dashed rgba(143, 37, 56, 0.12);
-      border-radius: 50%;
-      pointer-events: none;
-    }
+body {
+  margin: 0;
+  font-family: Georgia, serif;
+  background: #fff5f1;
+  color: #8f2538;
+}
 
-    .portada::before {
-      top: -70px;
-      left: -70px;
-    }
+#regalo {
+  width: 100%;
+  max-width: 560px;
+  margin: auto;
+  padding: 18px 10px 24px;
+}
 
-    .portada::after {
-      bottom: -70px;
-      right: -70px;
-    }
+/* PORTADA */
 
-    .tag {
-      display: inline-block;
-      font-family: Arial, sans-serif;
-      font-size: 11px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: #a44e5d;
-      margin-bottom: 18px;
-    }
+.portada {
+  background: #fff8e9;
+  border: 1px solid #d5a69b;
+  padding: 20px 16px;
+  box-shadow: 0 6px 18px #78322d18;
+  text-align: center;
+}
 
-    .icono-portada {
-      width: 130px;
-      height: 130px;
-      margin: 0 auto 20px;
-      border-radius: 50%;
-      background: #fff8f3;
-      border: 1px solid #e2c0b6;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      box-shadow: inset 0 0 0 8px rgba(255,255,255,0.55);
-    }
+.datos-superiores {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font: 10px Arial, sans-serif;
+  letter-spacing: 1px;
+  color: #a30c29;
+  margin-bottom: 24px;
+}
 
-    .icono-portada svg {
-      width: 74px;
-      height: 74px;
-      stroke: #9b3042;
-      fill: none;
-      stroke-width: 1.8;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
+.dibujo {
+  width: 100%;
+  margin: 0 auto 22px;
+}
 
-    .portada h1 {
-      margin: 0;
-      font-size: clamp(30px, 5vw, 48px);
-      font-weight: normal;
-      line-height: 1.08;
-    }
+.dibujo svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
 
-    .subtitulo {
-      margin-top: 14px;
-      font-size: 17px;
-      color: #a14a59;
-      line-height: 1.7;
-      max-width: 560px;
-      margin-left: auto;
-      margin-right: auto;
-    }
+.portada h1 {
+  font-size: clamp(23px, 5.5vw, 32px);
+  font-weight: normal;
+  font-style: italic;
+  color: #a30c29;
+  line-height: 1.3;
+  margin: 15px 0;
+}
 
-    .boton {
-      border: none;
-      background: #a12842;
-      color: #fff8f2;
-      padding: 13px 24px;
-      font-family: inherit;
-      font-size: 16px;
-      border-radius: 999px;
-      cursor: pointer;
-      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
-      box-shadow: 0 10px 25px rgba(161, 40, 66, 0.20);
-    }
+.subtitulo {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #a44e5d;
+  margin: 0 0 22px;
+}
 
-    .boton:hover {
-      transform: translateY(-2px);
-      background: #911f38;
-    }
+.cuadro-datos {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+  border-top: 1px solid #d5a69b;
+  border-bottom: 1px solid #d5a69b;
+  padding: 12px 0;
+  margin: 15px 0 20px;
+}
 
-    .boton.secundario {
-      background: transparent;
-      color: #9b3042;
-      border: 1px solid #d5abb1;
-      box-shadow: none;
-    }
+.datos {
+  font: 9px Arial, sans-serif;
+  letter-spacing: 1px;
+  line-height: 1.8;
+}
 
-    .boton.secundario:hover {
-      background: #fff7f4;
-    }
+.lamina {
+  font: 25px Arial, sans-serif;
+  color: #a30c29;
+}
 
-    .acciones-portada {
-      margin-top: 24px;
-    }
+/* BOTONES */
 
-    /* INTERIOR */
-    .interior {
-      display: none;
-      animation: aparecer .45s ease;
-    }
+.boton {
+  border: 1px solid #a12842;
+  background: #a12842;
+  color: #fff8f2;
+  padding: 12px 20px;
+  font-family: Georgia, serif;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background .2s;
+}
 
-    .interior.activo {
-      display: block;
-    }
+.boton:hover {
+  background: #911f38;
+}
 
-    .hoja {
-      background: #fffaf6;
-      border: 1px solid #e2c2b8;
-      border-radius: 18px;
-      box-shadow: 0 18px 45px rgba(120, 53, 58, 0.10);
-      padding: 22px;
-    }
+.boton.secundario {
+  background: transparent;
+  color: #9b3042;
+  border: 1px solid #d5abb1;
+}
 
-    .encabezado {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+.boton.secundario:hover {
+  background: #fff7f4;
+}
 
-    .encabezado .mini {
-      font-family: Arial, sans-serif;
-      font-size: 11px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: #a44e5d;
-      margin-bottom: 10px;
-    }
+/* INTERIOR */
 
-    .encabezado h2 {
-      margin: 0;
-      font-size: clamp(28px, 4vw, 42px);
-      font-weight: normal;
-      line-height: 1.08;
-    }
+.interior {
+  animation: aparecer .6s ease both;
+}
 
-    .texto {
-      margin-top: 20px;
-      background: #fff4ef;
-      border: 1px solid #edd0c7;
-      border-radius: 16px;
-      padding: 20px 18px;
-      line-height: 1.95;
-      font-size: 16px;
-      color: #8d3144;
-      white-space: pre-line;
-    }
+.hoja {
+  background: #fffaf6;
+  border: 1px solid #e2c2b8;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px #78322d14;
+  padding: 18px 14px;
+}
 
-    .bloque-lista {
-      margin-top: 22px;
-      background: #fff4ef;
-      border: 1px solid #edd0c7;
-      border-radius: 16px;
-      padding: 20px 18px;
-    }
+.encabezado {
+  text-align: center;
+  margin-bottom: 20px;
+}
 
-    .bloque-lista h3 {
-      margin: 0 0 8px;
-      font-size: 27px;
-      font-weight: normal;
-    }
+.encabezado .mini {
+  font: 10px Arial, sans-serif;
+  letter-spacing: 2px;
+  color: #a44e5d;
+  margin-bottom: 12px;
+}
 
-    .bloque-lista p {
-      margin: 0 0 18px;
-      font-size: 15px;
-      color: #a04a5a;
-      line-height: 1.7;
-    }
+.encabezado h2 {
+  margin: 0;
+  color: #a30c29;
+  font-size: clamp(23px, 5vw, 32px);
+  font-weight: normal;
+  line-height: 1.2;
+}
 
-    .lista {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
+/* MENSAJE */
 
-    .item {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      background: #fffaf6;
-      border: 1px solid #ead0c9;
-      border-radius: 14px;
-      padding: 14px 14px;
-    }
+.texto {
+  margin-top: 20px;
+  background: #fff4ef;
+  border: 1px solid #edd0c7;
+  border-radius: 12px;
+  padding: 18px 15px;
+  line-height: 1.85;
+  font-size: 15px;
+  color: #8d3144;
+}
 
-    .numero {
-      width: 28px;
-      height: 28px;
-      flex-shrink: 0;
-      border-radius: 50%;
-      background: #a12842;
-      color: #fff7f1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      font-family: Arial, sans-serif;
-    }
+.texto p {
+  margin: 0 0 17px;
+}
 
-    .texto-item {
-      flex: 1;
-      font-size: 15px;
-      line-height: 1.65;
-      color: #8c3244;
-      word-break: break-word;
-    }
+.texto p:last-child {
+  margin-bottom: 0;
+}
 
-    .quitar {
-      background: transparent;
-      border: none;
-      color: #a12842;
-      font-size: 24px;
-      line-height: 1;
-      cursor: pointer;
-      padding: 0 4px;
-      margin-top: -2px;
-    }
+/* LISTA DE DESEOS */
 
-    .formulario {
-      display: flex;
-      gap: 10px;
-      align-items: stretch;
-      flex-wrap: wrap;
-    }
+.bloque-lista {
+  margin-top: 22px;
+  background: #fff4ef;
+  border: 1px solid #edd0c7;
+  border-radius: 12px;
+  padding: 18px 14px;
+}
 
-    .formulario input {
-      flex: 1 1 260px;
-      min-width: 0;
-      border: 1px solid #dcbab1;
-      border-radius: 12px;
-      padding: 14px 14px;
-      background: #fffdfb;
-      font-family: inherit;
-      font-size: 15px;
-      color: #8f2538;
-      outline: none;
-    }
+.bloque-lista h3 {
+  margin: 0 0 10px;
+  font-size: 23px;
+  font-weight: normal;
+}
 
-    .formulario input:focus {
-      border-color: #b84a61;
-      box-shadow: 0 0 0 3px rgba(184,74,97,0.12);
-    }
+.bloque-lista p {
+  margin: 0 0 18px;
+  font-size: 14px;
+  color: #a04a5a;
+  line-height: 1.7;
+}
 
-    .pie-botones {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 24px;
-    }
+.lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
 
-    .estado {
-      text-align: center;
-      margin-top: 14px;
-      min-height: 20px;
-      font-size: 14px;
-      color: #a34c5b;
-    }
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #fffaf6;
+  border: 1px solid #ead0c9;
+  border-radius: 8px;
+  padding: 12px 10px;
+}
 
-    @keyframes aparecer {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+.numero {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #a12842;
+  color: #fff7f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 12px Arial, sans-serif;
+}
 
-    @media (max-width: 640px) {
-      .hoja {
-        padding: 16px;
-      }
+.texto-item {
+  flex: 1;
+  min-width: 0;
+  font-size: 14px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
 
-      .texto,
-      .bloque-lista {
-        padding: 16px 14px;
-      }
+.quitar {
+  background: transparent;
+  border: none;
+  color: #a12842;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 4px;
+}
 
-      .portada {
-        padding: 24px 16px;
-      }
-    }
-  </style>
+/* FORMULARIO */
+
+.formulario {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+.formulario input {
+  flex: 1 1 180px;
+  min-width: 0;
+  border: 1px solid #dcbab1;
+  border-radius: 8px;
+  padding: 13px 10px;
+  background: #fffdfb;
+  font-family: Georgia, serif;
+  font-size: 16px;
+  color: #8f2538;
+  outline: none;
+}
+
+.formulario input:focus {
+  border-color: #b84a61;
+  box-shadow: 0 0 0 2px #b84a6118;
+}
+
+.pie-botones {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.estado {
+  text-align: center;
+  margin-top: 14px;
+  min-height: 20px;
+  font-size: 12px;
+  color: #a34c5b;
+}
+
+.decoracion {
+  text-align: center;
+  color: #cc7e87;
+  letter-spacing: 6px;
+  margin: 22px 0 5px;
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+</style>
 </head>
+
 <body>
-  <div class="pagina">
-    <div class="contenedor">
 
-      <!-- PORTADA -->
-      <section class="portada" id="portada23">
-        <div class="tag">Proyecto 23 · Arquitectura y amor</div>
+<main id="regalo">
 
-        <div class="icono-portada">
-          <svg viewBox="0 0 64 64" aria-hidden="true">
-            <path d="M10 48h44"></path>
-            <path d="M14 47V26l18-12 18 12v21"></path>
-            <path d="M24 47V34h16v13"></path>
-            <path d="M18 30h8"></path>
-            <path d="M38 30h8"></path>
-            <path d="M42 18c2-3 6-4 9-1 2 2 2 5 0 7-2 2-5 4-9 7-4-3-7-5-9-7-2-2-2-5 0-7 3-3 7-2 9 1z"></path>
-          </svg>
-        </div>
+  <!-- PORTADA -->
 
-        <h1>La casa de nuestros sueños</h1>
+  <section class="portada" id="portada23">
 
-        <div class="subtitulo">
-          Un pequeño espacio para imaginar juntos cómo sería nuestro hogar ideal ♡
-        </div>
+    <div class="datos-superiores">
+      <span>PROYECTO 170922</span>
+      <span>LÁMINA 01</span>
+    </div>
 
-        <div class="acciones-portada">
-          <button class="boton" id="abrir23">Abrir proyecto</button>
-        </div>
-      </section>
+    <!-- FACHADA DIBUJADA MEDIANTE CODIGO -->
 
-      <!-- INTERIOR -->
-      <section class="interior" id="interior23">
-        <div class="hoja">
-          <div class="encabezado">
-            <div class="mini">Proyecto 23</div>
-            <h2>La casa de nuestros sueños</h2>
-          </div>
+    <div class="dibujo">
 
-          <div class="texto">
-por finnn ya que tendré algo mas de tiempo podre diseñar si o si este 2027 nuestra casa de nuestros sueños no importa si es exagerado JKASJDK que tenga cosas no tan reales aun asi será un lindo recuerdo diseñarla y tenerla ahí guardada y quien sabe si en un algún momento de nuestra vida se nos haga realidad y podamos tenerla que esperemos que sii, usted puede aquí agregar todo lo que quiere que tenga la casa, cocina nose grande o con una barra des ayunadora etc , que sea de un piso o de dos o de cuantos, que tenga doble altura nose donde en la sala por ejemplo, pues que la sala sea así normal o hacia abajo que tenga alberca lugar de asador lo que usted me digaaa también agregue en que lugar le gastaría que fuera la casa si en torreón o en otro lugar, también cuantas habitaciones, estudios o que otras cosas, en fin ponga todoo lo que usted quiera entre mas detalles y precisa sea mejorr si falta algo yo me encargo, te amo.
-          </div>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 570 205"
+        role="img"
+        aria-label="Alzado arquitectónico conceptual de nuestra casa">
 
-          <div class="bloque-lista">
-            <h3>Cosas que deben estar sí o sí</h3>
-            <p>
-              Puede escribir aquí todo lo que le gustaría que tuviera nuestra casa y se quedará guardado ♡
-            </p>
+        <defs>
 
-            <div class="lista" id="lista23"></div>
+          <!-- CUADRICULA -->
 
-            <form class="formulario" id="form23">
-              <input
-                type="text"
-                id="input23"
-                maxlength="300"
-                placeholder="Ej. Cocina grande con barra desayunadora..."
-              />
-              <button type="submit" class="boton">Agregar</button>
-            </form>
+          <pattern id="cuadricula"
+                   width="18"
+                   height="18"
+                   patternUnits="userSpaceOnUse">
 
-            <div class="estado" id="estado23"></div>
-          </div>
+            <path d="M18 0H0V18"
+                  fill="none"
+                  stroke="#d89b9b"
+                  stroke-width=".4"/>
 
-          <div class="pie-botones">
-            <button class="boton secundario" id="copiar23">Copiar lista</button>
-            <button class="boton secundario" id="cerrar23">Cerrar</button>
-          </div>
-        </div>
-      </section>
+          </pattern>
+
+          <!-- MURO DE PIEDRA -->
+
+          <pattern id="piedra"
+                   width="34"
+                   height="28"
+                   patternUnits="userSpaceOnUse">
+
+            <path d="M0 0L12 4L23 0
+                     M12 4L8 17L0 22
+                     M12 4L26 10L34 8
+                     M26 10L23 23L34 28
+                     M8 17L23 23L18 28"
+                  fill="none"
+                  stroke="#a30c29"
+                  stroke-width=".65"/>
+
+          </pattern>
+
+          <!-- BLOQUE DE VEGETACION -->
+
+          <g id="arbol"
+             stroke="#a30c29"
+             stroke-width=".8"
+             stroke-linejoin="round">
+
+            <path d="M-3 0L-2 -33
+                     L-15 -57L-4 -48
+                     L1 -61L4 -39
+                     L17 -54L6 -32L5 0Z"
+                  fill="#fff8e9"/>
+
+            <path d="M-20 -31
+                     L-32 -37L-29 -44
+                     L-42 -50L-36 -60
+                     L-40 -67L-25 -73
+                     L-29 -82L-14 -86
+                     L-10 -97L3 -91
+                     L12 -98L20 -86
+                     L34 -89L30 -78
+                     L43 -72L36 -63
+                     L46 -53L33 -46
+                     L35 -37L21 -35
+                     L17 -28L5 -36
+                     L-7 -30L-12 -38Z"
+                  fill="#fff8e9"/>
+
+            <path d="M-24 -67L-13 -70
+                     L-5 -63L-17 -59Z
+                     M10 -82L19 -76
+                     L13 -68L5 -74Z
+                     M14 -48L24 -56
+                     L31 -49L23 -43Z
+                     M-23 -47L-13 -44L-7 -50
+                     M-5 -31L-10 -49
+                     M4 -33L12 -46"
+                  fill="none"/>
+
+          </g>
+
+          <!-- BLOQUE DE AUTOMOVIL -->
+
+          <g id="auto"
+             stroke="#a30c29"
+             fill="#fff8e9"
+             stroke-width=".85"
+             stroke-linejoin="round">
+
+            <path d="M-21 0V-9
+                     L-24 -15L-21 -25
+                     L-14 -30L-10 -42
+                     Q0 -46 10 -42
+                     L15 -30L22 -25
+                     L24 -15L21 -8V0
+                     H14V-5H-14V0Z"/>
+
+            <!-- PARABRISAS Y COFRE -->
+
+            <path d="M-13 -30L-9 -39
+                     Q0 -42 9 -39
+                     L13 -30Z
+
+                     M-20 -24H20
+                     M-20 -20L-10 -18
+                     H10L20 -20
+
+                     M-12 -14H12
+                     L9 -9H-9Z
+
+                     M-16 -6H16"/>
+
+            <!-- FAROS Y ESPEJOS -->
+
+            <path d="M-20 -18L-13 -16
+                     V-11L-20 -13Z
+
+                     M20 -18L13 -16
+                     V-11L20 -13Z
+
+                     M-15 -28H-25
+                     V-24H-18
+
+                     M15 -28H25
+                     V-24H18"/>
+
+            <rect x="-7"
+                  y="-7"
+                  width="14"
+                  height="3"
+                  rx=".5"/>
+
+          </g>
+
+        </defs>
+
+        <!-- FONDO -->
+
+        <rect width="570"
+              height="205"
+              fill="url(#cuadricula)"/>
+
+        <g stroke="#a30c29"
+           fill="#fff8e9"
+           stroke-linejoin="round">
+
+          <!-- VOLUMETRIA GENERAL -->
+
+          <path d="M39 168V84
+                   H114V68H204V84
+                   H384V59H544V168Z"
+                stroke-width="1.5"/>
+
+          <!-- CAMBIOS DE ALTURA -->
+
+          <path d="M43 168V84
+                   M114 68H204
+                   M384 84H431V59"
+                fill="none"
+                stroke-width=".8"/>
+
+          <!-- COCHERA -->
+
+          <path d="M43 168V108
+                   H189V168
+                   M81 108V168
+                   M129 108V168"
+                fill="none"
+                stroke-width="1.1"/>
+
+          <!-- PUERTA Y VENTANAL -->
+
+          <path d="M47 168V112H65V168
+                   M83 112H126V166H83Z"
+                fill="none"/>
+
+          <!-- REFLEJOS DE CRISTAL -->
+
+          <path d="M91 119l5-5
+                   m-2 7 5-5
+                   m9 16 5-5
+                   m-2 7 5-5"
+                stroke-width=".7"/>
+
+          <!-- VENTANA CENTRAL -->
+
+          <rect x="218"
+                y="108"
+                width="29"
+                height="31"
+                stroke-width="1"/>
+
+          <path d="M221 111H244V136H221Z"
+                fill="none"/>
+
+          <!-- ACCESO PRINCIPAL -->
+
+          <path d="M263 168V108
+                   H310V168
+                   M267 168V112H302V168"
+                fill="none"/>
+
+          <circle cx="296"
+                  cy="140"
+                  r="1.5"/>
+
+          <!-- ACCESO SECUNDARIO -->
+
+          <rect x="408"
+                y="111"
+                width="23"
+                height="57"/>
+
+          <path d="M410 168V114H429V168"
+                fill="none"
+                stroke-width=".65"/>
+
+          <circle cx="424"
+                  cy="140"
+                  r="1.3"/>
+
+          <!-- REVESTIMIENTO DE PIEDRA -->
+
+          <rect x="491"
+                y="59"
+                width="53"
+                height="109"
+                fill="url(#piedra)"
+                stroke-width="1.2"/>
+
+          <!-- AUTOMOVILES -->
+
+          <use href="#auto"
+               transform="translate(89 167) scale(.92)"/>
+
+          <use href="#auto"
+               transform="translate(153 167) scale(.92)"/>
+
+          <!-- ARBOLES -->
+
+          <use href="#arbol"
+               transform="translate(237 168) scale(1.15)"/>
+
+          <use href="#arbol"
+               transform="translate(342 168) scale(.60)"/>
+
+          <use href="#arbol"
+               transform="translate(381 168) scale(.84)"/>
+
+          <use href="#arbol"
+               transform="translate(465 168) scale(.95)"/>
+
+          <!-- ARBUSTOS -->
+
+          <path d="M192 168
+                   Q194 155 204 161
+                   Q213 149 222 168
+
+                   M241 168
+                   Q245 148 257 159
+                   Q264 154 272 168
+
+                   M436 168
+                   Q440 153 451 159
+                   Q458 153 466 168"
+                stroke-width=".8"/>
+
+          <!-- LINEA DE TERRENO -->
+
+          <path d="M14 169H555
+                   M14 169V173H555V169"
+                fill="none"
+                stroke-width="1.3"/>
+
+          <!-- COTAS CONCEPTUALES -->
+
+          <g fill="none"
+             stroke-width=".65"
+             stroke-dasharray="4 3">
+
+            <path d="M39 176V194
+                     M544 176V194
+                     M39 188H544
+
+                     M550 59H564
+                     M550 168H564
+                     M560 59V168"/>
+
+          </g>
+
+        </g>
+
+        <!-- ANOTACIONES -->
+
+        <g fill="#a30c29"
+           font-size="7"
+           font-family="Arial">
+
+          <text x="10" y="12">
+            01 / FACHADA PRINCIPAL
+          </text>
+
+          <text x="285"
+                y="185"
+                text-anchor="middle">
+            DIMENSIONES POR DEFINIR
+          </text>
+
+          <text x="552"
+                y="201"
+                text-anchor="end">
+            S/E
+          </text>
+
+        </g>
+
+      </svg>
 
     </div>
-  </div>
 
-  <script>
-    const portada23 = document.getElementById("portada23");
-    const interior23 = document.getElementById("interior23");
-    const abrir23 = document.getElementById("abrir23");
-    const cerrar23 = document.getElementById("cerrar23");
-    const lista23 = document.getElementById("lista23");
-    const form23 = document.getElementById("form23");
-    const input23 = document.getElementById("input23");
-    const copiar23 = document.getElementById("copiar23");
-    const estado23 = document.getElementById("estado23");
+    <!-- TITULO -->
 
-    const STORAGE_KEY = "regalo23_casa_suenos";
+    <h1>La casa de nuestros sueños</h1>
 
-    const ideasIniciales = [
-      "Casa adaptada para nuestros gatitos",
-      "Cancha de basketball 3x3"
-    ];
+    <p class="subtitulo">
+      Diseñada por mí, soñada por los dos.
+    </p>
 
-    let ideas23 = [];
+    <div class="cuadro-datos">
 
-    function guardarIdeas23() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(ideas23));
-    }
+      <div class="datos">
+        ANTEPROYECTO · 2027<br>
+        VIVIENDA / DISEÑO POR DEFINIR
+      </div>
 
-    function cargarIdeas23() {
-      const guardado = localStorage.getItem(STORAGE_KEY);
+      <div class="lamina">
+        A-01
+      </div>
 
-      if (guardado) {
-        try {
-          ideas23 = JSON.parse(guardado);
-        } catch (error) {
-          ideas23 = [...ideasIniciales];
-        }
-      } else {
-        ideas23 = [...ideasIniciales];
+    </div>
+
+    <button class="boton"
+            id="abrir23"
+            type="button">
+
+      Abrir nuestro proyecto ♡
+
+    </button>
+
+  </section>
+
+  <!-- INTERIOR -->
+
+  <section class="interior"
+           id="interior23"
+           hidden>
+
+    <div class="hoja">
+
+      <div class="encabezado">
+
+        <div class="mini">
+          PROYECTO 170922 · 2027
+        </div>
+
+        <h2>La casa de nuestros sueños</h2>
+
+      </div>
+
+      <!-- MENSAJE PERSONAL -->
+
+      <div class="texto">
+
+        <p>
+          por finnn ya que tendré algo mas de tiempo podre diseñar si o si este 2027 nuestra casa de nuestros sueños no importa si es exagerado JKASJDK que tenga cosas no tan reales aun asi será un lindo recuerdo diseñarla y tenerla ahí guardada y quien sabe si en un algún momento de nuestra vida se nos haga realidad y podamos tenerla que esperemos que sii,
+        </p>
+
+        <p>
+          usted puede aquí agregar todo lo que quiere que tenga la casa, cocina nose grande o con una barra des ayunadora etc , que sea de un piso o de dos o de cuantos, que tenga doble altura nose donde en la sala por ejemplo, pues que la sala sea así normal o hacia abajo que tenga alberca lugar de asador lo que usted me digaaa
+        </p>
+
+        <p>
+          también agregue en que lugar le gastaría que fuera la casa si en torreón o en otro lugar, también cuantas habitaciones, estudios o que otras cosas, en fin ponga todoo lo que usted quiera entre mas detalles y precisa sea mejorr si falta algo yo me encargo, te amo.
+        </p>
+
+      </div>
+
+      <!-- LISTA INTERACTIVA -->
+
+      <div class="bloque-lista">
+
+        <h3>Cosas que deben estar sí o sí</h3>
+
+        <p>
+          Puede escribir aquí todo lo que le gustaría que tuviera nuestra casa y se quedará guardado ♡
+        </p>
+
+        <div class="lista" id="lista23"></div>
+
+        <form class="formulario" id="form23">
+
+          <input
+            type="text"
+            id="input23"
+            placeholder="Quiero que nuestra casa tenga..."
+            aria-label="Nueva idea"
+            maxlength="500"
+            autocomplete="off">
+
+          <button class="boton" type="submit">
+            Agregar
+          </button>
+
+        </form>
+
+        <div class="estado"
+             id="estado23"
+             aria-live="polite">
+        </div>
+
+      </div>
+
+      <div class="pie-botones">
+
+        <button class="boton secundario"
+                id="copiar23"
+                type="button">
+
+          Copiar lista
+
+        </button>
+
+        <button class="boton secundario"
+                id="cerrar23"
+                type="button">
+
+          Cerrar
+
+        </button>
+
+      </div>
+
+      <div class="decoracion">
+        ♡ ─ ✧ ─ ♡
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+
+/* EVITAR TEMBLORES EN EL CALENDARIO */
+
+if (window.parent !== window) {
+  document.documentElement.classList.add("integrado");
+}
+
+/* ELEMENTOS */
+
+const $ = id => document.getElementById(id);
+
+const portada23 = $("portada23");
+const interior23 = $("interior23");
+const lista23 = $("lista23");
+const form23 = $("form23");
+const input23 = $("input23");
+const estado23 = $("estado23");
+
+/* ALMACENAMIENTO */
+
+const STORAGE_KEY = "regalo23_casa_suenos";
+
+const ideasIniciales = [
+
+  "Casa adaptada para nuestros gatitos",
+
+  "Cancha de basketball 3x3"
+
+];
+
+let ideas23 = [...ideasIniciales];
+
+/* RECUPERAR IDEAS */
+
+function cargarIdeas23() {
+
+  try {
+
+    const guardado =
+      localStorage.getItem(STORAGE_KEY);
+
+    if (guardado !== null) {
+
+      const datos = JSON.parse(guardado);
+
+      if (
+        Array.isArray(datos) &&
+        datos.every(v => typeof v === "string")
+      ) {
+
+        ideas23 = datos;
+
       }
+
     }
 
-    function mostrarEstado23(texto) {
-      estado23.textContent = texto;
-      setTimeout(() => {
-        if (estado23.textContent === texto) {
-          estado23.textContent = "";
-        }
-      }, 2200);
-    }
+  } catch (error) {
 
-    function renderLista23() {
-      lista23.innerHTML = "";
+    ideas23 = [...ideasIniciales];
 
-      ideas23.forEach((idea, index) => {
-        const item = document.createElement("div");
-        item.className = "item";
+  }
 
-        const numero = document.createElement("div");
-        numero.className = "numero";
-        numero.textContent = index + 1;
+}
 
-        const texto = document.createElement("div");
-        texto.className = "texto-item";
-        texto.textContent = idea;
+/* GUARDAR IDEAS */
 
-        const quitar = document.createElement("button");
-        quitar.className = "quitar";
-        quitar.type = "button";
-        quitar.innerHTML = "&times;";
-        quitar.setAttribute("aria-label", "Quitar idea");
-        quitar.onclick = () => {
-          ideas23.splice(index, 1);
-          guardarIdeas23();
-          renderLista23();
-          mostrarEstado23("Idea eliminada");
-        };
+function guardarIdeas23() {
 
-        item.appendChild(numero);
-        item.appendChild(texto);
-        item.appendChild(quitar);
-        lista23.appendChild(item);
-      });
-    }
+  try {
 
-    abrir23.addEventListener("click", () => {
-      portada23.style.display = "none";
-      interior23.classList.add("activo");
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(ideas23)
+    );
 
-    cerrar23.addEventListener("click", () => {
-      interior23.classList.remove("activo");
-      portada23.style.display = "block";
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
+    return true;
 
-    form23.addEventListener("submit", (e) => {
-      e.preventDefault();
+  } catch (error) {
 
-      const valor = input23.value.trim();
-      if (!valor) return;
+    return false;
 
-      ideas23.push(valor);
-      guardarIdeas23();
+  }
+
+}
+
+/* MENSAJES DE ESTADO */
+
+let temporizador;
+
+function mostrarEstado23(texto) {
+
+  clearTimeout(temporizador);
+
+  estado23.textContent = texto;
+
+  temporizador = setTimeout(() => {
+
+    estado23.textContent = "";
+
+  }, 3500);
+
+}
+
+/* GENERAR LISTA */
+
+function renderLista23() {
+
+  lista23.replaceChildren();
+
+  ideas23.forEach((idea, index) => {
+
+    const item = document.createElement("div");
+
+    item.className = "item";
+
+    const numero = document.createElement("div");
+
+    numero.className = "numero";
+
+    numero.textContent = index + 1;
+
+    const texto = document.createElement("div");
+
+    texto.className = "texto-item";
+
+    texto.textContent = idea;
+
+    const quitar = document.createElement("button");
+
+    quitar.className = "quitar";
+
+    quitar.type = "button";
+
+    quitar.textContent = "×";
+
+    quitar.setAttribute("aria-label", "Quitar " + idea);
+
+    quitar.onclick = () => {
+
+      ideas23.splice(index, 1);
+
+      const guardado = guardarIdeas23();
+
       renderLista23();
-      input23.value = "";
-      mostrarEstado23("Idea guardada ♡");
-    });
 
-    copiar23.addEventListener("click", async () => {
-      const texto = ideas23.map((idea, i) => `${i + 1}. ${idea}`).join("\n");
+      mostrarEstado23(
 
-      try {
-        await navigator.clipboard.writeText(texto);
-        mostrarEstado23("Lista copiada");
-      } catch (error) {
-        mostrarEstado23("No se pudo copiar");
-      }
-    });
+        guardado
+          ? "Idea eliminada"
+          : "No se pudo guardar el cambio"
 
-    cargarIdeas23();
-    renderLista23();
-  </script>
+      );
+
+    };
+
+    item.append(numero, texto, quitar);
+
+    lista23.appendChild(item);
+
+  });
+
+}
+
+/* ABRIR PROYECTO */
+
+$("abrir23").addEventListener("click", () => {
+
+  portada23.hidden = true;
+
+  interior23.hidden = false;
+
+});
+
+/* CERRAR PROYECTO */
+
+$("cerrar23").addEventListener("click", () => {
+
+  interior23.hidden = true;
+
+  portada23.hidden = false;
+
+});
+
+/* AGREGAR NUEVA IDEA */
+
+form23.addEventListener("submit", e => {
+
+  e.preventDefault();
+
+  const valor = input23.value.trim();
+
+  if (!valor) return;
+
+  ideas23.push(valor);
+
+  const guardado = guardarIdeas23();
+
+  renderLista23();
+
+  input23.value = "";
+
+  mostrarEstado23(
+
+    guardado
+      ? "Idea guardada ♡"
+      : "No se pudo guardar. Copie la lista como respaldo."
+
+  );
+
+});
+
+/* COPIAR LISTA COMPLETA */
+
+$("copiar23").addEventListener("click", async () => {
+
+  const texto =
+
+    "PROYECTO 170922\n" +
+
+    "La casa de nuestros sueños\n\n" +
+
+    ideas23.map(
+      (idea, i) => `${i + 1}. ${idea}`
+    ).join("\n");
+
+  try {
+
+    await navigator.clipboard.writeText(texto);
+
+    mostrarEstado23("Lista copiada ♡");
+
+  } catch (error) {
+
+    const auxiliar = document.createElement("textarea");
+
+    auxiliar.value = texto;
+
+    auxiliar.style.position = "fixed";
+
+    auxiliar.style.left = "-9999px";
+
+    document.body.appendChild(auxiliar);
+
+    auxiliar.select();
+
+    let copiado = false;
+
+    try {
+
+      copiado = document.execCommand("copy");
+
+    } catch (e) {}
+
+    auxiliar.remove();
+
+    mostrarEstado23(
+
+      copiado
+        ? "Lista copiada ♡"
+        : "No se pudo copiar la lista"
+
+    );
+
+  }
+
+});
+
+/* INICIAR */
+
+cargarIdeas23();
+
+renderLista23();
+
+</script>
+
 </body>
 </html>
