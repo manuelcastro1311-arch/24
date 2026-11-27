@@ -1,1 +1,501 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Diploma a la mejor novia del universo</title>
 
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    background: #fff5f1;
+    color: #8d1d2d;
+    font-family: "Georgia", serif;
+    text-align: center;
+  }
+
+  #regalo {
+    width: 100%;
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 18px 10px 28px;
+  }
+
+  .encabezado-mini {
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #b44a57;
+    margin: 6px 0 14px;
+  }
+
+  h1 {
+    font-size: clamp(24px, 6vw, 35px);
+    margin: 0 0 12px;
+    line-height: 1.15;
+    color: #9e2132;
+  }
+
+  #subtexto {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #a45561;
+    margin: 0 auto 22px;
+    max-width: 430px;
+  }
+
+  /* CONTENEDOR */
+  .pergamino-wrap {
+    width: 100%;
+    max-width: 500px;
+    margin: 32px auto 18px;
+    position: relative;
+  }
+
+  /* ROLLO SUPERIOR */
+  .rollo-top {
+    width: 100%;
+    height: 48px;
+    border: 2px solid #b66b67;
+    border-radius: 999px;
+    background:
+      linear-gradient(to bottom,
+        #f3ddc7 0%,
+        #ead0b8 25%,
+        #f8e9da 50%,
+        #dfc2a6 75%,
+        #cda684 100%);
+    box-shadow:
+      0 6px 14px rgba(120, 49, 39, 0.18),
+      inset 0 1px 0 rgba(255,255,255,0.55);
+    position: relative;
+    z-index: 5;
+    cursor: pointer;
+    padding: 0;
+    transition: transform .2s ease, filter .2s ease;
+  }
+
+  .rollo-top:hover {
+    filter: brightness(1.02);
+    transform: translateY(-1px);
+  }
+
+  .rollo-top:disabled {
+    cursor: default;
+    opacity: .95;
+  }
+
+  .rollo-top::before,
+  .rollo-top::after {
+    content: "";
+    position: absolute;
+    top: 4px;
+    width: 16px;
+    height: 38px;
+    border-radius: 999px;
+    border: 2px solid #b66b67;
+    background:
+      linear-gradient(to right,
+        #c79976 0%,
+        #f8ead6 22%,
+        #d9b18f 50%,
+        #f7ead8 78%,
+        #bb8f71 100%);
+  }
+
+  .rollo-top::before {
+    left: 4px;
+  }
+
+  .rollo-top::after {
+    right: 4px;
+  }
+
+  /* MOÑO */
+  .cinta {
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 26px;
+    height: 68px;
+    background: linear-gradient(to right, #9f1f31, #be2940, #98162c);
+    border-radius: 4px;
+    z-index: 7;
+    transition: opacity .45s ease, transform .45s ease;
+    box-shadow: 0 2px 8px rgba(120,0,20,.18);
+    pointer-events: none;
+  }
+
+  .moño {
+    position: absolute;
+    left: 50%;
+    top: -22px;
+    transform: translateX(-50%);
+    width: 90px;
+    height: 74px;
+    z-index: 8;
+    transition: opacity .45s ease, transform .45s ease;
+    pointer-events: none;
+  }
+
+  .pergamino.abierto .cinta,
+  .pergamino.abierto .moño {
+    opacity: 0;
+    transform: translateX(-50%) translateY(18px) rotate(8deg);
+  }
+
+  /* PAPEL */
+  .papel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 2.8s cubic-bezier(.26,.7,.25,1);
+    margin: -8px 10px -6px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .papel-inner {
+    min-height: 0;
+    overflow: hidden;
+    background: #f7ebdf;
+    border-left: 2px solid #cc8b8e;
+    border-right: 2px solid #cc8b8e;
+    box-shadow: 0 6px 16px rgba(120, 50, 45, 0.12);
+  }
+
+  .pergamino.abierto .papel {
+    grid-template-rows: 1fr;
+  }
+
+  /* CONTENIDO DEL DIPLOMA */
+  .diploma-box {
+    padding: 12px 10px 8px;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(255,255,255,.26), transparent 30%),
+      linear-gradient(to bottom, #f8eee3, #f2e3d1);
+  }
+
+  #diploma {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    border: 2px solid #d9b4a4;
+    box-shadow: 0 4px 14px rgba(133, 56, 58, .12);
+    background: #f9efe5;
+  }
+
+  /* ROLLO INFERIOR */
+  .rollo-bottom {
+    width: 100%;
+    height: 30px;
+    border: 2px solid #b66b67;
+    border-radius: 999px;
+    background:
+      linear-gradient(to bottom,
+        #d4b08c 0%,
+        #f8ead8 35%,
+        #e1c2a6 65%,
+        #c89878 100%);
+    position: relative;
+    z-index: 4;
+    box-shadow: 0 6px 14px rgba(120, 49, 39, 0.16);
+  }
+
+  .rollo-bottom::before,
+  .rollo-bottom::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    width: 16px;
+    height: 20px;
+    border-radius: 999px;
+    border: 2px solid #b66b67;
+    background:
+      linear-gradient(to right,
+        #c79976 0%,
+        #f8ead6 22%,
+        #d9b18f 50%,
+        #f7ead8 78%,
+        #bb8f71 100%);
+  }
+
+  .rollo-bottom::before {
+    left: 4px;
+  }
+
+  .rollo-bottom::after {
+    right: 4px;
+  }
+
+  .acciones {
+    margin-top: 24px;
+    display: none;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .acciones.mostrar {
+    display: flex;
+  }
+
+  .boton {
+    border: none;
+    border-radius: 10px;
+    background: #c7283e;
+    color: #fff7f5;
+    padding: 12px 18px;
+    font-family: Georgia, serif;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(160, 25, 50, 0.15);
+  }
+
+  .boton.secundario {
+    background: #f2d6d3;
+    color: #96263a;
+  }
+
+  .boton:hover {
+    filter: brightness(.97);
+  }
+
+  .decoracion {
+    margin-top: 24px;
+    color: #cc7e87;
+    letter-spacing: 6px;
+    font-size: 17px;
+  }
+
+  /* CORAZONES */
+  .particula {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0;
+    line-height: 1;
+    font-family: Arial, sans-serif;
+  }
+
+  @keyframes flotando {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-6px); }
+  }
+
+  .esperando {
+    animation: flotando 3.5s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .papel,
+    .cinta,
+    .moño {
+      transition: none;
+    }
+
+    .esperando {
+      animation: none;
+    }
+  }
+</style>
+</head>
+<body>
+
+<main id="regalo">
+  <div class="encabezado-mini">♡ RECONOCIMIENTO ESPECIAL ♡</div>
+  <h1>Un premio muy merecido</h1>
+  <p id="subtexto">Cargando tu diploma especial...</p>
+
+  <div class="pergamino-wrap">
+    <div class="pergamino esperando" id="pergamino">
+
+      <button
+        class="rollo-top"
+        id="abrirPergamino"
+        type="button"
+        aria-label="Abrir pergamino"
+        aria-expanded="false"
+        disabled>
+      </button>
+
+      <div class="cinta"></div>
+
+      <svg class="moño" viewBox="0 0 100 80" aria-hidden="true">
+        <path
+          d="M50 28 C4 -10 -8 52 50 28 C108 52 96 -10 50 28Z"
+          fill="#c92d43"
+          stroke="#982335"
+          stroke-width="2.4"/>
+        <path
+          d="M48 29 L23 75 L40 66 L45 76 L52 34Z"
+          fill="#af1f31"/>
+        <path
+          d="M52 29 L77 75 L60 66 L55 76 L48 34Z"
+          fill="#c92d43"/>
+        <ellipse
+          cx="50"
+          cy="28"
+          rx="9"
+          ry="7"
+          fill="#8f1c2e"/>
+      </svg>
+
+      <div class="papel" id="papel">
+        <div class="papel-inner">
+          <div class="diploma-box">
+            <img id="diploma" alt="Diploma a la mejor novia del universo" />
+          </div>
+        </div>
+      </div>
+
+      <div class="rollo-bottom"></div>
+    </div>
+  </div>
+
+  <div class="acciones" id="acciones">
+    <a class="boton" id="guardarBtn" href="../diploma04.webp" download="diploma04.webp">
+      Guardar diploma ♡
+    </a>
+    <button class="boton secundario" id="cerrarPergamino" type="button">
+      Volver a enrollar
+    </button>
+  </div>
+
+  <div class="decoracion">♡ ─ ✧ ─ ♡</div>
+</main>
+
+<script>
+  const pergamino = document.getElementById("pergamino");
+  const abrirPergamino = document.getElementById("abrirPergamino");
+  const cerrarPergamino = document.getElementById("cerrarPergamino");
+  const papel = document.getElementById("papel");
+  const acciones = document.getElementById("acciones");
+  const subtexto = document.getElementById("subtexto");
+  const diploma = document.getElementById("diploma");
+  const guardarBtn = document.getElementById("guardarBtn");
+
+  let abierto = false;
+  let animando = false;
+
+  const imagenes = [
+    "../diploma04.webp",
+    "../diploma04.png",
+    "../diploma04.jpg",
+    "../diploma04.jpeg"
+  ];
+
+  let indiceImagen = 0;
+
+  diploma.addEventListener("load", () => {
+    abrirPergamino.disabled = false;
+    subtexto.textContent = "Toca el pergamino para descubrir tu diploma.";
+    guardarBtn.href = diploma.src;
+  });
+
+  diploma.addEventListener("error", () => {
+    indiceImagen++;
+    if (indiceImagen < imagenes.length) {
+      diploma.src = imagenes[indiceImagen];
+    } else {
+      subtexto.textContent = "No encontré la imagen del diploma. Verifica que se llame diploma04.webp";
+    }
+  });
+
+  diploma.src = imagenes[0];
+
+  function esperar(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  async function abrir() {
+    if (abierto || animando) return;
+    abierto = true;
+    animando = true;
+
+    abrirPergamino.disabled = true;
+    abrirPergamino.setAttribute("aria-expanded", "true");
+    pergamino.classList.remove("esperando");
+    pergamino.classList.add("abierto");
+
+    subtexto.textContent = "Desenrollando tu diploma...";
+    await esperar(2900);
+
+    subtexto.textContent = "Diploma oficial para la mejor novia del universo ♡";
+    acciones.classList.add("mostrar");
+    animando = false;
+
+    lanzarCorazones();
+  }
+
+  async function cerrar() {
+    if (!abierto || animando) return;
+    animando = true;
+
+    acciones.classList.remove("mostrar");
+    subtexto.textContent = "Enrollando de nuevo el pergamino...";
+
+    pergamino.classList.remove("abierto");
+    abrirPergamino.setAttribute("aria-expanded", "false");
+
+    await esperar(2900);
+
+    abierto = false;
+    animando = false;
+    abrirPergamino.disabled = false;
+    pergamino.classList.add("esperando");
+    subtexto.textContent = "Toca el pergamino para descubrir tu diploma.";
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function lanzarCorazones() {
+    if (!Element.prototype.animate) return;
+
+    const colores = ["#b81f33", "#cf4156", "#de6f7f", "#c03348", "#a61f32"];
+    const rect = pergamino.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height * 0.35;
+
+    for (let i = 0; i < 70; i++) {
+      const el = document.createElement("span");
+      el.className = "particula";
+      el.textContent = ["♡", "♥", "✦"][i % 3];
+      el.style.left = cx + "px";
+      el.style.top = cy + "px";
+      el.style.fontSize = (10 + Math.random() * 18) + "px";
+      el.style.color = colores[i % colores.length];
+      document.body.appendChild(el);
+
+      const angulo = Math.random() * Math.PI * 2;
+      const distancia = 60 + Math.random() * 180;
+      const x = Math.cos(angulo) * distancia;
+      const y = Math.sin(angulo) * distancia - 40;
+      const rot = (Math.random() - .5) * 180;
+
+      const anim = el.animate([
+        { transform: "translate(0,0) scale(.2)", opacity: 0 },
+        { transform: `translate(${x * .35}px, ${y * .35}px) scale(1.1)`, opacity: 1, offset: .22 },
+        { transform: `translate(${x}px, ${y}px) rotate(${rot}deg)`, opacity: 0 }
+      ], {
+        duration: 1100 + Math.random() * 900,
+        delay: Math.random() * 180,
+        easing: "ease-out",
+        fill: "both"
+      });
+
+      anim.finished.catch(() => {}).finally(() => el.remove());
+    }
+  }
+
+  abrirPergamino.addEventListener("click", abrir);
+  cerrarPergamino.addEventListener("click", cerrar);
+</script>
+</body>
+</html>
