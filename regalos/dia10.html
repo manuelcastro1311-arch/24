@@ -1,1 +1,1177 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Efectos secundarios de ser tu novio</title>
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html.integrado,
+html.integrado body {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  background: #fff5f1;
+  color: #a30c29;
+  font-family: Georgia, serif;
+  text-align: center;
+}
+
+#regalo {
+  width: 100%;
+  max-width: 540px;
+  margin: auto;
+  padding: 18px 12px 24px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ENCABEZADO */
+
+.encabezado {
+  font: 10px Arial, sans-serif;
+  letter-spacing: 2px;
+  margin: 8px 0 16px;
+}
+
+h1 {
+  font-size: clamp(24px, 6vw, 34px);
+  line-height: 1.2;
+  font-weight: normal;
+  margin: 0 0 12px;
+}
+
+.subtitulo {
+  font-size: 13px;
+  font-style: italic;
+  color: #a65365;
+  line-height: 1.5;
+  margin: 0 auto 10px;
+}
+
+/* MAZO DE TARJETAS */
+
+.escena {
+  width: 100%;
+  padding: 24px 0 28px;
+  overflow: hidden;
+}
+
+.mazo {
+  width: 83%;
+  max-width: 310px;
+  position: relative;
+  margin: 0 auto;
+  isolation: isolate;
+}
+
+/* TARJETAS DEL FONDO */
+
+.tarjeta-fondo {
+  position: absolute;
+  inset: 0;
+  border: 1px solid #bc7a82;
+  border-radius: 9px;
+  pointer-events: none;
+}
+
+.fondo1 {
+  background: #ecd1c8;
+  transform: rotate(-5deg);
+}
+
+.fondo2 {
+  background: #f1dfc8;
+  transform: rotate(5deg);
+}
+
+/* TARJETA PRINCIPAL */
+
+.tarjeta {
+  position: relative;
+  width: 100%;
+
+  background:
+    radial-gradient(
+      ellipse at top left,
+      #ebd5b93b,
+      transparent 65%
+    ),
+    #fff8e9;
+
+  border: 1.5px solid #ad5360;
+  border-radius: 9px;
+
+  padding: 20px 17px 14px;
+
+  box-shadow: 0 7px 18px #743c3526;
+
+  z-index: 3;
+
+  cursor: grab;
+  user-select: none;
+  touch-action: pan-y;
+
+  will-change: transform, opacity;
+}
+
+.tarjeta::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid #ce9c98;
+  border-radius: 5px;
+  pointer-events: none;
+}
+
+.tarjeta.arrastrando {
+  cursor: grabbing;
+}
+
+/* NUMERO DEL EFECTO */
+
+#numero {
+  font: 10px Arial, sans-serif;
+  letter-spacing: 2px;
+  color: #a30c29;
+  margin: 0 0 13px;
+}
+
+/* FOTOGRAFIA CUADRADA */
+
+.foto-contenedor {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #efdcd3;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+#foto {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+
+  display: block;
+
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+.placeholder {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  color: #b65c6b;
+  font-size: 12px;
+}
+
+.placeholder svg {
+  width: 55px;
+  height: 55px;
+}
+
+/* FRASE DE LA TARJETA */
+
+#frase {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  min-height: 125px;
+
+  padding: 12px 2px 5px;
+
+  font-size: clamp(16px, 4.6vw, 21px);
+  line-height: 1.4;
+
+  color: #96263a;
+  margin: 0;
+}
+
+.corazon {
+  font-size: 22px;
+  color: #a30c29;
+  margin: 3px 0 0;
+}
+
+/* FLECHAS Y CONTADOR */
+
+.navegacion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin: 6px 0 18px;
+}
+
+.flecha {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 38px;
+  height: 38px;
+
+  border: 1px solid #c77c8b;
+  border-radius: 50%;
+
+  color: #a30c29;
+  background: transparent;
+
+  cursor: pointer;
+  transition: background .2s;
+}
+
+.flecha:hover:not(:disabled) {
+  background: #ffd5dc;
+}
+
+.flecha:disabled {
+  opacity: .25;
+  cursor: default;
+}
+
+.flecha svg {
+  width: 18px;
+  height: 18px;
+}
+
+#contador {
+  font: 12px Arial, sans-serif;
+  letter-spacing: 2px;
+  min-width: 80px;
+}
+
+/* PUNTITOS DE PROGRESO */
+
+#puntos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 15px auto;
+}
+
+.punto {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ddbec0;
+  transition: background .2s;
+}
+
+.punto.activo {
+  background: #a30c29;
+}
+
+/* TEXTO INFERIOR */
+
+#mensaje {
+  color: #a65365;
+  font-size: 12px;
+  font-style: italic;
+  line-height: 1.5;
+  min-height: 38px;
+  margin: 12px 0;
+}
+
+.decoracion {
+  color: #cc7e87;
+  letter-spacing: 6px;
+  margin: 8px 0 0;
+}
+
+/* CORAZONES FINALES */
+
+.particula {
+  position: absolute;
+  z-index: 20;
+  pointer-events: none;
+  opacity: 0;
+}
+
+button:focus-visible {
+  outline: 2px dashed #a30c29;
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  * {
+    transition: none !important;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<main id="regalo">
+
+  <p class="encabezado">
+    ♡ DIAGNÓSTICO DE AMOR ♡
+  </p>
+
+  <h1>
+    Efectos secundarios<br>
+    de ser tu novio
+  </h1>
+
+  <p class="subtitulo">
+    Deslice para descubrir los síntomas.
+  </p>
+
+  <!-- MAZO DE TARJETAS -->
+
+  <section class="escena">
+
+    <div class="mazo" id="mazo">
+
+      <div class="tarjeta-fondo fondo1"></div>
+
+      <div class="tarjeta-fondo fondo2"></div>
+
+      <article class="tarjeta" id="tarjeta">
+
+        <p id="numero">
+          EFECTO N.º 01
+        </p>
+
+        <!-- FOTO -->
+
+        <div class="foto-contenedor">
+
+          <div class="placeholder" id="placeholder">
+
+            <svg
+              viewBox="0 0 80 80"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5">
+
+              <path
+                d="M40 23
+                   C16 -3 -7 29 40 66
+                   C87 29 64 -3 40 23Z"/>
+
+            </svg>
+
+            <span id="estadoFoto">
+              Cargando fotografía...
+            </span>
+
+          </div>
+
+          <img
+            id="foto"
+            alt="Fotografía del efecto secundario"
+            draggable="false"
+            hidden>
+
+        </div>
+
+        <!-- FRASE -->
+
+        <p id="frase" aria-live="polite"></p>
+
+        <div class="corazon">
+          ♡
+        </div>
+
+      </article>
+
+    </div>
+
+  </section>
+
+  <!-- CONTROLES -->
+
+  <div class="navegacion">
+
+    <button
+      class="flecha"
+      id="anterior"
+      type="button"
+      aria-label="Tarjeta anterior">
+
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8">
+
+        <path d="M15 5L8 12L15 19"/>
+
+      </svg>
+
+    </button>
+
+    <span id="contador">
+      01 / 17
+    </span>
+
+    <button
+      class="flecha"
+      id="siguiente"
+      type="button"
+      aria-label="Siguiente tarjeta">
+
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8">
+
+        <path d="M9 5L16 12L9 19"/>
+
+      </svg>
+
+    </button>
+
+  </div>
+
+  <div id="puntos" aria-hidden="true"></div>
+
+  <p id="mensaje">
+    Síntomas permanentes y sin intención de curarme.
+  </p>
+
+  <p class="decoracion">
+    ♡ ─ ✧ ─ ♡
+  </p>
+
+</main>
+
+<script>
+
+/* EVITAR TEMBLORES EN EL CALENDARIO */
+
+if (window.parent !== window) {
+
+  document.documentElement.classList.add(
+    "integrado"
+  );
+
+}
+
+/* LAS 17 FRASES EN EL ORDEN DEFINITIVO */
+
+const frases = [
+
+  "Sonreír siempre que veo una notificación esperando que sea tuya.",
+
+  "Distraerme todo el día simplemente con una foto o un audio tuyo.",
+
+  "Ponerme todavía nervioso por verla.",
+
+  "Extrañarla aunque nos acabemos de ver hace unos minutos.",
+
+  "Tener ganas de besarla y abrazarla siempre.",
+
+  "Imaginar que cualquier momento sería mejor si estuviera usted.",
+
+  "Que el tiempo se pase demasiado rápido a su lado.",
+
+  "Ver cualquier cosa y querer comprársela.",
+
+  "Aprender a hacer cosas nuevas para darle regalos distintos.",
+
+  "Emocionarme por todos sus logros.",
+
+  "Recordar todos los momentos graciosos y reírme de la nada por eso.",
+
+  "Que se me peguen sus gustos y sus frases.",
+
+  "Aprender a expresarme mejor.",
+
+  "Sentirme amado en cada momento de mi vida.",
+
+  "Llorar de felicidad.",
+
+  "No ser el más guapo de la relación JAKSDK.",
+
+  "Enamorarme cada vez más de usted sin darme cuenta."
+
+];
+
+/* ELEMENTOS */
+
+const $ = id => document.getElementById(id);
+
+const tarjeta = $("tarjeta");
+const foto = $("foto");
+const placeholder = $("placeholder");
+
+const anterior = $("anterior");
+const siguiente = $("siguiente");
+
+const regalo = $("regalo");
+
+const reducirMovimiento = matchMedia(
+  "(prefers-reduced-motion: reduce)"
+);
+
+let indice = 0;
+let animando = false;
+
+let punteroActivo = null;
+
+let inicioX = 0;
+let inicioY = 0;
+let desplazamiento = 0;
+let arrastreHorizontal = false;
+
+let celebracionFinal = false;
+
+let solicitudFoto = 0;
+
+/* CACHE DE FOTOGRAFIAS */
+
+const cacheFotos = new Map();
+
+const extensiones = [
+
+  "jpg",
+  "png",
+  "jpeg",
+  "webp",
+  "JPG",
+  "PNG",
+  "JPEG",
+  "WEBP"
+
+];
+
+/* NUMEROS CON DOS DIGITOS */
+
+function numero(n) {
+
+  return String(n).padStart(2, "0");
+
+}
+
+/* BUSCAR LA IMAGEN CORRECTA */
+
+function buscarFoto(n) {
+
+  if (cacheFotos.has(n)) {
+
+    return cacheFotos.get(n);
+
+  }
+
+  const promesa = new Promise(resolve => {
+
+    const nombre = "../efecto" + numero(n);
+
+    let intento = 0;
+
+    const imagen = new Image();
+
+    imagen.onload = () => {
+
+      resolve(imagen.src);
+
+    };
+
+    imagen.onerror = () => {
+
+      intento++;
+
+      if (intento < extensiones.length) {
+
+        imagen.src =
+          nombre + "." + extensiones[intento];
+
+      } else {
+
+        resolve(null);
+
+      }
+
+    };
+
+    imagen.src =
+      nombre + "." + extensiones[intento];
+
+  });
+
+  cacheFotos.set(n, promesa);
+
+  return promesa;
+
+}
+
+/* MOSTRAR FOTO */
+
+async function mostrarFoto(n) {
+
+  const solicitud = ++solicitudFoto;
+
+  foto.hidden = true;
+
+  placeholder.hidden = false;
+
+  $("estadoFoto").textContent =
+    "Cargando fotografía...";
+
+  const ruta = await buscarFoto(n);
+
+  /* EVITAR MOSTRAR UNA FOTO EQUIVOCADA */
+
+  if (solicitud !== solicitudFoto) return;
+
+  if (ruta) {
+
+    foto.src = ruta;
+
+    foto.hidden = false;
+
+    placeholder.hidden = true;
+
+  } else {
+
+    $("estadoFoto").textContent =
+      "Fotografía " + numero(n);
+
+  }
+
+}
+
+/* CREAR INDICADORES */
+
+for (let i = 0; i < frases.length; i++) {
+
+  const punto = document.createElement("span");
+
+  punto.className = "punto";
+
+  $("puntos").appendChild(punto);
+
+}
+
+/* MOSTRAR TARJETA ACTUAL */
+
+function mostrarTarjeta() {
+
+  const n = indice + 1;
+
+  $("numero").textContent =
+    "EFECTO N.º " + numero(n);
+
+  $("frase").textContent =
+    frases[indice];
+
+  $("contador").textContent =
+    numero(n) + " / " + frases.length;
+
+  mostrarFoto(n);
+
+  /* PRECARGAR FOTO SIGUIENTE */
+
+  if (n < frases.length) {
+
+    buscarFoto(n + 1);
+
+  }
+
+  /* PRECARGAR FOTO ANTERIOR */
+
+  if (n > 1) {
+
+    buscarFoto(n - 1);
+
+  }
+
+  /* ACTUALIZAR PUNTITOS */
+
+  [...$("puntos").children].forEach((p, i) => {
+
+    p.classList.toggle(
+      "activo",
+      i === indice
+    );
+
+  });
+
+  /* MENSAJE FINAL */
+
+  if (indice === frases.length - 1) {
+
+    $("mensaje").textContent =
+      "17 efectos secundarios y todos son por usted. ♡";
+
+  } else {
+
+    $("mensaje").textContent =
+      "Síntomas permanentes y sin intención de curarme.";
+
+  }
+
+  actualizarBotones();
+
+}
+
+/* ACTUALIZAR FLECHAS */
+
+function actualizarBotones() {
+
+  anterior.disabled =
+    animando || indice === 0;
+
+  siguiente.disabled =
+    animando || indice === frases.length - 1;
+
+}
+
+/* ESPERA PARA ANIMACIONES */
+
+function esperar(ms) {
+
+  return new Promise(resolve => {
+
+    setTimeout(resolve, ms);
+
+  });
+
+}
+
+/* CAMBIAR DE TARJETA */
+
+async function cambiar(direccion) {
+
+  if (animando) return;
+
+  const nuevo = indice + direccion;
+
+  /* NO PASAR DE LA PRIMERA NI DE LA ULTIMA */
+
+  if (nuevo < 0 || nuevo >= frases.length) {
+
+    regresarTarjeta();
+
+    return;
+
+  }
+
+  animando = true;
+
+  actualizarBotones();
+
+  tarjeta.classList.remove("arrastrando");
+
+  /* SALIDA DE LA TARJETA */
+
+  if (!reducirMovimiento.matches) {
+
+    tarjeta.style.transition =
+      "transform .32s ease, opacity .28s ease";
+
+    tarjeta.style.transform =
+      `translateX(${-direccion * 120}%) rotate(${-direccion * 13}deg)`;
+
+    tarjeta.style.opacity = "0";
+
+    await esperar(330);
+
+  }
+
+  /* CAMBIAR CONTENIDO */
+
+  indice = nuevo;
+
+  mostrarTarjeta();
+
+  /* ENTRADA DE LA SIGUIENTE TARJETA */
+
+  tarjeta.style.transition = "none";
+
+  if (!reducirMovimiento.matches) {
+
+    tarjeta.style.transform =
+      `translateX(${direccion * 90}%) rotate(${direccion * 9}deg)`;
+
+    tarjeta.style.opacity = "0";
+
+    /* FORZAR EL NUEVO ESTADO VISUAL */
+
+    void tarjeta.offsetWidth;
+
+    tarjeta.style.transition =
+      "transform .4s cubic-bezier(.2,.7,.2,1), opacity .3s ease";
+
+    tarjeta.style.transform =
+      "translateX(0) rotate(0)";
+
+    tarjeta.style.opacity = "1";
+
+    await esperar(410);
+
+  } else {
+
+    tarjeta.style.transform = "none";
+
+    tarjeta.style.opacity = "1";
+
+  }
+
+  animando = false;
+
+  actualizarBotones();
+
+  /* CELEBRACION AL LLEGAR A LA TARJETA 17 */
+
+  if (
+
+    indice === frases.length - 1 &&
+
+    !celebracionFinal
+
+  ) {
+
+    celebracionFinal = true;
+
+    lanzarCorazones();
+
+  }
+
+}
+
+/* REGRESAR LA TARJETA A SU POSICION */
+
+function regresarTarjeta() {
+
+  tarjeta.classList.remove("arrastrando");
+
+  tarjeta.style.transition =
+    reducirMovimiento.matches
+      ? "none"
+      : "transform .3s ease, opacity .3s ease";
+
+  tarjeta.style.transform =
+    "translateX(0) rotate(0)";
+
+  tarjeta.style.opacity = "1";
+
+}
+
+/* EMPEZAR A DESLIZAR */
+
+tarjeta.addEventListener("pointerdown", e => {
+
+  if (animando || punteroActivo !== null) return;
+
+  if (e.pointerType === "mouse" && e.button !== 0) {
+
+    return;
+
+  }
+
+  punteroActivo = e.pointerId;
+
+  inicioX = e.clientX;
+
+  inicioY = e.clientY;
+
+  desplazamiento = 0;
+
+  arrastreHorizontal = false;
+
+  tarjeta.style.transition = "none";
+
+  tarjeta.classList.add("arrastrando");
+
+  tarjeta.setPointerCapture(e.pointerId);
+
+});
+
+/* MOVER TARJETA CON EL DEDO */
+
+tarjeta.addEventListener("pointermove", e => {
+
+  if (
+
+    animando ||
+
+    punteroActivo !== e.pointerId
+
+  ) return;
+
+  const dx = e.clientX - inicioX;
+
+  const dy = e.clientY - inicioY;
+
+  if (!arrastreHorizontal) {
+
+    if (Math.abs(dx) < 10) return;
+
+    if (Math.abs(dy) > Math.abs(dx)) return;
+
+    arrastreHorizontal = true;
+
+  }
+
+  desplazamiento = dx;
+
+  if (
+
+    (indice === 0 && dx > 0) ||
+
+    (indice === frases.length - 1 && dx < 0)
+
+  ) {
+
+    desplazamiento *= .25;
+
+  }
+
+  if (reducirMovimiento.matches) return;
+
+  const giro = desplazamiento / 20;
+
+  tarjeta.style.transform =
+    `translateX(${desplazamiento}px) rotate(${giro}deg)`;
+
+  tarjeta.style.opacity =
+    String(
+
+      Math.max(
+        .55,
+        1 - Math.abs(desplazamiento) / 500
+      )
+
+    );
+
+});
+
+/* SOLTAR TARJETA */
+
+tarjeta.addEventListener("pointerup", e => {
+
+  if (punteroActivo !== e.pointerId) return;
+
+  punteroActivo = null;
+
+  tarjeta.classList.remove("arrastrando");
+
+  if (
+
+    arrastreHorizontal &&
+
+    Math.abs(desplazamiento) > 45
+
+  ) {
+
+    cambiar(desplazamiento < 0 ? 1 : -1);
+
+  } else {
+
+    regresarTarjeta();
+
+  }
+
+});
+
+/* CANCELAR ARRASTRE */
+
+function cancelarArrastre(e) {
+
+  if (punteroActivo !== e.pointerId) return;
+
+  punteroActivo = null;
+
+  regresarTarjeta();
+
+}
+
+tarjeta.addEventListener(
+  "pointercancel",
+  cancelarArrastre
+);
+
+tarjeta.addEventListener(
+  "lostpointercapture",
+  cancelarArrastre
+);
+
+/* FLECHAS */
+
+anterior.addEventListener("click", () => {
+
+  cambiar(-1);
+
+});
+
+siguiente.addEventListener("click", () => {
+
+  cambiar(1);
+
+});
+
+/* CONTROLES DE TECLADO */
+
+document.addEventListener("keydown", e => {
+
+  if (e.key === "ArrowLeft") {
+
+    e.preventDefault();
+
+    cambiar(-1);
+
+  }
+
+  if (e.key === "ArrowRight") {
+
+    e.preventDefault();
+
+    cambiar(1);
+
+  }
+
+});
+
+/* CORAZONES AL TERMINAR */
+
+function lanzarCorazones() {
+
+  if (reducirMovimiento.matches) return;
+
+  if (!Element.prototype.animate) return;
+
+  const r = regalo.getBoundingClientRect();
+
+  const t = tarjeta.getBoundingClientRect();
+
+  const cx = t.left - r.left + t.width / 2;
+
+  const cy = t.top - r.top + t.height / 2;
+
+  const colores = [
+
+    "#a30c29",
+    "#cf1735",
+    "#d84d69",
+    "#ff8298",
+    "#e9a0b0"
+
+  ];
+
+  for (let i = 0; i < 85; i++) {
+
+    const el = document.createElement("span");
+
+    el.className = "particula";
+
+    el.setAttribute("aria-hidden", "true");
+
+    el.textContent =
+      ["♡", "♥", "✧"][i % 3];
+
+    el.style.left = cx + "px";
+
+    el.style.top = cy + "px";
+
+    el.style.color =
+      colores[i % colores.length];
+
+    el.style.fontSize =
+      (10 + Math.random() * 22) + "px";
+
+    regalo.appendChild(el);
+
+    const angulo = Math.random() * Math.PI * 2;
+
+    const distancia = 60 + Math.random() * 210;
+
+    const x = Math.cos(angulo) * distancia;
+
+    const y = Math.sin(angulo) * distancia;
+
+    const giro = Math.random() * 220 - 110;
+
+    el.animate([
+
+      {
+
+        transform: "translate(0,0) scale(.2)",
+
+        opacity: 0
+
+      },
+
+      {
+
+        transform: `translate(${x * .4}px,${y * .4}px) scale(1.1)`,
+
+        opacity: 1,
+
+        offset: .25
+
+      },
+
+      {
+
+        transform: `translate(${x}px,${y}px) rotate(${giro}deg)`,
+
+        opacity: 0
+
+      }
+
+    ], {
+
+      duration: 1100 + Math.random() * 1000,
+
+      delay: Math.random() * 150,
+
+      easing: "ease-out",
+
+      fill: "both"
+
+    }).finished
+
+      .catch(() => {})
+
+      .finally(() => el.remove());
+
+  }
+
+}
+
+/* INICIAR REGALO */
+
+mostrarTarjeta();
+
+</script>
+
+</body>
+</html>
+
