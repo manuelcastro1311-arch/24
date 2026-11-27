@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Nuestra próxima aventura</title>
+<title>Nuestro próximo recuerdo</title>
 
 <style>
 
@@ -61,15 +61,15 @@ h1 {
   color: #a45561;
 }
 
-/* CONTENEDOR DE LOS BOLETOS */
+/* CONTENEDOR DE LOS TICKETS */
 
 .ticket {
   position: relative;
   width: 100%;
-  aspect-ratio: 2 / 1;
+  aspect-ratio: 1771 / 759;
   margin: 18px auto;
   isolation: isolate;
-  filter: drop-shadow(0 6px 5px #782c2d25);
+  filter: drop-shadow(0 5px 5px #782c2d25);
 }
 
 #imagen,
@@ -84,8 +84,8 @@ h1 {
 #imagen {
   object-fit: contain;
   visibility: hidden;
-  user-select: none;
   pointer-events: none;
+  user-select: none;
   -webkit-user-drag: none;
 }
 
@@ -93,7 +93,7 @@ h1 {
   visibility: visible;
 }
 
-/* SUPERFICIE PARA RASCAR */
+/* CAPA PARA RASCAR */
 
 #rascar {
   z-index: 2;
@@ -107,7 +107,7 @@ h1 {
   pointer-events: none;
 }
 
-/* PROGRESO */
+/* BARRA DE PROGRESO */
 
 .progreso {
   width: 45%;
@@ -136,7 +136,7 @@ h1 {
   color: #a65365;
 }
 
-/* BOTON GUARDAR */
+/* BOTON PARA GUARDAR */
 
 .acciones {
   display: flex;
@@ -162,7 +162,7 @@ h1 {
   text-decoration: none;
 }
 
-/* CARTA QUE APARECE AL FINAL */
+/* CARTA FINAL */
 
 .carta {
   position: relative;
@@ -171,18 +171,13 @@ h1 {
   margin: 28px auto 10px;
   padding: 24px 20px 26px;
 
-  background:
-    radial-gradient(
-      ellipse at top left,
-      #efd9c44d,
-      transparent 65%
-    ),
-    #fff8e9;
+  background: #fff8e9;
 
   border: 1px solid #d5b09a;
+
   box-shadow: 0 5px 15px #78322d15;
 
-  animation: aparecerCarta 1s ease both;
+  animation: aparecer 1s ease both;
 }
 
 .carta::before {
@@ -197,7 +192,6 @@ h1 {
   font-size: 25px;
   font-weight: normal;
   font-style: italic;
-  line-height: 1.3;
   margin: 4px 0 18px;
 }
 
@@ -216,14 +210,9 @@ h1 {
   margin: 0 0 18px;
 }
 
-.carta p:last-of-type {
-  margin-bottom: 10px;
-}
-
 .corazon-final {
   font-size: 34px;
   margin: 14px auto 0;
-  color: #a30c29;
 }
 
 .decoracion {
@@ -263,18 +252,14 @@ h1 {
   color: #a30c29;
 }
 
-/* ANIMACIONES */
-
-@keyframes aparecerCarta {
+@keyframes aparecer {
 
   from {
     opacity: 0;
-    transform: translateY(16px);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 
 }
@@ -301,17 +286,18 @@ h1 {
 
   <h1>Nuestro próximo recuerdo</h1>
 
-  <p id="instrucciones">
+  <p id="instrucciones" aria-live="polite">
     Preparando tu sorpresa...
   </p>
 
-  <!-- BOLETOS ORIGINALES -->
+  <!-- IMAGEN DE LOS BOLETOS -->
 
   <div class="ticket" id="ticket">
 
     <img
       id="imagen"
-      alt="Dos boletos simbólicos de The Warning, Everything's Falling World Tour, 5 de febrero de 2027, Estadio GNP Seguros, Ciudad de México.">
+      alt="Dos boletos simbólicos de The Warning"
+      aria-hidden="true">
 
     <canvas
       id="rascar"
@@ -320,7 +306,7 @@ h1 {
 
   </div>
 
-  <!-- PROGRESO -->
+  <!-- BARRA DE PROGRESO -->
 
   <div class="progreso" id="progreso">
 
@@ -342,7 +328,7 @@ h1 {
 
   </button>
 
-  <!-- GUARDAR BOLETOS -->
+  <!-- BOTON GUARDAR -->
 
   <div class="acciones" id="acciones">
 
@@ -412,26 +398,36 @@ const ctx = canvas.getContext("2d", {
 });
 
 const img = $("imagen");
+
 const ticket = $("ticket");
+
 const regalo = $("regalo");
 
-const reducirMovimiento = matchMedia(
+const reducir = matchMedia(
   "(prefers-reduced-motion: reduce)"
 );
 
 let W, H;
 
 let muestras = [];
+
 let activo = null;
+
 let anterior = null;
 
-let descubierto = false;
 let listo = false;
 
+let descubierto = false;
+
 let revision = 0;
+
 let ultimoBrillo = 0;
 
-/* CARGAR LOS BOLETOS */
+/* ANGULO DE TODO EL ENVOLTORIO */
+
+const ANGULO_TICKET = -3.5;
+
+/* CARGAR IMAGEN ORIGINAL */
 
 img.onload = () => {
 
@@ -448,21 +444,49 @@ img.onload = () => {
     img.naturalWidth + " / " +
     img.naturalHeight;
 
-  /* OBTENER EL CONTORNO DE LOS BOLETOS */
+  /* LEER TRANSPARENCIA DEL PNG */
 
-  const mascara = document.createElement("canvas");
+  const mascara =
+    document.createElement("canvas");
 
   mascara.width = W;
   mascara.height = H;
 
-  const m = mascara.getContext("2d", {
-    willReadFrequently: true
-  });
+  const m = mascara.getContext("2d");
 
   m.drawImage(img, 0, 0, W, H);
 
-  const alfa =
-    m.getImageData(0, 0, W, H).data;
+  const pix =
+    m.getImageData(0, 0, W, H);
+
+  let transparentes = 0;
+
+  for (
+    let i = 3;
+    i < pix.data.length;
+    i += 4
+  ) {
+
+    if (pix.data[i] < 16) {
+
+      transparentes++;
+
+    }
+
+  }
+
+  /* COMPROBAR FONDO TRANSPARENTE */
+
+  if (transparentes < W * H * .01) {
+
+    $("instrucciones").textContent =
+      "El PNG tiene fondo opaco. Sustituye ticket13.png por la versión transparente.";
+
+    return;
+
+  }
+
+  /* MASCARA DE LA SILUETA */
 
   muestras = [];
 
@@ -472,7 +496,7 @@ img.onload = () => {
 
       const i = (y * W + x) * 4 + 3;
 
-      if (alfa[i] > 200) {
+      if (pix.data[i] > 200) {
 
         muestras.push(i);
 
@@ -500,25 +524,35 @@ img.onload = () => {
 
   let semilla = 170922;
 
-  function azar() {
+  const azar = () => {
 
     semilla =
       (semilla * 1664525 + 1013904223) >>> 0;
 
     return semilla / 4294967296;
 
-  }
+  };
 
   for (let i = 0; i < 14000; i++) {
 
     ctx.fillStyle =
-      i % 2 ? "#fff6e815" : "#500e2018";
+
+      i % 2
+
+        ? "#fff6e815"
+
+        : "#500e2018";
 
     ctx.fillRect(
+
       azar() * W,
+
       azar() * H,
+
       1.5,
+
       1.5
+
     );
 
   }
@@ -526,9 +560,11 @@ img.onload = () => {
   /* DESTELLOS DEL ENVOLTORIO */
 
   ctx.textAlign = "center";
+
   ctx.textBaseline = "middle";
 
   ctx.fillStyle = "#fff1d75c";
+
   ctx.font = "27px Georgia";
 
   for (let y = 35; y < H; y += 76) {
@@ -549,14 +585,39 @@ img.onload = () => {
 
   }
 
-  /* CINTA VERTICAL CREMA */
+  /* ===================================
+     INCLINAR AMBAS CINTAS Y LA ETIQUETA
+     =================================== */
 
-  const vertical = ctx.createLinearGradient(
-    W * .45, 0, W * .55, 0
+  ctx.save();
+
+  ctx.translate(W / 2, H / 2);
+
+  ctx.rotate(
+    ANGULO_TICKET * Math.PI / 180
   );
 
+  ctx.translate(-W / 2, -H / 2);
+
+  /* CINTA VERTICAL CREMA INCLINADA */
+
+  const vertical =
+    ctx.createLinearGradient(
+
+      W * .455,
+
+      0,
+
+      W * .545,
+
+      0
+
+    );
+
   vertical.addColorStop(0, "#cdb4a0");
+
   vertical.addColorStop(.5, "#fff0dc");
+
   vertical.addColorStop(1, "#dfc5b1");
 
   ctx.fillStyle = vertical;
@@ -565,49 +626,62 @@ img.onload = () => {
 
     W * .455,
 
-    0,
+    -H,
 
     W * .09,
 
-    H
+    H * 3
 
   );
 
-  /* CINTA HORIZONTAL CREMA */
+  /* CINTA HORIZONTAL CREMA INCLINADA */
 
-  const horizontal = ctx.createLinearGradient(
-    0, H * .42, 0, H * .58
-  );
+  const horizontal =
+    ctx.createLinearGradient(
+
+      0,
+
+      H * .42,
+
+      0,
+
+      H * .58
+
+    );
 
   horizontal.addColorStop(0, "#d4b9a4");
+
   horizontal.addColorStop(.5, "#fff0dc");
+
   horizontal.addColorStop(1, "#d9bda8");
 
   ctx.fillStyle = horizontal;
 
   ctx.fillRect(
 
-    0,
+    -W,
 
     H * .42,
 
-    W,
+    W * 3,
 
     H * .16
 
   );
 
-  /* DETALLES DE LAS CINTAS */
+  /* DETALLES DE LAS CINTAS INCLINADAS */
 
   ctx.strokeStyle = "#fff9eb99";
+
   ctx.lineWidth = 1.5;
 
   for (const x of [W * .465, W * .535]) {
 
     ctx.beginPath();
 
-    ctx.moveTo(x, 0);
-    ctx.lineTo(x, H);
+    ctx.moveTo(x, -H);
+
+    ctx.lineTo(x, H * 2);
 
     ctx.stroke();
 
@@ -617,31 +691,49 @@ img.onload = () => {
 
     ctx.beginPath();
 
-    ctx.moveTo(0, y);
-    ctx.lineTo(W, y);
+    ctx.moveTo(-W, y);
+
+    ctx.lineTo(W * 2, y);
 
     ctx.stroke();
 
   }
 
-  /* ETIQUETA CENTRAL */
+  /* ETIQUETA CENTRAL INCLINADA SIN MOÑO */
 
   const lx = W * .245;
+
   const ly = H * .32;
+
   const lw = W * .51;
+
   const lh = H * .36;
 
   ctx.save();
 
   ctx.shadowColor = "#500e204d";
+
   ctx.shadowBlur = 10;
+
   ctx.shadowOffsetY = 4;
 
   ctx.fillStyle = "#fff0dc";
 
   ctx.beginPath();
 
-  ctx.roundRect(lx, ly, lw, lh, 8);
+  ctx.roundRect(
+
+    lx,
+
+    ly,
+
+    lw,
+
+    lh,
+
+    8
+
+  );
 
   ctx.fill();
 
@@ -650,6 +742,7 @@ img.onload = () => {
   /* BORDE DE LA ETIQUETA */
 
   ctx.strokeStyle = "#a30c29";
+
   ctx.lineWidth = 2;
 
   ctx.beginPath();
@@ -670,11 +763,12 @@ img.onload = () => {
 
   ctx.stroke();
 
-  /* TEXTO CENTRAL */
+  /* TEXTO RASCA Y GANA INCLINADO */
 
   ctx.fillStyle = "#a30c29";
 
   ctx.textAlign = "center";
+
   ctx.textBaseline = "middle";
 
   ctx.font =
@@ -692,7 +786,12 @@ img.onload = () => {
 
   );
 
-  /* RECORTAR CON LA SILUETA ORIGINAL */
+  /* TERMINAR LA ROTACION */
+
+  ctx.restore();
+
+  /* RECORTAR EL ENVOLTORIO CON LA
+     SILUETA EXACTA DE LOS BOLETOS */
 
   ctx.globalCompositeOperation =
     "destination-in";
@@ -713,12 +812,12 @@ img.onload = () => {
 
 };
 
-/* ERROR SI FALTA LA IMAGEN */
+/* ERROR DE IMAGEN */
 
 img.onerror = () => {
 
   $("instrucciones").textContent =
-    "No se encontró ticket13.png. Revisa el nombre y la ubicación del archivo.";
+    "No se encontró ticket13.png. Revisa su nombre y ubicación.";
 
 };
 
@@ -742,7 +841,7 @@ function punto(e) {
 
 }
 
-/* BORRAR ENVOLTORIO */
+/* EFECTO DE RASCAR */
 
 function borrar(p, e) {
 
@@ -750,6 +849,7 @@ function borrar(p, e) {
     "destination-out";
 
   ctx.lineCap = "round";
+
   ctx.lineJoin = "round";
 
   ctx.lineWidth = W * .135;
@@ -757,6 +857,7 @@ function borrar(p, e) {
   ctx.beginPath();
 
   ctx.moveTo(anterior.x, anterior.y);
+
   ctx.lineTo(p.x, p.y);
 
   ctx.stroke();
@@ -890,7 +991,7 @@ function detener(e) {
 
 });
 
-/* CALCULAR PORCENTAJE DESCUBIERTO */
+/* CALCULAR PORCENTAJE RASCADO */
 
 function comprobar() {
 
@@ -942,6 +1043,8 @@ function revelar() {
 
   canvas.classList.add("revelado");
 
+  img.setAttribute("aria-hidden", "false");
+
   $("barra").style.width = "100%";
 
   $("progreso").style.opacity = "0";
@@ -956,7 +1059,7 @@ function revelar() {
 
   $("acciones").classList.add("visible");
 
-  /* CELEBRACION */
+  /* CORAZONES Y CONFETI */
 
   const r = regalo.getBoundingClientRect();
 
@@ -974,27 +1077,25 @@ function revelar() {
 
   );
 
-  /* MOSTRAR EL MENSAJE DESPUES
-     DE DESCUBRIR LOS BOLETOS */
+  /* MOSTRAR MENSAJE FINAL */
 
   setTimeout(() => {
 
     $("carta").hidden = false;
 
-  }, reducirMovimiento.matches ? 0 : 850);
+  }, reducir.matches ? 0 : 850);
 
-  /* NO GUARDAMOS EL ESTADO.
-     PODRA VOLVER A RASCAR CADA VEZ. */
+  /* NO SE GUARDA EL ESTADO DEL RASCADO */
 
 }
 
-/* CORAZONES Y CONFETI */
+/* ANIMACION DE PARTICULAS */
 
 function particulas(x, y, n, polvo) {
 
   if (
 
-    reducirMovimiento.matches ||
+    reducir.matches ||
 
     !Element.prototype.animate
 
@@ -1040,26 +1141,30 @@ function particulas(x, y, n, polvo) {
 
       : ["♡", "♥", "✦", "▪"][i % 4];
 
-    el.style.left = x + "px";
+    Object.assign(el.style, {
 
-    el.style.top = y + "px";
+      left: x + "px",
 
-    el.style.color =
-      colores[i % colores.length];
+      top: y + "px",
 
-    el.style.fontSize =
+      color: colores[i % colores.length],
 
-      (polvo
+      fontSize: (
 
-        ? 8 + Math.random() * 9
+        polvo
 
-        : 12 + Math.random() * 20
+          ? 8 + Math.random() * 9
 
-      ) + "px";
+          : 12 + Math.random() * 20
+
+      ) + "px"
+
+    });
 
     regalo.appendChild(el);
 
-    const a = Math.random() * Math.PI * 2;
+    const a =
+      Math.random() * Math.PI * 2;
 
     const d = polvo
 
@@ -1067,7 +1172,8 @@ function particulas(x, y, n, polvo) {
 
       : 45 + Math.random() * 230;
 
-    const dx = Math.cos(a) * d;
+    const dx =
+      Math.cos(a) * d;
 
     const dy =
       Math.sin(a) * d - (polvo ? 0 : 30);
@@ -1084,13 +1190,7 @@ function particulas(x, y, n, polvo) {
 
       {
 
-        transform: `
-
-          translate(${dx}px, ${dy}px)
-
-          rotate(${Math.random() * 240 - 120}deg)
-
-        `,
+        transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 240 - 120}deg)`,
 
         opacity: 0
 
@@ -1132,4 +1232,3 @@ $("accesible").addEventListener(
 
 </body>
 </html>
-
