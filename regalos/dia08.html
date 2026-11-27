@@ -1,1 +1,1050 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Rasca y gana</title>
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html.integrado,
+html.integrado body {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  background: #fff5f1;
+  color: #9e2132;
+  font-family: Georgia, serif;
+  text-align: center;
+}
+
+#regalo {
+  max-width: 540px;
+  margin: auto;
+  padding: 22px 12px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.mini {
+  font: 10px Arial, sans-serif;
+  letter-spacing: 2px;
+  margin: 8px 0 16px;
+}
+
+h1 {
+  font-size: clamp(23px, 6vw, 32px);
+  font-weight: normal;
+  margin: 0 0 12px;
+}
+
+#instrucciones {
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 46px;
+  margin: 0 0 18px;
+  color: #a45561;
+}
+
+/* TICKET */
+
+.ticket {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1583 / 777;
+  margin: 12px auto;
+  isolation: isolate;
+  filter: drop-shadow(0 5px 5px #782c2d22);
+}
+
+#imagen,
+#rascar {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+#imagen {
+  object-fit: contain;
+  user-select: none;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  visibility: hidden;
+}
+
+.ticket.listo #imagen {
+  visibility: visible;
+}
+
+/* SUPERFICIE PARA RASCAR */
+
+#rascar {
+  touch-action: none;
+  cursor: crosshair;
+  transition: opacity .65s ease;
+  z-index: 2;
+}
+
+#rascar.revelado {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* BARRA DE PROGRESO */
+
+.progreso {
+  width: 45%;
+  height: 5px;
+  background: #eed9cd;
+  border-radius: 10px;
+  margin: 22px auto 8px;
+  overflow: hidden;
+  transition: opacity .35s;
+}
+
+#barra {
+  height: 100%;
+  width: 0;
+  background: #456f53;
+  border-radius: 10px;
+  transition: width .15s;
+}
+
+#mensaje {
+  font-size: 13px;
+  min-height: 40px;
+  line-height: 1.5;
+  margin: 8px 0;
+  color: #9e2132;
+}
+
+/* BOTON PARA GUARDAR */
+
+.acciones {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 42px;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity .4s;
+}
+
+.acciones.visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+.boton {
+  background: #a30c29;
+  color: #fff5f1;
+  padding: 11px 19px;
+  border-radius: 8px;
+  font: 14px Georgia, serif;
+  text-decoration: none;
+}
+
+.decoracion {
+  letter-spacing: 6px;
+  color: #cc7e87;
+  margin: 18px 0 0;
+}
+
+/* PARTICULAS */
+
+.particula {
+  position: absolute;
+  z-index: 9;
+  pointer-events: none;
+  line-height: 1;
+  opacity: 0;
+}
+
+/* ACCESIBILIDAD */
+
+.accesible {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.accesible:focus {
+  position: relative;
+  width: auto;
+  height: auto;
+  clip-path: none;
+  padding: 8px;
+  border: 1px solid #a30c29;
+  background: #fff5f1;
+  color: #a30c29;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<main id="regalo">
+
+  <p class="mini">
+    ♡ UN PREMIO PARA USTED ♡
+  </p>
+
+  <h1>Rasca y gana</h1>
+
+  <p id="instrucciones">
+    Preparando tu sorpresa...
+  </p>
+
+  <!-- TICKET ORIGINAL -->
+
+  <div class="ticket" id="ticket">
+
+    <img
+      id="imagen"
+      alt="Ticket válido para que me pidas lo que quieras y no te pueda decir que no. P.D. Solo es válido este año. No está permitido pedir ver antes los regalos.">
+
+    <canvas
+      id="rascar"
+      aria-hidden="true">
+    </canvas>
+
+  </div>
+
+  <!-- PROGRESO -->
+
+  <div class="progreso" id="progreso">
+
+    <div id="barra"></div>
+
+  </div>
+
+  <p id="mensaje" aria-live="polite">
+    ¿Qué habrá detrás? ♡
+  </p>
+
+  <button
+    class="accesible"
+    id="accesible"
+    type="button"
+    hidden>
+
+    Descubrir premio sin rascar
+
+  </button>
+
+  <!-- GUARDAR TICKET -->
+
+  <div class="acciones" id="acciones">
+
+    <a
+      class="boton"
+      id="guardar"
+      href="../ticket08.png"
+      download="Mi-ticket.png">
+
+      Guardar mi ticket ♡
+
+    </a>
+
+  </div>
+
+  <p class="decoracion">
+    ♡ ─ ✧ ─ ♡
+  </p>
+
+</main>
+
+<script>
+
+/* EVITAR TEMBLORES */
+
+if (window.parent !== window) {
+
+  document.documentElement.classList.add(
+    "integrado"
+  );
+
+}
+
+/* ELEMENTOS */
+
+const $ = id => document.getElementById(id);
+
+const canvas = $("rascar");
+
+const ctx = canvas.getContext("2d", {
+  willReadFrequently: true
+});
+
+const img = $("imagen");
+const ticket = $("ticket");
+const regalo = $("regalo");
+
+const reducir = matchMedia(
+  "(prefers-reduced-motion: reduce)"
+);
+
+const clave =
+  "calendario2026-ticket08-imagen-v2";
+
+let W, H;
+
+let muestras = [];
+let activo = null;
+let anterior = null;
+
+let descubierto = false;
+let listo = false;
+
+let revision = 0;
+let ultimoBrillo = 0;
+
+/* CARGAR IMAGEN ORIGINAL */
+
+img.onload = () => {
+
+  W = 900;
+
+  H = Math.round(
+    W * img.naturalHeight / img.naturalWidth
+  );
+
+  canvas.width = W;
+  canvas.height = H;
+
+  ticket.style.aspectRatio =
+    img.naturalWidth + " / " +
+    img.naturalHeight;
+
+  /* OBTENER LA SILUETA DEL TICKET */
+
+  const mascara =
+    document.createElement("canvas");
+
+  mascara.width = W;
+  mascara.height = H;
+
+  const m = mascara.getContext("2d", {
+    willReadFrequently: true
+  });
+
+  m.drawImage(img, 0, 0, W, H);
+
+  const alfa =
+    m.getImageData(0, 0, W, H).data;
+
+  for (let y = 3; y < H; y += 6) {
+
+    for (let x = 3; x < W; x += 6) {
+
+      const i = (y * W + x) * 4 + 3;
+
+      if (alfa[i] > 200) {
+
+        muestras.push(i);
+
+      }
+
+    }
+
+  }
+
+  /* PAPEL DE REGALO VERDE BOSQUE */
+
+  const verde =
+    ctx.createLinearGradient(0, 0, W, H);
+
+  [
+    "#244735",
+    "#39644b",
+    "#426b51",
+    "#2b503b"
+
+  ].forEach((c, i) => {
+
+    verde.addColorStop(i / 3, c);
+
+  });
+
+  ctx.fillStyle = verde;
+
+  ctx.fillRect(0, 0, W, H);
+
+  /* TEXTURA DEL PAPEL */
+
+  let semilla = 170922;
+
+  const azar = () => {
+
+    semilla =
+      (semilla * 1664525 + 1013904223) >>> 0;
+
+    return semilla / 4294967296;
+
+  };
+
+  for (let i = 0; i < 12000; i++) {
+
+    ctx.fillStyle =
+      i % 2 ? "#fff6e811" : "#112c2419";
+
+    ctx.fillRect(
+      azar() * W,
+      azar() * H,
+      1.4,
+      1.4
+    );
+
+  }
+
+  /* ESTRELLAS DEL ENVOLTORIO */
+
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  ctx.fillStyle = "#e8e3c93f";
+
+  ctx.font = "25px Georgia";
+
+  for (let y = 40; y < H; y += 80) {
+
+    for (let x = 42; x < W; x += 85) {
+
+      ctx.fillText(
+
+        "✧",
+
+        x + (Math.round(y / 80) % 2) * 30,
+
+        y
+
+      );
+
+    }
+
+  }
+
+  /* CINTA VERTICAL ROJA */
+
+  const cinta = ctx.createLinearGradient(
+
+    W * .45,
+    0,
+    W * .55,
+    0
+
+  );
+
+  cinta.addColorStop(0, "#8b1730");
+  cinta.addColorStop(.5, "#c3324b");
+  cinta.addColorStop(1, "#981d35");
+
+  ctx.fillStyle = cinta;
+
+  ctx.fillRect(
+    W * .455,
+    0,
+    W * .09,
+    H
+  );
+
+  /* CINTA HORIZONTAL ROJA */
+
+  const horizontal =
+    ctx.createLinearGradient(
+
+      0,
+      H * .42,
+      0,
+      H * .58
+
+    );
+
+  horizontal.addColorStop(0, "#8b1730");
+
+  horizontal.addColorStop(.48, "#c3324b");
+
+  horizontal.addColorStop(1, "#981d35");
+
+  ctx.fillStyle = horizontal;
+
+  ctx.fillRect(
+    0,
+    H * .42,
+    W,
+    H * .16
+  );
+
+  /* DETALLES DE LAS CINTAS */
+
+  ctx.strokeStyle = "#f7a8aa66";
+  ctx.lineWidth = 1.5;
+
+  for (const x of [W * .465, W * .535]) {
+
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, H);
+    ctx.stroke();
+
+  }
+
+  for (const y of [H * .435, H * .565]) {
+
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(W, y);
+    ctx.stroke();
+
+  }
+
+  /* ETIQUETA CREMA CENTRAL */
+
+  const lx = W * .245;
+  const ly = H * .32;
+  const lw = W * .51;
+  const lh = H * .36;
+
+  ctx.save();
+
+  ctx.shadowColor = "#142a2350";
+  ctx.shadowBlur = 10;
+  ctx.shadowOffsetY = 4;
+
+  ctx.fillStyle = "#fff0dc";
+
+  ctx.beginPath();
+
+  ctx.roundRect(lx, ly, lw, lh, 8);
+
+  ctx.fill();
+
+  ctx.restore();
+
+  /* BORDE DE LA ETIQUETA */
+
+  ctx.strokeStyle = "#a30c29";
+
+  ctx.lineWidth = 2;
+
+  ctx.beginPath();
+
+  ctx.roundRect(
+
+    lx + 8,
+    ly + 8,
+    lw - 16,
+    lh - 16,
+    4
+
+  );
+
+  ctx.stroke();
+
+  /* TEXTO RASCA Y GANA */
+
+  ctx.fillStyle = "#a30c29";
+
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  ctx.font = "italic 58px Georgia";
+
+  ctx.fillText(
+
+    "Rasca y gana",
+
+    W / 2,
+    H / 2,
+    lw - 35
+
+  );
+
+  /* RECORTAR ENVOLTORIO CON LA
+     MISMA FORMA DEL TICKET */
+
+  ctx.globalCompositeOperation =
+    "destination-in";
+
+  ctx.drawImage(mascara, 0, 0);
+
+  ctx.globalCompositeOperation =
+    "source-over";
+
+  listo = true;
+
+  ticket.classList.add("listo");
+
+  $("instrucciones").textContent =
+    "Rasca con tu dedo para descubrir tu sorpresa.";
+
+  $("accesible").hidden = false;
+
+  /* RECORDAR SI YA SE DESCUBRIO */
+
+  try {
+
+    if (localStorage.getItem(clave) === "1") {
+
+      revelar(false);
+
+    }
+
+  } catch (e) {}
+
+};
+
+/* ERROR DE IMAGEN */
+
+img.onerror = () => {
+
+  $("instrucciones").textContent =
+    "No se encontró ticket08.png. Revisa el nombre y la ubicación del archivo.";
+
+};
+
+/* UBICACION DE LA IMAGEN */
+
+img.src = "../ticket08.png";
+
+/* POSICION DEL DEDO O MOUSE */
+
+function punto(e) {
+
+  const r = canvas.getBoundingClientRect();
+
+  return {
+
+    x: (e.clientX - r.left) * W / r.width,
+
+    y: (e.clientY - r.top) * H / r.height
+
+  };
+
+}
+
+/* EFECTO DE RASCAR */
+
+function borrar(p, e) {
+
+  ctx.globalCompositeOperation =
+    "destination-out";
+
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+
+  ctx.lineWidth = W * .135;
+
+  ctx.beginPath();
+
+  ctx.moveTo(anterior.x, anterior.y);
+
+  ctx.lineTo(p.x, p.y);
+
+  ctx.stroke();
+
+  ctx.beginPath();
+
+  ctx.arc(
+
+    p.x,
+    p.y,
+    W * .0675,
+    0,
+    Math.PI * 2
+
+  );
+
+  ctx.fill();
+
+  anterior = p;
+
+  const ahora = performance.now();
+
+  /* PARTICULAS MIENTRAS RASCA */
+
+  if (ahora - ultimoBrillo > 75) {
+
+    ultimoBrillo = ahora;
+
+    const r =
+      regalo.getBoundingClientRect();
+
+    particulas(
+
+      e.clientX - r.left,
+
+      e.clientY - r.top,
+
+      4,
+
+      true
+
+    );
+
+  }
+
+  /* COMPROBAR EL PROGRESO */
+
+  if (ahora - revision > 130) {
+
+    revision = ahora;
+
+    comprobar();
+
+  }
+
+}
+
+/* EMPEZAR A RASCAR */
+
+canvas.addEventListener(
+
+  "pointerdown",
+
+  e => {
+
+    if (
+
+      !listo ||
+
+      descubierto ||
+
+      activo !== null ||
+
+      (e.pointerType === "mouse" &&
+       e.button !== 0)
+
+    ) return;
+
+    e.preventDefault();
+
+    activo = e.pointerId;
+
+    canvas.setPointerCapture(activo);
+
+    anterior = punto(e);
+
+    borrar(anterior, e);
+
+  }
+
+);
+
+/* CONTINUAR RASCANDO */
+
+canvas.addEventListener(
+
+  "pointermove",
+
+  e => {
+
+    if (
+
+      descubierto ||
+
+      activo !== e.pointerId
+
+    ) return;
+
+    e.preventDefault();
+
+    borrar(punto(e), e);
+
+  }
+
+);
+
+/* DEJAR DE RASCAR */
+
+function detener(e) {
+
+  if (activo !== e.pointerId) return;
+
+  activo = null;
+
+  comprobar();
+
+}
+
+[
+
+  "pointerup",
+
+  "pointercancel",
+
+  "lostpointercapture"
+
+].forEach(n => {
+
+  canvas.addEventListener(n, detener);
+
+});
+
+/* CALCULAR PORCENTAJE RASCADO */
+
+function comprobar() {
+
+  if (descubierto || !muestras.length) return;
+
+  const datos =
+    ctx.getImageData(0, 0, W, H).data;
+
+  let borrados = 0;
+
+  for (const i of muestras) {
+
+    if (datos[i] < 128) {
+
+      borrados++;
+
+    }
+
+  }
+
+  const porcentaje =
+    borrados / muestras.length;
+
+  $("barra").style.width =
+
+    Math.min(100, porcentaje / .55 * 100)
+
+    + "%";
+
+  /* MOSTRAR PREMIO AL RASCAR EL 55% */
+
+  if (porcentaje >= .55) {
+
+    revelar(true);
+
+  }
+
+}
+
+/* REVELAR TICKET COMPLETO */
+
+function revelar(celebrar) {
+
+  if (!listo || descubierto) return;
+
+  descubierto = true;
+
+  activo = null;
+
+  canvas.classList.add("revelado");
+
+  $("barra").style.width = "100%";
+
+  $("progreso").style.opacity = "0";
+
+  $("accesible").hidden = true;
+
+  $("acciones").classList.add("visible");
+
+  $("instrucciones").textContent =
+    "¡Felicidades, mi amor!";
+
+  $("mensaje").textContent =
+    "Use su ticket sabiamente ehhh, te amooo ♡";
+
+  /* GUARDAR ESTADO DEL TICKET */
+
+  try {
+
+    localStorage.setItem(clave, "1");
+
+  } catch (e) {}
+
+  /* CELEBRACION FINAL */
+
+  if (celebrar) {
+
+    const r =
+      regalo.getBoundingClientRect();
+
+    const t =
+      ticket.getBoundingClientRect();
+
+    particulas(
+
+      t.left - r.left + t.width / 2,
+
+      t.top - r.top + t.height / 2,
+
+      95,
+
+      false
+
+    );
+
+  }
+
+}
+
+/* CORAZONES Y CONFETI */
+
+function particulas(x, y, n, polvo) {
+
+  if (
+
+    reducir.matches ||
+
+    !Element.prototype.animate
+
+  ) return;
+
+  const colores = polvo
+
+    ? [
+
+        "#42765a",
+        "#c3324b",
+        "#fff0dc"
+
+      ]
+
+    : [
+
+        "#a30c29",
+        "#cf1735",
+        "#ff90a5",
+        "#42765a",
+        "#fff0dc"
+
+      ];
+
+  for (let i = 0; i < n; i++) {
+
+    const el =
+      document.createElement("span");
+
+    el.className = "particula";
+
+    el.setAttribute("aria-hidden", "true");
+
+    el.textContent = polvo
+
+      ? "·"
+
+      : ["♡", "♥", "✦", "▪"][i % 4];
+
+    el.style.cssText = `
+
+      left: ${x}px;
+
+      top: ${y}px;
+
+      color: ${colores[i % colores.length]};
+
+      font-size: ${
+
+        polvo
+
+        ? 8 + Math.random() * 9
+
+        : 12 + Math.random() * 17
+
+      }px;
+
+    `;
+
+    regalo.appendChild(el);
+
+    const a =
+      Math.random() * Math.PI * 2;
+
+    const d = polvo
+
+      ? 12 + Math.random() * 35
+
+      : 45 + Math.random() * 200;
+
+    const dx = Math.cos(a) * d;
+
+    const dy =
+      Math.sin(a) * d - (polvo ? 0 : 30);
+
+    el.animate([
+
+      {
+
+        transform: "translate(0,0) scale(.5)",
+
+        opacity: .9
+
+      },
+
+      {
+
+        transform: `
+
+          translate(${dx}px, ${dy}px)
+
+          rotate(${Math.random() * 240 - 120}deg)
+
+        `,
+
+        opacity: 0
+
+      }
+
+    ], {
+
+      duration: polvo
+
+        ? 420
+
+        : 950 + Math.random() * 900,
+
+      easing: "ease-out",
+
+      fill: "both"
+
+    }).finished
+
+      .catch(() => {})
+
+      .finally(() => el.remove());
+
+  }
+
+}
+
+/* ACTIVAR BOTON ACCESIBLE */
+
+$("accesible").addEventListener(
+
+  "click",
+
+  () => revelar(true)
+
+);
+
+</script>
+
+</body>
+</html>
+
