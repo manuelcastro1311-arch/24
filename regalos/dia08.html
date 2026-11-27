@@ -196,9 +196,11 @@ h1 {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   * {
     transition: none !important;
   }
+
 }
 
 </style>
@@ -307,9 +309,6 @@ const reducir = matchMedia(
   "(prefers-reduced-motion: reduce)"
 );
 
-const clave =
-  "calendario2026-ticket08-imagen-v2";
-
 let W, H;
 
 let muestras = [];
@@ -355,6 +354,8 @@ img.onload = () => {
 
   const alfa =
     m.getImageData(0, 0, W, H).data;
+
+  muestras = [];
 
   for (let y = 3; y < H; y += 6) {
 
@@ -412,10 +413,15 @@ img.onload = () => {
       i % 2 ? "#fff6e811" : "#112c2419";
 
     ctx.fillRect(
+
       azar() * W,
+
       azar() * H,
+
       1.4,
+
       1.4
+
     );
 
   }
@@ -459,16 +465,23 @@ img.onload = () => {
   );
 
   cinta.addColorStop(0, "#8b1730");
+
   cinta.addColorStop(.5, "#c3324b");
+
   cinta.addColorStop(1, "#981d35");
 
   ctx.fillStyle = cinta;
 
   ctx.fillRect(
+
     W * .455,
+
     0,
+
     W * .09,
+
     H
+
   );
 
   /* CINTA HORIZONTAL ROJA */
@@ -492,22 +505,31 @@ img.onload = () => {
   ctx.fillStyle = horizontal;
 
   ctx.fillRect(
+
     0,
+
     H * .42,
+
     W,
+
     H * .16
+
   );
 
   /* DETALLES DE LAS CINTAS */
 
   ctx.strokeStyle = "#f7a8aa66";
+
   ctx.lineWidth = 1.5;
 
   for (const x of [W * .465, W * .535]) {
 
     ctx.beginPath();
+
     ctx.moveTo(x, 0);
+
     ctx.lineTo(x, H);
+
     ctx.stroke();
 
   }
@@ -515,8 +537,11 @@ img.onload = () => {
   for (const y of [H * .435, H * .565]) {
 
     ctx.beginPath();
+
     ctx.moveTo(0, y);
+
     ctx.lineTo(W, y);
+
     ctx.stroke();
 
   }
@@ -531,7 +556,9 @@ img.onload = () => {
   ctx.save();
 
   ctx.shadowColor = "#142a2350";
+
   ctx.shadowBlur = 10;
+
   ctx.shadowOffsetY = 4;
 
   ctx.fillStyle = "#fff0dc";
@@ -555,9 +582,13 @@ img.onload = () => {
   ctx.roundRect(
 
     lx + 8,
+
     ly + 8,
+
     lw - 16,
+
     lh - 16,
+
     4
 
   );
@@ -569,6 +600,7 @@ img.onload = () => {
   ctx.fillStyle = "#a30c29";
 
   ctx.textAlign = "center";
+
   ctx.textBaseline = "middle";
 
   ctx.font = "italic 58px Georgia";
@@ -578,7 +610,9 @@ img.onload = () => {
     "Rasca y gana",
 
     W / 2,
+
     H / 2,
+
     lw - 35
 
   );
@@ -603,17 +637,8 @@ img.onload = () => {
 
   $("accesible").hidden = false;
 
-  /* RECORDAR SI YA SE DESCUBRIO */
-
-  try {
-
-    if (localStorage.getItem(clave) === "1") {
-
-      revelar(false);
-
-    }
-
-  } catch (e) {}
+  /* EL TICKET SIEMPRE COMIENZA CUBIERTO.
+     NO SE GUARDA EL ESTADO DEL RASCADO. */
 
 };
 
@@ -654,6 +679,7 @@ function borrar(p, e) {
     "destination-out";
 
   ctx.lineCap = "round";
+
   ctx.lineJoin = "round";
 
   ctx.lineWidth = W * .135;
@@ -671,9 +697,13 @@ function borrar(p, e) {
   ctx.arc(
 
     p.x,
+
     p.y,
+
     W * .0675,
+
     0,
+
     Math.PI * 2
 
   );
@@ -870,14 +900,6 @@ function revelar(celebrar) {
   $("mensaje").textContent =
     "Use su ticket sabiamente ehhh, te amooo ♡";
 
-  /* GUARDAR ESTADO DEL TICKET */
-
-  try {
-
-    localStorage.setItem(clave, "1");
-
-  } catch (e) {}
-
   /* CELEBRACION FINAL */
 
   if (celebrar) {
@@ -921,7 +943,9 @@ function particulas(x, y, n, polvo) {
     ? [
 
         "#42765a",
+
         "#c3324b",
+
         "#fff0dc"
 
       ]
@@ -929,9 +953,13 @@ function particulas(x, y, n, polvo) {
     : [
 
         "#a30c29",
+
         "#cf1735",
+
         "#ff90a5",
+
         "#42765a",
+
         "#fff0dc"
 
       ];
@@ -1047,4 +1075,3 @@ $("accesible").addEventListener(
 
 </body>
 </html>
-
